@@ -13,7 +13,7 @@ void PlotSignalDistributions(TString m1 = "350", TString m2 = "600", TString m3 
 	gStyle->SetOptStat(0);
 
     //// Input files	////
-	TFile *file = new TFile("AllSignals.root", "READ");
+	TFile *file = new TFile("AllSignals/AllSignals.root", "READ");
 
 	//// Mass	////
 	TH1F *hist_m_m1 = (TH1F*) file->Get("m12_" + m1 + "GeV_20GeVbinning");

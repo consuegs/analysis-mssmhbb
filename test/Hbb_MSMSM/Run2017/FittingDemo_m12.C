@@ -1,20 +1,10 @@
-#include "RooRealVar.h"
-#include "RooDataSet.h"
-#include "RooDataHist.h"
-#include "RooGaussian.h"
-#include "TCanvas.h"
-#include "RooPlot.h"
-#include "TTree.h"
-#include "TH1D.h"
-#include "TMath.h"
-#include "TRandom.h"
 #include "CMS_lumi.C"
 using namespace RooFit;
 
 void FittingDemo_m12(int ma = 700)
 {
 
-	gROOT->SetBatch();
+    gROOT->SetBatch();
 	// Silence INFO messages
 	RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
 	// Silence additional MINUIT output 
@@ -25,7 +15,7 @@ void FittingDemo_m12(int ma = 700)
 	string mass = to_string(ma);
 	TString Mass(mass);
 
-	TFile *fileIn = new TFile("SignalRootFiles_v1/mc-sig-" + mass + "-NLO-deep-SR-3j.root");
+	TFile *fileIn = new TFile("SignalRootFiles_v1/mc-sig-" + Mass + "-NLO-deep-SR-3j.root");
 	TH1D *hist = (TH1D*) fileIn->Get("m12_aac");
 	int xMin = hist->GetXaxis()->GetXmin();
 	int xMax = hist->GetXaxis()->GetXmax();
@@ -116,7 +106,7 @@ void FittingDemo_m12(int ma = 700)
 	frame->SetStats(0);
 	frame->GetXaxis()->SetTitle("m_{12}[GeV]");
 	frame->GetYaxis()->SetTitle(Form("Events / %.0f GeV", binWidth));
-	frame->GetYaxis()->SetTitleOffset(0.8);
+	frame->GetYaxis()->SetTitleOffset(1.1);
 	frame->GetYaxis()->SetTitleSize(0.04);
 	frame->SetMarkerSize(0.4);
 	frame->GetXaxis()->SetLabelSize(0.03);
@@ -203,7 +193,7 @@ void FittingDemo_m12(int ma = 700)
 	lower->cd();
 	lower->Modified();
 	lower->SetTicks();
-	lower->SetLeftMargin(0.09);
+	lower->SetLeftMargin(0.2);
 	lower->SetRightMargin(0.05);
 	lower->SetTopMargin(0.026);
 	lower->SetBottomMargin(0.35);
@@ -211,7 +201,7 @@ void FittingDemo_m12(int ma = 700)
 	lower->SetTickx(1);
 	lower->SetTicky(1);
 
-	RooPlot *frame2 = x.frame(Title("   "));
+    RooPlot *frame2 = x.frame(Title("   "));
 	frame2->addPlotable(hpull, "P");
 	frame2->SetStats(0);
 	frame2->GetXaxis()->SetLabelFont(42);
@@ -250,6 +240,8 @@ void FittingDemo_m12(int ma = 700)
 
 	// Create a new frame to draw the residual distribution and add the distribution to the frame
 	RooPlot *frame3 = x.frame(Title("Residual Distribution"));
+	frame3->GetXaxis()->SetTitleOffset(1.35);
+	frame3->GetYaxis()->SetTitleOffset(1.5);
 	frame3->addPlotable(hresid, "P");
 	frame3->GetXaxis()->SetTitle("m_{12}[GeV]");
 	frame3->GetYaxis()->SetTitle(Form("Events / %.0f GeV", binWidth));

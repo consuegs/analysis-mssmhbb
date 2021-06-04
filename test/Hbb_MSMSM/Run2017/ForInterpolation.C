@@ -1,20 +1,6 @@
 #include "th1fmorph.cc"
 #include "CMS_lumi.C"
-
-#include "RooRealVar.h"
-#include "RooDataSet.h"
-#include "RooGaussian.h"
-#include "RooConstVar.h"
-#include "RooChebychev.h"
-#include "RooAddPdf.h"
-#include "RooWorkspace.h"
-#include "RooPlot.h"
-#include "TCanvas.h"
-#include "TAxis.h"
-#include "TFile.h"
-#include "TH1.h"
-#include "CMS_lumi.C"
-#include "TLegend.h"
+using namespace RooFit;
 
 void GetFittingPar( bool IsBinnedFit = true )
 {
@@ -71,16 +57,16 @@ void GetFittingPar( bool IsBinnedFit = true )
 		gr[0]->GetYaxis()->SetRangeUser(280, 520);
 		gr[1]->SetPoint(isample, points[isample], w->var(Parameters[1])->getValV());
 		gr[1]->SetPointError(isample, 0., w->var(Parameters[1])->getError());
-		gr[1]->GetYaxis()->SetRangeUser(20, 100);
+		gr[1]->GetYaxis()->SetRangeUser(20, 120);
 		gr[2]->SetPoint(isample, points[isample], w->var(Parameters[2])->getValV());
 		gr[2]->SetPointError(isample, 0., w->var(Parameters[2])->getError());
-		gr[2]->GetYaxis()->SetRangeUser(20, 45);
+		gr[2]->GetYaxis()->SetRangeUser(0, 80);
 		gr[3]->SetPoint(isample, points[isample], w->var(Parameters[3])->getValV());
 		gr[3]->SetPointError(isample, 0., w->var(Parameters[3])->getError());
 		gr[3]->GetYaxis()->SetRangeUser(340, 600);
 		gr[4]->SetPoint(isample, points[isample], w->var(Parameters[4])->getValV());
 		gr[4]->SetPointError(isample, 0., w->var(Parameters[4])->getError());
-		gr[4]->GetYaxis()->SetRangeUser(-50, 300);
+		gr[4]->GetYaxis()->SetRangeUser(-50, 400);
 
 	}	// End loop over samples
 
@@ -190,11 +176,15 @@ void SaveAll()
 	//// Uncertainty strings 	////
 	TString fileString[14] = { "", "_binForFit", "_JER_up", "_JER_down", "_JES_up", "_JES_down", "_PU_up", "_PU_down", "_SFbtag_up", "_SFbtag_down", "_jet_trigeff_up", "_jet_trigeff_down", "_onlSFbtag_up", "_onlSFbtag_down" };
 
+    bool IsBinnedFit = true;
+    
+    GetFittingPar(IsBinnedFit);
+
 	for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
 	{
 		for (int isample = 0; isample < nSamplesInt; isample++)	// Loop over interpolated masses
 		{
-			MakeInterpolation_v1(mpointsInt[isample], mpoints[isample], mpoints[isample + 1], fileString[iuncertainty]);
+			ForInterpolation(mpointsInt[isample], mpoints[isample], mpoints[isample + 1], fileString[iuncertainty]);
 		}	// End loop over interpolated masses
 
 	}	// End loop over uncertainties

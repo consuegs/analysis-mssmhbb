@@ -4,7 +4,8 @@
 void CheckInterpolation(int ma = 350,	// value to interpolate
 	int maLow = 400,	// lower value
 	int maHigh = 450,
-	int xMax = 600)	// upper value)
+	int xMax = 700,	// upper value)
+	TString fileString = "")
 {
 
 	// Silence INFO messages
@@ -23,7 +24,7 @@ void CheckInterpolation(int ma = 350,	// value to interpolate
 	TString MassHigh(massHigh);
 
 	//// Input files	////
-    TFile *file = new TFile("AllSignals.root");
+    TFile *file = new TFile("AllSignals/AllSignals" + fileString + ".root");
 	
 	TH1F *histLow = (TH1F*) file->Get("m12_" + MassLow + "GeV_20GeVbinning");
 	TH1F *histHigh = (TH1F*) file->Get("m12_" + MassHigh + "GeV_20GeVbinning");
@@ -209,8 +210,8 @@ void CheckInterpolation(int ma = 350,	// value to interpolate
 	canv1->cd();
 	canv1->SetSelected(canv1);
 
-	canv1->Print("Figs/Interpolation/Interpolation_mass" + Mass + "_interpolated.png");
-	canv1->Print("Figs/Interpolation/Interpolation_mass" + Mass + "_interpolated.pdf");
+	canv1->Print("Figs/Interpolation/Interpolation_mass" + Mass + fileString + "_interpolated.png");
+	canv1->Print("Figs/Interpolation/Interpolation_mass" + Mass + fileString + "_interpolated.pdf");
 	delete canv1;
 
 }
@@ -221,18 +222,28 @@ void PlotAll()
 	gROOT->SetBatch();
 
 	int nSamples = 13;
+	int nUncertainties = 5;
 
 	//// Mass points	////
 	int mpoints[13] = { 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600 };
 
 	//// Maximum vale for x coordinate m12 plot 	////
 	int xMax[11] = { 600, 700, 800, 800, 900, 1000, 1100, 1300, 1400, 1700, 2000 };
-
-	for (int isample = 1; isample < nSamples - 1; isample++)	// Loop over masses
+	
+	//// Uncertainty strings 	////
+	TString fileString[5] = { "", "_JERup", "_JERdown", "_JESup", "_JESdown" };
+    
+    for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
 	{
-		CheckInterpolation(mpoints[isample], mpoints[isample - 1], mpoints[isample + 1], xMax[isample - 1]);
-	}	// End loop over masses
 
-	//// Extrapolation for mass point 1600	////
-	CheckInterpolation(1600, 1200, 1400, 2300);
+	    for (int isample = 1; isample < nSamples - 1; isample++)	// Loop over masses
+	        {   
+		    CheckInterpolation(mpoints[isample], mpoints[isample - 1], mpoints[isample + 1], xMax[isample - 1], fileString[iuncertainty]);
+	        }	// End loop over masses
+
+	    //// Extrapolation for mass point 1600 and 300 ////
+	    CheckInterpolation(1600, 1200, 1400, 2300, fileString[iuncertainty]);
+	    CheckInterpolation(300, 350, 400, 600, fileString[iuncertainty]);
+	
+	}	// End loop over uncertainties
 }

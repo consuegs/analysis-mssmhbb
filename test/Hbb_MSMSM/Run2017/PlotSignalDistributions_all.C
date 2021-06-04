@@ -16,7 +16,7 @@ void PlotSignalDistributions_all()
 	TString points[13] = { "300", "350", "400", "450", "500", "600", "700", "800", "900", "1000", "1200", "1400", "1600" };
 	
 	//// Input files	////
-	TFile *file = new TFile("AllSignals.root", "READ");
+	TFile *file = new TFile("AllSignals/AllSignals.root", "READ");
 	
 	TH1F *hist[nSamples];
 	

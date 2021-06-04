@@ -123,14 +123,14 @@ or submit to condor
 `PlotAll()` `Figs/Interpolation/`
 
 
-#### To plot the m12 distribution for the interpolated mass points (for the nominal shape and the up/down variations of the systematic uncertainties):
+#### Plot signal shapes of 3 mass points, one interpolated and two official mass points (e.g. 300, 325, and 350 GeV) (for the nominal shape and the up/down variations of JER and JES):
 
-`MakeInterpolation.C`
+`PlotInterpolation.C`
 
 `PlotAll()` `Figs/Interpolation/`
 
 
-#### To plot the m12 distribution for the offitial mass points (all fitted with a bukin function using the RooBukin function implemented in the library RooFit)
+#### To plot the m12 distribution for the official mass points (all fitted with a bukin function using the RooBukin function implemented in the library RooFit)
   
 `FittingDemo_m12.C`
  
