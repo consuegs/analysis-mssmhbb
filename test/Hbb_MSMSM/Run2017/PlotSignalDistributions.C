@@ -5,21 +5,21 @@
 void PlotSignalDistributions(TString m1 = "350", TString m2 = "600", TString m3 = "1200", float xMax = 1500)
 {
 
-    gROOT->SetBatch();
+	gROOT->SetBatch();
 
 	HbbStylesNew style;
 	style.SetStyle();
 
 	gStyle->SetOptStat(0);
 
-    //// Input files	////
+	//// Input files	////
 	TFile *file = new TFile("AllSignals/AllSignals.root", "READ");
 
 	//// Mass	////
 	TH1F *hist_m_m1 = (TH1F*) file->Get("m12_" + m1 + "GeV_20GeVbinning");
 	TH1F *hist_m_m2 = (TH1F*) file->Get("m12_" + m2 + "GeV_20GeVbinning");
 	TH1F *hist_m_m3 = (TH1F*) file->Get("m12_" + m3 + "GeV_20GeVbinning");
-	
+
 	//// Checking bin width	////
 	float Hist_xMin = 0;
 	float Hist_xMax = 3000;
@@ -29,10 +29,16 @@ void PlotSignalDistributions(TString m1 = "350", TString m2 = "600", TString m3 
 
 	TCanvas *can = style.MakeCanvas("can", "signal masses, after cuts, SR", 700, 700);
 	can->SetLeftMargin(0.17);
-	
+
 	float yMax;
-	if (xMax==1000){yMax = 1.2 * hist_m_m3->GetMaximum();}
-	else  {yMax = 1.2 * hist_m_m1->GetMaximum();}
+	if (xMax == 1000)
+	{
+		yMax = 1.2 *hist_m_m3->GetMaximum();
+	}
+	else
+	{
+		yMax = 1.2 *hist_m_m1->GetMaximum();
+	}
 
 	style.InitHist(hist_m_m1, "m_{12}[GeV]", "Entries / 20 GeV", kBlue, 0);
 	hist_m_m1->GetYaxis()->SetRangeUser(0.1, yMax);
@@ -60,10 +66,9 @@ void PlotSignalDistributions(TString m1 = "350", TString m2 = "600", TString m3 
 	can->SaveAs("Figs/Signal_Shapes/signal_shapes_" + m1 + "_" + m2 + "_" + m3 + ".pdf");
 	can->SaveAs("Figs/Signal_Shapes/signal_shapes_" + m1 + "_" + m2 + "_" + m3 + ".png");
 	can->SaveAs("Figs/Signal_Shapes/signal_shapes_" + m1 + "_" + m2 + "_" + m3 + ".root");
-	
+
 	delete can;
 }
-
 
 void PlotAll()
 {

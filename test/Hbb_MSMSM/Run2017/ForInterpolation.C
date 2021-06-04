@@ -2,24 +2,23 @@
 #include "CMS_lumi.C"
 using namespace RooFit;
 
-void GetFittingPar( bool IsBinnedFit = true )
+void GetFittingPar(bool IsBinnedFit = true)
 {
-	
-	TString folderString, outputString, pdfname; 
 
-    if (IsBinnedFit)
-		{
-			folderString = "NLO-deep-SR-3j_binned";
-			outputString = "_binnedFit";
-			pdfname = "background";
-			
-		}
-	else 
-		{
-			folderString = "NLO-deep-SR-3j";
-			outputString = "_unbinnedFit";
-			pdfname = "signal";
-		}
+	TString folderString, outputString, pdfname;
+
+	if (IsBinnedFit)
+	{
+		folderString = "NLO-deep-SR-3j_binned";
+		outputString = "_binnedFit";
+		pdfname = "background";
+	}
+	else
+	{
+		folderString = "NLO-deep-SR-3j";
+		outputString = "_unbinnedFit";
+		pdfname = "signal";
+	}
 
 	///////////////////////////////// Parameter Strings	//////////////////////////////////////////
 	int nParameters = 5;
@@ -27,8 +26,8 @@ void GetFittingPar( bool IsBinnedFit = true )
 
 	//// Mass points	////
 	int nSamples = 4;
-	float points[4] = { 300, 350, 400, 450};
-	TString mpoints[4] = { "300", "350", "400", "450"};
+	float points[4] = { 300, 350, 400, 450 };
+	TString mpoints[4] = { "300", "350", "400", "450" };
 
 	TGraphErrors *gr[nParameters];
 
@@ -94,7 +93,7 @@ void GetFittingPar( bool IsBinnedFit = true )
 		leg->AddEntry(gr[i], Parameters[i], "lp");
 		leg->Draw();
 
-        writeExtraText = true;
+		writeExtraText = true;
 		extraText = "Work in progress";
 		CMS_lumi(canv, 13, 33);
 
@@ -176,9 +175,9 @@ void SaveAll()
 	//// Uncertainty strings 	////
 	TString fileString[14] = { "", "_binForFit", "_JER_up", "_JER_down", "_JES_up", "_JES_down", "_PU_up", "_PU_down", "_SFbtag_up", "_SFbtag_down", "_jet_trigeff_up", "_jet_trigeff_down", "_onlSFbtag_up", "_onlSFbtag_down" };
 
-    bool IsBinnedFit = true;
-    
-    GetFittingPar(IsBinnedFit);
+	bool IsBinnedFit = true;
+
+	GetFittingPar(IsBinnedFit);
 
 	for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
 	{

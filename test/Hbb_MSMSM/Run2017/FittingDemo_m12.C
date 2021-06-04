@@ -4,7 +4,7 @@ using namespace RooFit;
 void FittingDemo_m12(int ma = 700)
 {
 
-    gROOT->SetBatch();
+	gROOT->SetBatch();
 	// Silence INFO messages
 	RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
 	// Silence additional MINUIT output 
@@ -201,7 +201,7 @@ void FittingDemo_m12(int ma = 700)
 	lower->SetTickx(1);
 	lower->SetTicky(1);
 
-    RooPlot *frame2 = x.frame(Title("   "));
+	RooPlot *frame2 = x.frame(Title("   "));
 	frame2->addPlotable(hpull, "P");
 	frame2->SetStats(0);
 	frame2->GetXaxis()->SetLabelFont(42);

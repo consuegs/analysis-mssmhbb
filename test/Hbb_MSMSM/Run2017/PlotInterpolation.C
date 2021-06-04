@@ -24,8 +24,8 @@ void PlotInterpolation(int ma = 325,	// value to interpolate
 	TString MassHigh(massHigh);
 
 	//// Input files	////
-    TFile *file = new TFile("AllSignals/AllSignals" + fileString + ".root");
-	
+	TFile *file = new TFile("AllSignals/AllSignals" + fileString + ".root");
+
 	TH1F *histLow = (TH1F*) file->Get("m12_" + MassLow + "GeV_20GeVbinning");
 	TH1F *histHigh = (TH1F*) file->Get("m12_" + MassHigh + "GeV_20GeVbinning");
 
@@ -76,10 +76,10 @@ void PlotInterpolation(int ma = 325,	// value to interpolate
 	histHigh->SetLineWidth(2);
 
 	TCanvas *canv1 = new TCanvas("canv1", "canv1", 900, 900);
-    canv1->SetMargin(0.12, 0.05, 0.1, 0.07);
+	canv1->SetMargin(0.12, 0.05, 0.1, 0.07);
 	canv1->GetFrame()->SetFillColor(21);
 
-    histI->Draw("");
+	histI->Draw("");
 	histLow->Draw("histsame");
 	histHigh->Draw("histsame");
 
@@ -117,21 +117,21 @@ void PlotAll()
 
 	//// Interpolated mass points	////
 	int mpointsInt[3] = { 325, 375, 425 };
-	int mpoints[4] = { 300, 350, 400, 450};
+	int mpoints[4] = { 300, 350, 400, 450 };
 
 	//// Maximum vale for x coordinate m12 plot 	////
 	int xMax[3] = { 700, 700, 800 };
-	
+
 	//// Uncertainty strings 	////
 	TString fileString[5] = { "", "_JERup", "_JERdown", "_JESup", "_JESdown" };
-    
-    for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
+
+	for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
 	{
 
-	    for (int isample = 0; isample < nSamples; isample++)	// Loop over masses
-	        {   
-		    PlotInterpolation(mpointsInt[isample], mpoints[isample], mpoints[isample + 1], xMax[isample], fileString[iuncertainty]);
-	        }	// End loop over masses
-	
+		for (int isample = 0; isample < nSamples; isample++)	// Loop over masses
+		{
+			PlotInterpolation(mpointsInt[isample], mpoints[isample], mpoints[isample + 1], xMax[isample], fileString[iuncertainty]);
+		}	// End loop over masses
+
 	}	// End loop over uncertainties
 }

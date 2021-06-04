@@ -24,8 +24,8 @@ void CheckInterpolation(int ma = 350,	// value to interpolate
 	TString MassHigh(massHigh);
 
 	//// Input files	////
-    TFile *file = new TFile("AllSignals/AllSignals" + fileString + ".root");
-	
+	TFile *file = new TFile("AllSignals/AllSignals" + fileString + ".root");
+
 	TH1F *histLow = (TH1F*) file->Get("m12_" + MassLow + "GeV_20GeVbinning");
 	TH1F *histHigh = (TH1F*) file->Get("m12_" + MassHigh + "GeV_20GeVbinning");
 	TH1F *hist = (TH1F*) file->Get("m12_" + Mass + "GeV_20GeVbinning");
@@ -229,21 +229,20 @@ void PlotAll()
 
 	//// Maximum vale for x coordinate m12 plot 	////
 	int xMax[11] = { 600, 700, 800, 800, 900, 1000, 1100, 1300, 1400, 1700, 2000 };
-	
+
 	//// Uncertainty strings 	////
 	TString fileString[5] = { "", "_JERup", "_JERdown", "_JESup", "_JESdown" };
-    
-    for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
+
+	for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
 	{
 
-	    for (int isample = 1; isample < nSamples - 1; isample++)	// Loop over masses
-	        {   
-		    CheckInterpolation(mpoints[isample], mpoints[isample - 1], mpoints[isample + 1], xMax[isample - 1], fileString[iuncertainty]);
-	        }	// End loop over masses
+		for (int isample = 1; isample < nSamples - 1; isample++)	// Loop over masses
+		{
+			CheckInterpolation(mpoints[isample], mpoints[isample - 1], mpoints[isample + 1], xMax[isample - 1], fileString[iuncertainty]);
+		}	// End loop over masses
 
-	    //// Extrapolation for mass point 1600 and 300 ////
-	    CheckInterpolation(1600, 1200, 1400, 2300, fileString[iuncertainty]);
-	    CheckInterpolation(300, 350, 400, 600, fileString[iuncertainty]);
-	
+		//// Extrapolation for mass point 1600 and 300	////
+		CheckInterpolation(1600, 1200, 1400, 2300, fileString[iuncertainty]);
+		CheckInterpolation(300, 350, 400, 600, fileString[iuncertainty]);
 	}	// End loop over uncertainties
 }
