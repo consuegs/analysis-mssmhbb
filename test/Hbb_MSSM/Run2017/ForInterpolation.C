@@ -107,7 +107,7 @@ void GetFittingPar(bool IsBinnedFit = true)
 void ForInterpolation(int ma = 325,	// value to interpolate
 	int maLow = 300,	// lower value
 	int maHigh = 350,	// higher value
-	TString fileString = "")
+	TString histname = "m12_aac")
 {
 
 	// Silence INFO messages
@@ -126,8 +126,8 @@ void ForInterpolation(int ma = 325,	// value to interpolate
 	TFile *fileLow = new TFile("SignalRootFiles_v1/mc-sig-" + MassLow + "-NLO-deep-SR-3j.root");
 	TFile *fileHigh = new TFile("SignalRootFiles_v1/mc-sig-" + MassHigh + "-NLO-deep-SR-3j.root");
 
-	TH1F *histLow = (TH1F*) fileLow->Get("m12_aac" + fileString);
-	TH1F *histHigh = (TH1F*) fileHigh->Get("m12_aac" + fileString);
+	TH1F *histLow = (TH1F*) fileLow->Get(histname);
+	TH1F *histHigh = (TH1F*) fileHigh->Get(histname);
 
 	// To interpolate number of final events
 	Int_t nSamples = 13;
@@ -141,8 +141,9 @@ void ForInterpolation(int ma = 325,	// value to interpolate
 	{
 		//// Input files	////
 		TFile *file = new TFile("SignalRootFiles_v1/mc-sig-" + points[isample] + "-NLO-deep-SR-3j.root");
-		hist[isample] = (TH1D*) file->Get("m12_aac" + fileString);
+		hist[isample] = (TH1D*) file->Get(histname);
 		norm[isample] = hist[isample]->GetSumOfWeights();
+		file->Close();
 	}	// End loop over masses
 
 	TFile *f = new TFile("SignalRootFiles_v1/mc-sig-" + Mass + "-NLO-deep-SR-3j.root", "UPDATE");
@@ -152,8 +153,12 @@ void ForInterpolation(int ma = 325,	// value to interpolate
 	TSpline3 *s1 = new TSpline3("grs", gr1);
 	//// Signal morphing	///
 	TH1F *histI = th1fmorph("", "", histLow, histHigh, maLow, maHigh, ma, s1->Eval(ma), 0);
-	histI->SetName("m12_aac" + fileString);
-	histI->GetXaxis()->SetRangeUser(0, 3000);
+	histI->SetName(histname);
+	
+	float xMin = histLow->GetXaxis()->GetXmin();
+	float xMax = histLow->GetXaxis()->GetXmax();
+	
+	histI->GetXaxis()->SetRangeUser(xMin, xMax);
 
 	f->Write();
 	f->Close();
@@ -166,26 +171,26 @@ void SaveAll()
 	gROOT->SetBatch();
 
 	int nSamplesInt = 3;
-	int nUncertainties = 14;
+	int nUncertainties = 28;
 
 	//// Interpolated mass points	////
 	int mpointsInt[3] = { 325, 375, 425 };
 	int mpoints[4] = { 300, 350, 400, 450 };
 
 	//// Uncertainty strings 	////
-	TString fileString[14] = { "", "_binForFit", "_JER_up", "_JER_down", "_JES_up", "_JES_down", "_PU_up", "_PU_down", "_SFbtag_up", "_SFbtag_down", "_jet_trigeff_up", "_jet_trigeff_down", "_onlSFbtag_up", "_onlSFbtag_down" };
-
+	TString histname[28] = { "nentries", "m12_aac", "m12_aac_binForFit", "m12_aac_JER_up", "m12_aac_JER_down", "m12_aac_JES_up", "m12_aac_JES_down", "m12_aac_PU_up", "m12_aac_PU_down", "m12_aac_SFbtag_up", "m12_aac_SFbtag_down", "m12_aac_jet_trigeff_up", "m12_aac_jet_trigeff_down", "m12_aac_onlSFbtag_up", "m12_aac_onlSFbtag_down", "m12_SR1_1GeV", "m12_SR1_2GeV", "m12_SR1_5GeV", "m12_SR1_10GeV", "m12_SR2_1GeV", "m12_SR2_3GeV", "m12_SR2_5GeV", "m12_SR2_15GeV", "m12_SR3_5GeV", "m12_SR3_20GeV", "m12_SR4_5GeV", "m12_SR4_10GeV", "m12_SR4_25GeV"};
+    
 	bool IsBinnedFit = true;
 
 	GetFittingPar(IsBinnedFit);
 
-	for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
+	for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over histograms
 	{
 		for (int isample = 0; isample < nSamplesInt; isample++)	// Loop over interpolated masses
 		{
-			ForInterpolation(mpointsInt[isample], mpoints[isample], mpoints[isample + 1], fileString[iuncertainty]);
+			ForInterpolation(mpointsInt[isample], mpoints[isample], mpoints[isample + 1], histname[iuncertainty]);
 		}	// End loop over interpolated masses
 
-	}	// End loop over uncertainties
+	}	// End loop over histograms
 
 }

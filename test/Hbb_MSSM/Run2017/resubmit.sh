@@ -6,10 +6,10 @@ export PYTHONIOENCODING=utf-8
 
 
 #Submit data samples:
-samples_data=(JetHT_Run2017C
-JetHT_Run2017D
-JetHT_Run2017E
-JetHT_Run2017F
+samples_data=(BTagCSV_Run2017C
+BTagCSV_Run2017D
+BTagCSV_Run2017E
+BTagCSV_Run2017F
 )
 
 j=1 

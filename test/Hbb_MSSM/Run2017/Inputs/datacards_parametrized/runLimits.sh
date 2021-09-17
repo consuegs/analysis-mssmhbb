@@ -7,7 +7,7 @@
 
 echo "combine -M Asymptotic -m MASS hbb_mbb*_mssm-13TeV.txt"
 
-for i in 300 350
+for i in 300 350 400
 do
 
     subrange=SR1
@@ -30,7 +30,7 @@ do
 done
 
 
-for i in 400 450 500 600
+for i in 400 450 500 600 700
 do
 
     subrange=SR2
@@ -53,7 +53,7 @@ do
 done
 
 
-for i in 700 800 900
+for i in 700 800 900 1000
 do
 
     subrange=SR3
@@ -64,16 +64,16 @@ do
 	name=hbb_mbb${i}_${subrange}_mssm-13TeV.root
 	echo "Process $i GeV Mass Point with: $name"
 
-    peak=240
-    tail=-0.711103
+	peak=240
+	tail=-0.711103
 	width=57.801
 	
 	echo "Starting combine ${subrange} ${i}"
 
-    echo "Expected/Observed Limits"	
-    combine -M AsymptoticLimits -d hbb_mbb${i}_${subrange}_mssm-13TeV.root --setParameterRanges r=-3,3:tail=-1,-0.68:width=40,65 --setParameters mask_SR=0,r=0,tail=$tail,width=$width,peak=$peak,offsetTF=170,alphaTF=0 --freezeParameters offsetTF,tail,alphaTF --cminDefaultMinimizerStrategy 0 -n Hbb_${subrange} -m ${i} -v 5 
+	echo "Expected/Observed Limits"	
+	combine -M AsymptoticLimits -d hbb_mbb${i}_${subrange}_mssm-13TeV.root --setParameterRanges r=-3,3:tail=-1,-0.68:width=40,65 --setParameters mask_SR=0,r=0,tail=$tail,width=$width,peak=$peak,offsetTF=170,alphaTF=0 --freezeParameters offsetTF,tail,alphaTF --cminDefaultMinimizerStrategy 0 -n Hbb_${subrange} -m ${i} -v 5 
 
-    root_name=`readlink -f "higgsCombineHbb_${subrange}.AsymptoticLimits.mH${i}.root"`
+	root_name=`readlink -f "higgsCombineHbb_${subrange}.AsymptoticLimits.mH${i}.root"`
 	echo "$root_name" >> "$limit_file"	
 	echo "$root_name" >> "Hbb.limits"
 	
@@ -85,48 +85,23 @@ do
     subrange=SR4
     
     limit_file=Hbb.limits_${subrange}
-[[ -f "$limit_file_${subrange}" ]] && rm "$limit_file_${subrange}"
+    [[ -f "$limit_file_${subrange}" ]] && rm "$limit_file_${subrange}"
 
-	name=hbb_mbb${i}_${subrange}_mssm-13TeV.root
-	echo "Process $i GeV Mass Point with: $name"
+    name=hbb_mbb${i}_${subrange}_mssm-13TeV.root
+    echo "Process $i GeV Mass Point with: $name"
 
     peak=240
     tail=-0.764043
-	width=51.045
+    width=51.045
 		
-	echo "Starting combine ${subrange} ${i}"
+    echo "Starting combine ${subrange} ${i}"
 
     echo "Expected/Observed Limits"		
     combine -M AsymptoticLimits -d hbb_mbb${i}_${subrange}_mssm-13TeV.root --setParameterRanges r=-1,1:tail=-1,-0.68:width=40,65:steepnessTF=-0.003,0.03:slopelinTF=0.00001,0.001 --setParameters mask_SR=0,r=0,tail=$tail,width=$width,peak=$peak --freezeParameters offsetTF --cminDefaultMinimizerStrategy 0 -n Hbb_${subrange} -m ${i} -v 5 #steepnessTF=-0.003,0.03, nothing for linear slope
 
     root_name=`readlink -f "higgsCombineHbb_${subrange}.AsymptoticLimits.mH${i}.root"`
-	echo "$root_name" >> "$limit_file"
-	echo "$root_name" >> "Hbb.limits"	
-
+    echo "$root_name" >> "$limit_file"
+    echo "$root_name" >> "Hbb.limits"	
+    
 done
 
-
-
-echo "Merge Combination output:"
-
-hadd -f combineMerge_SR1.root higgsCombineHbb_SR1.AsymptoticLimits.mH*.root
-hadd -f combineMerge_SR2.root higgsCombineHbb_SR2.AsymptoticLimits.mH*.root
-hadd -f combineMerge_SR3.root higgsCombineHbb_SR3.AsymptoticLimits.mH*.root
-hadd -f combineMerge_SR4.root higgsCombineHbb_SR4.AsymptoticLimits.mH*.root
-
-echo "Merge Done: combineMerge.root was created"
-
-echo "run PlotLimit script"
-echo "mhmod+ scenario"
-PlotLimit -i Hbb.limits
-PlotLimit -i Hbb.limits_SR1
-PlotLimit -i Hbb.limits_SR2
-PlotLimit -i Hbb.limits_SR3
-PlotLimit -i Hbb.limits_SR4
-echo "hMSSM benchmark"
-#PlotLimit -M tanBeta -b ${CMSSW_BASE}/src/Analysis/MssmHbb/macros/signal/hMSSM_13TeV.root -i Hbb.limits
-
-mv *.png ../results
-mv *.pdf ../results
-
-echo "Done"

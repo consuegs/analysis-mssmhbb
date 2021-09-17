@@ -2,10 +2,10 @@
 
 
 #data
-samples_data=(JetHT_Run2017C
-JetHT_Run2017D
-JetHT_Run2017E
-JetHT_Run2017F
+samples_data=(BTagCSV_Run2017C
+BTagCSV_Run2017D
+BTagCSV_Run2017E
+BTagCSV_Run2017F
 )
 
 j=1 
@@ -14,7 +14,7 @@ while [ $j -le ${#samples_data[@]} ]
 do
     echo "Creating configuration file for data sample" ${samples_data[$j]}-deep-SR-3j 
     cp SimpleMssmHbbAnalysis_data.cfg ${samples_data[$j]}-deep-SR-3j.cfg
-    sed -i 's/JetHT_Run2017C/'${samples_data[$j]}-deep'/g' ${samples_data[$j]}-deep-SR-3j.cfg
+    sed -i 's/JetHT_Run2017C/'${samples_data[$j]}'/g' ${samples_data[$j]}-deep-SR-3j.cfg
     echo "Creating configuration file for data sample" ${samples_data[$j]}-deep-CR-3j
     cp ${samples_data[$j]}-deep-SR-3j.cfg ${samples_data[$j]}-deep-CR-3j.cfg   
     sed -i 's/signalRegion = true/signalRegion = false/g' ${samples_data[$j]}-deep-CR-3j.cfg

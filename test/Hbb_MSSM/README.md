@@ -166,4 +166,4 @@ Script to copy the datacards from 2017, and 2018 folders:
 
 If further clarifications are needed please contact: [sandra.consuegra.rodriguez@desy.de](sandra.consuegra.rodriguez@desy.de), [sandra.consuegra.rodriguez@cern.ch](sandra.consuegra.rodriguez@cern.ch)
 
-#### Information last updated: 27.05.2021
+#### Information last updated: 15.06.2021

@@ -2,8 +2,9 @@
 #include "TMath.h"
 #include "TRandom.h"
 using namespace RooFit;
+using namespace std;
 
-void RebinAndNormSignalTemplates(int ma = 300, double lumisf = 142.9, TString fileString = "_JERup")
+void RebinAndNormSignalTemplates(int ma = 300, double lumisf = 142.9, TString histname = "m12_aac_JER_up")
 {
 
 	gROOT->SetBatch();
@@ -19,10 +20,10 @@ void RebinAndNormSignalTemplates(int ma = 300, double lumisf = 142.9, TString fi
 
 	double sf = 1 / lumisf;
 
-	TFile *fileIn = new TFile("mc-sig-" + mass + "-NLO-deep-SR-3j.root");
-	TH1D *hist = (TH1D*) fileIn->Get("m12_aac" + fileString);
+	TFile *fileIn = new TFile("mc-sig-" + Mass + "-NLO-deep-SR-3j.root");
+	TH1D *hist = (TH1D*) fileIn->Get(histname);
 
-	if (fileString == "_1GeV")
+	if (histname == "m12_aac_1GeV")
 	{
 		hist->SetName("m12_aac_binForFit");
 		if (ma < 600)
@@ -39,7 +40,7 @@ void RebinAndNormSignalTemplates(int ma = 300, double lumisf = 142.9, TString fi
 		}
 	hist->Scale(sf);		
 	}
-	else (hist->SetName("m12_aac" + fileString));
+	else (hist->SetName(histname));
 
 	double nBins = hist->GetNbinsX();
 	int xMin = hist->GetXaxis()->GetXmin();
@@ -48,7 +49,7 @@ void RebinAndNormSignalTemplates(int ma = 300, double lumisf = 142.9, TString fi
 	cout << "m_{12}: " << ma << endl;
 	cout << "Bin width: " << binWidth << endl;
 
-	TFile f("SignalRootFiles_v1/mc-sig-" + mass + "-NLO-deep-SR-3j.root", "UPDATE");
+	TFile f("SignalRootFiles_v1/mc-sig-" + Mass + "-NLO-deep-SR-3j.root", "UPDATE");
 	hist->Write();
 	f.Close();
 }
@@ -65,14 +66,14 @@ void SaveAll()
 	double lumisf[13] = { 142.9, 69.29, 75.24, 75.45, 64.51, 77.85, 70.42, 72.21, 75.66, 74.27, 71.75, 73.48, 75.7 };
 
 	//// Uncertainty strings 	////
-	int nUncertainties = 14;
-	TString fileString[14] = { "", "_1GeV", "_JER_up", "_JER_down", "_JES_up", "_JES_down", "_PU_up", "_PU_down", "_SFbtag_up", "_SFbtag_down", "_jet_trigeff_up", "_jet_trigeff_down", "_onlSFbtag_up", "_onlSFbtag_down" };
+	int nUncertainties = 28;
+	TString histname[28] = { "nentries", "m12_aac", "m12_aac_1GeV", "m12_aac_JER_up", "m12_aac_JER_down", "m12_aac_JES_up", "m12_aac_JES_down", "m12_aac_PU_up", "m12_aac_PU_down", "m12_aac_SFbtag_up", "m12_aac_SFbtag_down", "m12_aac_jet_trigeff_up", "m12_aac_jet_trigeff_down", "m12_aac_onlSFbtag_up", "m12_aac_onlSFbtag_down", "m12_SR1_1GeV", "m12_SR1_2GeV", "m12_SR1_5GeV", "m12_SR1_10GeV", "m12_SR2_1GeV", "m12_SR2_3GeV", "m12_SR2_5GeV", "m12_SR2_15GeV", "m12_SR3_5GeV", "m12_SR3_20GeV", "m12_SR4_5GeV", "m12_SR4_10GeV", "m12_SR4_25GeV"};
 
 	for (int isample = 0; isample < nSamples; isample++)	// Loop over masses
 	{
 		for (int iuncertainty = 0; iuncertainty < nUncertainties; iuncertainty++)	// Loop over uncertainties
 		{
-			RebinAndNormSignalTemplates(mpoints[isample], lumisf[isample], fileString[iuncertainty]);
+			RebinAndNormSignalTemplates(mpoints[isample], lumisf[isample], histname[iuncertainty]);
 		}	// End loop over histograms
 	}	// End loop over masses
 

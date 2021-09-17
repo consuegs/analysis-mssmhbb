@@ -2,11 +2,11 @@
 # $1 - SR, CR or VR
 export PYTHONIOENCODING=utf-8
 
-#Submit data samples (787 jobs each region):
-samples_data=(JetHT_Run2017C
-JetHT_Run2017D
-JetHT_Run2017E
-JetHT_Run2017F
+#Submit data samples:
+samples_data=(BTagCSV_Run2017C
+BTagCSV_Run2017D
+BTagCSV_Run2017E
+BTagCSV_Run2017F
 )
 
 j=1
