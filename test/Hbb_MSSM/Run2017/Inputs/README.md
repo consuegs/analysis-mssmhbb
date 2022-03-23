@@ -7,16 +7,10 @@
 
 Workspaces can be produced by running the following macros,  one for each of the 4 analysis regions:
 
-Binned signal:
-
-`AnalysisWorkspaceSR{i}.C` 
-
-`i=1,2,3,4`
-
 
 Parametric signal pdf:
 
-`AnalysisWorkspaceSR{i}_parametrized.C`
+`AnalysisWorkspaceSR{i}.C`
 
 
 #### Input files needed to produce the workspaces
@@ -26,16 +20,11 @@ Parametric signal pdf:
 
 Template for the production of datacards:
 
-   Binned signal:
-
-   `datacard_Analysis_template.txt`
-
    Parametric signal pdf:
 
-   `datacard_Analysis_template_parametrized.txt`
+   `datacard_Analysis_template.txt`
    
-The datacards can be produced running the bash scripts `DataCardProducer.sh` and `DataCardProducer_parametrized.sh`  
-
+The datacards can be produced running the bash script `DataCardProducer.sh` 
 
 #### Limit computation 
 
@@ -44,15 +33,9 @@ Run combine tool locally:
 
 `runLimits.sh`
 
-or submit to condor
+Produce limits plot:
+`PlotLimits.C`
 
-`HTC_qsub_seq.sh`
-
-If jobs are submitted to condor the limit plot is obtained afterwards running the bash script: `PlotLimits.sh`
-
-If combine tool runs locally, the script `runLimits.sh` already incorporates `PlotLimits.sh`
-
-Limit plots will appear in folders: `/results` and `/results_parametrized`
 
 #### CMSSW version
 Mini-framework for signal and background parameterizations and the combine tool package are needed
@@ -70,4 +53,4 @@ http://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/
 
 If further clarifications are needed please contact: sandra.consuegra.rodriguez@desy.de, sandra.consuegra.rodriguez@cern.ch
                                             
-Instructions last updated: 23.07.2021 
+Instructions last updated: 23.03.2022 
