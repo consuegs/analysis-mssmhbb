@@ -165,7 +165,7 @@ int AnalysisWorkspaceSR1()
 		cout << "ext     = " << ext.getVal() << endl;
 
 		//Output file
-		TFile *fOut = new TFile("input_2018/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);

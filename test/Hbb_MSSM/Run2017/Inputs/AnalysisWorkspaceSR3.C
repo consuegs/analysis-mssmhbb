@@ -84,7 +84,7 @@ int AnalysisWorkspaceSR3()
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
 		//int normSR = SRHist->GetEntries();
-		int normSR = 280889;
+		int normSR = 123778;
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
@@ -149,7 +149,7 @@ int AnalysisWorkspaceSR3()
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		//Output file
-		TFile *fOut = new TFile("input_2017/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);

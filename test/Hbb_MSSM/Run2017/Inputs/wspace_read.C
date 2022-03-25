@@ -12,7 +12,7 @@ void wspace_read()
 		// -----------------------------------------------
 
 		// Open input file with workspace 
-		TFile *f = new TFile("input_parametrized_2017/signal_workspace_" + srmass + ".root");
+		TFile *f = new TFile("input_parametrized_2017_FH/signal_workspace_" + srmass + ".root");
 
 		// Retrieve workspace from file
 		RooWorkspace *w = (RooWorkspace*) f->Get("wspace");

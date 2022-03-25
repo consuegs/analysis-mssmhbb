@@ -30,7 +30,7 @@ $1 - SR, CR, or VR
 
 After the jobs are submitted directories called `Condor_SimpleMssmHbbAnalysis_${year}_FileListName` are created
 
-`${year} = 2016, 2017`
+`${year} = 2017, 2018`
 
 The status of the jobs can be checked running the bash script `./checkstatus.sh $1`
 
@@ -87,17 +87,34 @@ Filelists and configuration files:
 `FitBkgdandSignal_binned.sh`    `results/`
 
 
-#### Limit computation (work in progress)
+### Creation of workspaces containg signal parametrization
 
-`${your_directory}/Hbb_MSSM/Run${year}/Inputs/DataCards/`
+`${your_directory}/Hbb_MSSM/Run2017/`
+
+`CreateSignalTemplates_FH.C`
+
+`CreateSignalTemplates_SL.C`
+
+`${your_directory}/Hbb_MSSM/Run2018/`
+
+`CreateSignalTemplates_FH.C`
+
+
+### Creation of workspaces for statistical inference procedure
+
+`${your_directory}/Hbb_MSSM/Run${year}/`
+
+`AnalysisWorkspace${SR}.C`
+
+`${SR} = 1, 2, 3, 4`
+
+
+#### Limit computation 
+`${your_directory}/Hbb_MSSM/Run${year}/Inputs/datacards/`
 
 Run combine tool locally:
 
-`run_combine.sh`
-
-or submit to condor
-
-`SubmitRunCombine.sh`
+`runLimits.sh`
 
 
 ### Plotting macros 
@@ -137,7 +154,7 @@ or submit to condor
 `PlotAll()` `Figs/SignalFits_v1/`
 
 
-#### To rebin and normalise to 1 pb the signal templates (normalization values taken from Paul's macro CombineAndNormSignalTemplates.C)
+#### To rebin and normalise to 1 pb the signal templates (normalization values taken from Paul's macro CombineAndNormSignalTemplates.C) - for ReReco dataset
  
 `RebinAndNormSignalTemplates.C`
 
@@ -155,15 +172,19 @@ or submit to condor
 
 `${your_directory}/Hbb_MSSM/Run2Combination/`
 
-Script to copy the datacards from 2017, and 2018 folders:
+Script to copy the datacards from 2017 and 2018 folders:
 
 `CopyAll.sh`
 
 #### Run combine tool:
 
-`run_combine.sh`
+`runLimits.sh`
+
+Plot limits:
+
+`PlotLimits.C`
 
 
 If further clarifications are needed please contact: [sandra.consuegra.rodriguez@desy.de](sandra.consuegra.rodriguez@desy.de), [sandra.consuegra.rodriguez@cern.ch](sandra.consuegra.rodriguez@cern.ch)
 
-#### Information last updated: 15.06.2021
+#### Information last updated: 25.03.2022

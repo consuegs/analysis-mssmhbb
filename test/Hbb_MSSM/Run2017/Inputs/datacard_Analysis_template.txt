@@ -2,11 +2,11 @@ imax 2   number of channels
 jmax *   number of backgrounds
 kmax *   number of nuisance parameters
 --------------------------------------------------------------------------------------
-shapes QCD_CR      CR	../input_2017/signal_workspace_MASS.root wspace:background
-shapes data_obs    CR	../input_2017/signal_workspace_MASS.root wspace:RDHCR
-shapes QCD_SR      SR	../input_2017/signal_workspace_MASS.root wspace:signalregion
-shapes data_obs    SR	../input_2017/signal_workspace_MASS.root wspace:RDHSR
-shapes signal      SR	../input_2017/signal_workspace_MASS.root wspace:signal
+shapes QCD_CR      CR	../input_2017_FH/signal_workspace_MASS.root wspace:background
+shapes data_obs    CR	../input_2017_FH/signal_workspace_MASS.root wspace:RDHCR
+shapes QCD_SR      SR	../input_2017_FH/signal_workspace_MASS.root wspace:signalregion
+shapes data_obs    SR	../input_2017_FH/signal_workspace_MASS.root wspace:RDHSR
+shapes signal      SR	../input_2017_FH/signal_workspace_MASS.root wspace:signal
 --------------------------------------------------------------------------------------
 bin          SR     CR   
 observation  -1     -1   
