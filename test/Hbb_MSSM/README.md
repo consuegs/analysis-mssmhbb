@@ -172,9 +172,11 @@ Run combine tool locally:
 
 `${your_directory}/Hbb_MSSM/Run2Combination/`
 
-Script to copy the datacards from 2017 and 2018 folders:
+Scripts to copy the datacards/workspaces from 2017 and 2018 folders:
 
-`CopyAll.sh`
+`CopyAll.sh`    (For combination of 2017+2018 FH + 2017 SL channel)
+
+`CopyAll_FH.sh` (For combination of 2017+2018 FH channel only)
 
 #### Run combine tool:
 
@@ -187,4 +189,4 @@ Plot limits:
 
 If further clarifications are needed please contact: [sandra.consuegra.rodriguez@desy.de](sandra.consuegra.rodriguez@desy.de), [sandra.consuegra.rodriguez@cern.ch](sandra.consuegra.rodriguez@cern.ch)
 
-#### Information last updated: 25.03.2022
+#### Information last updated: 06.04.2022

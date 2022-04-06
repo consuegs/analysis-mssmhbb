@@ -1,0 +1,26 @@
+Combination of Run2017_FH=hbb_mbb1400_mssm-13TeV_2017_FH.txt  Run2018_FH=hbb_mbb1400_mssm-13TeV_2018_FH.txt
+imax 4 number of bins
+jmax 2 number of processes minus 1
+kmax 2 number of nuisance parameters
+----------------------------------------------------------------------------------------------------------------------------------
+shapes QCD_CR         Run2017_FH_CR  ../input_2017_FH/signal_workspace_1400.root wspace:background
+shapes data_obs       Run2017_FH_CR  ../input_2017_FH/signal_workspace_1400.root wspace:RDHCR
+shapes QCD_SR         Run2017_FH_SR  ../input_2017_FH/signal_workspace_1400.root wspace:signalregion
+shapes data_obs       Run2017_FH_SR  ../input_2017_FH/signal_workspace_1400.root wspace:RDHSR
+shapes signal         Run2017_FH_SR  ../input_2017_FH/signal_workspace_1400.root wspace:signal
+shapes QCD_CR         Run2018_FH_CR  ../input_2018_2017TF_FH/signal_workspace_1400.root wspace:background
+shapes data_obs       Run2018_FH_CR  ../input_2018_2017TF_FH/signal_workspace_1400.root wspace:RDHCR
+shapes QCD_SR         Run2018_FH_SR  ../input_2018_2017TF_FH/signal_workspace_1400.root wspace:signalregion
+shapes data_obs       Run2018_FH_SR  ../input_2018_2017TF_FH/signal_workspace_1400.root wspace:RDHSR
+shapes signal         Run2018_FH_SR  ../input_2018_2017TF_FH/signal_workspace_1400.root wspace:signal
+----------------------------------------------------------------------------------------------------------------------------------
+bin          Run2017_FH_SR  Run2017_FH_CR  Run2018_FH_SR  Run2018_FH_CR
+observation  -1             -1             -1             -1           
+----------------------------------------------------------------------------------------------------------------------------------
+bin                                    Run2017_FH_SR  Run2017_FH_SR  Run2017_FH_CR  Run2018_FH_SR  Run2018_FH_SR  Run2018_FH_CR
+process                                signal         QCD_SR         QCD_CR         signal         QCD_SR         QCD_CR       
+process                                0              1              2              0              1              2            
+rate                                   1              1              1              1              1              1            
+----------------------------------------------------------------------------------------------------------------------------------
+CMS_lumi_13TeV_2017     lnN            1.023          -              -              -              -              -            
+CMS_lumi_13TeV_2018     lnN            -              -              -              1.025          -              -            

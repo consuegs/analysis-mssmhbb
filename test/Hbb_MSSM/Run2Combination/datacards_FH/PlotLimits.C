@@ -6,7 +6,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	gROOT->SetBatch();
 
-	const int nPoints = 36;
+	const int nPoints = 29;
 
 	//// signal strength limits sigma*BR / sigma*BR (at tanb=30)	////
 	double mA[nPoints];
