@@ -141,28 +141,24 @@ int AnalysisWorkspaceSR4()
 		///		
 
 		/// Transfer factor FR 4
-		double x0_centralValue = 4.93376e+02;
-		double k_centralValue = -1.42755e-01;
-		double norm_centralValue = -1.25540e-01;
-		double ext_centralValue = -2.25486e-04;
+        double x0_centralValue = 2.89873e+02;
+        double k_centralValue = 6.94872e-05;
+        double norm_centralValue = 2.87116e-01;
 
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
-		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
-		RooRealVar ext("ext", "ext", ext_centralValue, 0.5 *ext_centralValue, 2 *ext_centralValue);
-		RooArgList varsTF(mbb, x0, k, norm, ext);
-		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))*(1-ext*mbb)", varsTF);	// ext. gauss erf
+		RooRealVar x0("x0", "x0", x0_centralValue, 0.5*x0_centralValue, 2*x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 0.5*k_centralValue, 2*k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 0.5*norm_centralValue, 2*norm_centralValue);
+		RooArgList varsTF(mbb, x0, k, norm);
+		RooGenericPdf TF("TF", "TF", "norm/(1+TMath::Exp(-k*(mbb-x0)))", varsTF);	// std logistic
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
-		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
+		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9*normSR, 1.1*normSR);
 
-		x0.setConstant(true);
+        x0.setConstant(true);
 		k.setConstant(true);
 		norm.setConstant(true);
-		ext.setConstant(true);
 		cout << "x0       = " << x0.getVal() << endl;
 		cout << "k     = " << k.getVal() << endl;
 		cout << "norm     = " << norm.getVal() << endl;
-		cout << "ext     = " << ext.getVal() << endl;
 
 		//Output file
 		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");

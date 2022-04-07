@@ -3,7 +3,7 @@ do
 
 echo "Merge Combination output SR1:"
 
-masses=(300 325 350 375)
+masses=(300 350 400)
 
 for mass in ${masses[@]}
 
@@ -12,8 +12,6 @@ do
 hadd -f combineMerge_${subrange}.root higgsCombineHbb_${subrange}.AsymptoticLimits.mH*.root
 
 done
-
-PlotLimit -i Hbb.limits_SR1
 
 done
 
@@ -23,7 +21,7 @@ do
 
 echo "Merge Combination output SR2:"
 
-masses=(400 425 450 500 600)
+masses=(400 500 600)
 
 for mass in ${masses[@]}
 
@@ -32,8 +30,6 @@ do
 hadd -f combineMerge_${subrange}.root higgsCombineHbb_${subrange}.AsymptoticLimits.mH*.root
 
 done
-
-PlotLimit -i Hbb.limits_SR2
 
 done
 
@@ -53,8 +49,6 @@ hadd -f combineMerge_${subrange}.root higgsCombineHbb_${subrange}.AsymptoticLimi
 
 done
 
-PlotLimit -i Hbb.limits_SR3
-
 done
 
 
@@ -63,7 +57,7 @@ do
 
 echo "Merge Combination output SR4:"
 
-masses=(1000 1200 1400 1600)
+masses=(1200 1400 1600 1800)
 
 for mass in ${masses[@]}
 
@@ -72,8 +66,6 @@ do
 hadd -f combineMerge_${subrange}.root higgsCombineHbb_${subrange}.AsymptoticLimits.mH*.root
 
 done
-
-PlotLimit -i Hbb.limits_SR4
 
 done
 
@@ -87,9 +79,6 @@ PlotLimit -i Hbb.limits_SR3
 PlotLimit -i Hbb.limits_SR4
 echo "hMSSM benchmark"
 #PlotLimit -M tanBeta -b ${CMSSW_BASE}/src/Analysis/MssmHbb/macros/signal/hMSSM_13TeV.root -i Hbb.limits
-
-mv *.png ../results
-mv *.pdf ../results
 
 echo "Done"
 

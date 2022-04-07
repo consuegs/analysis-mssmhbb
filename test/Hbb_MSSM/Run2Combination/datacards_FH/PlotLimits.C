@@ -199,7 +199,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 	leg->Draw();
 	canv->SetLogy(true);
 	canv->Update();
-	canv->Print("BR_limits_Run2Combination.png");
-	canv->Print("BR_limits_Run2Combination.pdf");
+	canv->Print("BR_limits_Run2Combination_FH.png");
+	canv->Print("BR_limits_Run2Combination_FH.pdf");
 
 }

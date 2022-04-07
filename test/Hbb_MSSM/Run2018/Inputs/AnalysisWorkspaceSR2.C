@@ -28,7 +28,7 @@ int AnalysisWorkspaceSR2()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 29.64, 30.11, 30.22, 36.57 };	//SR2
+   	vector<double> lumiscalefactors = { 29.64, 30.11, 30.22, 36.57 };	//SR2
 	vector<string> srmasses = { "400", "450", "500", "600" };	//SR2
 
 	TString Tsrmasses[4] = { "400", "450", "500", "600" };	//SR2
@@ -45,7 +45,7 @@ int AnalysisWorkspaceSR2()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 320, 800);	//SR 2: 400/450/500/600
+	RooRealVar mbb("mbb", "m_{12}", 320, 800);	//SR 2: 500/600
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -140,17 +140,17 @@ int AnalysisWorkspaceSR2()
 		///		
 
 		/// Transfer factor FR 2       
-		double x0_centralValue = -1.43012e+04;
-		double k_centralValue = -2.40384e-04;
-		double norm_centralValue = -1.45644e-01;
+        double x0_centralValue = -1.43012e+04;
+        double k_centralValue = -2.40384e-04;
+        double norm_centralValue = -1.45644e-01;
 
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
-		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
+		RooRealVar x0("x0", "x0", x0_centralValue, 0.5*x0_centralValue, 2*x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 0.5*k_centralValue, 2*k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 0.5*norm_centralValue, 2*norm_centralValue);
 		RooArgList varsTF(mbb, x0, k, norm);
 		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))", varsTF);	// std gaus erf
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
-		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
+		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9*normSR, 1.1*normSR);
 
 		x0.setConstant(true);
 		k.setConstant(true);

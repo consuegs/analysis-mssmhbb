@@ -23,6 +23,7 @@ map<int, double> lumi_sf = {
     {1400,54.45},
     {1600,53.08},
     {1800,49.24},
+};
 
 map<int, int> mass_region = {
     {300,1}, 
@@ -72,7 +73,7 @@ map<int, double> mbb_high = {
     {4,2000.},
 };
 
-TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/FH/");
+TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/April2022_v6/FH/");
 
 map<TString, TString> histName_suffix = {
 		{
@@ -368,8 +369,8 @@ void CreateSignalPDF(int mass,
 		frame2->SetMaximum(+5.);
 		frame2->Draw();
 
-		c1->Print("input_doubleCB_FH/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
-		c1->Print("input_doubleCB_FH/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
+		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
+		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
 		delete c1;
 
 		mapMean[histName] = meanx.getVal();

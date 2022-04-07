@@ -27,7 +27,7 @@ int AnalysisWorkspaceSR1()
 
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
-
+	
 	vector<double> lumiscalefactors = { 29.89, 29.82 };	//SR1
 	vector<string> srmasses = { "300", "350" };	//SR1
 
@@ -45,7 +45,7 @@ int AnalysisWorkspaceSR1()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 220, 520);	//SR 1: 300/350
+	RooRealVar mbb("mbb", "m_{12}", 260, 550);	//SR 1: 300/350
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -141,19 +141,19 @@ int AnalysisWorkspaceSR1()
 		///		
 
 		/// Transfer factor FR 1 
-		double x0_centralValue = 2.32930e+02;
-		double k_centralValue = 2.07508e-02;
-		double norm_centralValue = 1.50352e-01;
-		double ext_centralValue = 7.59274e-05;
+        double x0_centralValue = 2.32930e+02;
+        double k_centralValue = 2.07508e-02;
+        double norm_centralValue = 1.50352e-01;
+        double ext_centralValue = 7.59274e-05;
 
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
-		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
-		RooRealVar ext("ext", "ext", ext_centralValue, 0.5 *ext_centralValue, 2 *ext_centralValue);
+		RooRealVar x0("x0", "x0", x0_centralValue, 0.5*x0_centralValue, 2*x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 0.5*k_centralValue, 2*k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 0.5*norm_centralValue, 2*norm_centralValue);
+		RooRealVar ext("ext", "ext", ext_centralValue, 0.5*ext_centralValue, 2*ext_centralValue);
 		RooArgList varsTF(mbb, x0, k, norm, ext);
 		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))*(1-ext*mbb)", varsTF);	// ext. gauss erf
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
-		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
+		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9*normSR, 1.1*normSR);
 
 		x0.setConstant(true);
 		k.setConstant(true);

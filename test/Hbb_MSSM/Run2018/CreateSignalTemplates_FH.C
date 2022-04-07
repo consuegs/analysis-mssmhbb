@@ -28,7 +28,7 @@ map<int, double> lumi_sf = {
 map<int, int> mass_region = {
     {300,1}, 
     {350,1},  
-    {400,1},
+    {400,2},
     {450,2},
     {500,2},
     {600,2},
@@ -46,7 +46,7 @@ map<int, int> mass_binning = {
     {300,1},
     {350,1},
     {400,1},
-    {450,2},
+    {450,1},
     {500,1},
     {600,1},
     {700,5},
@@ -258,13 +258,13 @@ void CreateSignalPDF(int mass,
 		int fitRangeMin, fitRangeMax;
 		if (mass < 500)
 		{
-			fitRangeMin = 220;
-			fitRangeMax = 520;
+			fitRangeMin = 260;
+			fitRangeMax = 550;
 		}
 		else if (mass >= 500 &mass < 700)
 		{
-			fitRangeMin = 260;
-			fitRangeMax = 780;
+			fitRangeMin = 320;
+			fitRangeMax = 800;
 		}
 		else if (mass >= 700 &mass < 1200)
 		{
@@ -370,8 +370,8 @@ void CreateSignalPDF(int mass,
 		frame2->SetMaximum(+5.);
 		frame2->Draw();
 
-		c1->Print("input_doubleCB/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
-		c1->Print("input_doubleCB/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
+		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
+		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
 		delete c1;
 
 		mapMean[histName] = meanx.getVal();

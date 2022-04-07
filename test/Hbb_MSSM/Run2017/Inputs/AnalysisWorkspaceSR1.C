@@ -58,7 +58,7 @@ int AnalysisWorkspaceSR1()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir + "/forSandra/Feb2022_v6/FH/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/April2022_v6/FH/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -71,7 +71,7 @@ int AnalysisWorkspaceSR1()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 
-		TFile *f_cr_in = new TFile(dir + "/forSandra/Feb2022_v6/FH/FullhadCR_BTagCSV_UL2017-v5.root", "READ");	//CR, 3j, full 2018
+		TFile *f_cr_in = new TFile(dir + "/forSandra/April2022_v6/FH/FullhadCR_BTagCSV_UL2017-v6.root", "READ");	//CR, 3j, full 2018
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);
@@ -79,12 +79,11 @@ int AnalysisWorkspaceSR1()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/forSandra/Feb2022_v6/FH/FullhadCR_BTagCSV_UL2017-v5.root", "READ");
+		TFile *f_sr_in = new TFile(dir + "/forSandra/April2022_v6/FH/FullhadSR_BTagCSV_UL2017-v6.root", "READ");
 		TH1F *SRHist = (TH1F*) f_sr_in->Get("mbb");	//data_obs SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
-		//int normSR = SRHist->GetEntries();
-		int normSR = 123778;
+		int normSR = SRHist->GetEntries();
 		cout << "normSR: " << normSR << endl;
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
@@ -92,7 +91,7 @@ int AnalysisWorkspaceSR1()
 		/// GET BG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_bgfit = new TFile(dir + "/forSandra/Feb2022_v6/FH/UL2017_background_extnovosibirsk_220to520_10GeV/workspace/FitContainer_workspace.root", "READ");
+		TFile *f_bgfit = new TFile(dir + "/forSandra/April2022_v6/FH/UL2017_background_extnovosibirsk_220to520_10GeV/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0, 1000000);
