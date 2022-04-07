@@ -154,7 +154,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	TH2F *frame = NULL;
 
-	frame = new TH2F("frame", "", 2, 300, 1800, 2, 3.001e-2, 30.1);
+	frame = new TH2F("frame", "", 2, 120, 1800, 2, 3.001e-2, 200);
 	frame->SetStats(0);
 	frame->GetXaxis()->SetTitle("M_{12} (GeV)");
 	frame->GetYaxis()->SetTitle("95% CL limit on #sigma(bb#phi)#upointBR(#phi#rightarrow bb)");
