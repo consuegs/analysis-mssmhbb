@@ -10,7 +10,13 @@ Workspaces can be produced by running the following macros,  one for each of the
 
 Parametric signal pdf:
 
-`AnalysisWorkspaceSR{i}.C`
+FH channel:
+
+`AnalysisWorkspaceSR{i}_FH.C`
+
+SL channel:
+
+`AnalysisWorkspaceSR{i}_SL.C`
 
 
 #### Input files needed to produce the workspaces
@@ -22,9 +28,9 @@ Template for the production of datacards:
 
    Parametric signal pdf:
 
-   `datacard_Analysis_template.txt`
+   `datacard_Analysis_template_FH.txt`, `datacard_Analysis_template_SL.txt`
    
-The datacards can be produced running the bash script `DataCardProducer.sh` 
+The datacards can be produced running the bash script `DataCardProducer_FH.sh`, `DataCardProducer_SL.sh`  
 
 #### Limit computation 
 
@@ -53,4 +59,4 @@ http://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/
 
 If further clarifications are needed please contact: sandra.consuegra.rodriguez@desy.de, sandra.consuegra.rodriguez@cern.ch
                                             
-Instructions last updated: 23.03.2022 
+Instructions last updated: 13.04.2022 
