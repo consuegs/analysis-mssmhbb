@@ -27,7 +27,7 @@ int AnalysisWorkspaceSR1_2017TF()
 
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
-
+	
 	vector<double> lumiscalefactors = { 29.89, 29.82 };	//SR1
 	vector<string> srmasses = { "300", "350" };	//SR1
 
@@ -45,7 +45,7 @@ int AnalysisWorkspaceSR1_2017TF()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 220, 520);	//SR 1: 300/350
+	RooRealVar mbb("mbb", "m_{12}", 260, 550);	//SR 1: 300/350
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -79,13 +79,12 @@ int AnalysisWorkspaceSR1_2017TF()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR.root", "READ");
-		TH1F *SRHist = (TH1F*) f_sr_in->Get("mbb");	//data_obs SR
+		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
+		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
-		//int normSR = SRHist->GetEntries();
-		int normSR = 280889;
-		cout << "normSR: " << normSR << endl;
+		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
+		int normSR = SRHist_norm->GetEntries();
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
@@ -95,7 +94,6 @@ int AnalysisWorkspaceSR1_2017TF()
 		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/UL_2018_background_FR1_260to550_extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
-		background->SetName("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0, 1000000);
 
 		///
@@ -139,7 +137,7 @@ int AnalysisWorkspaceSR1_2017TF()
 
 		///
 		/// DEFINE TRANSFER FACTOR PDF
-		///	
+		///		
 
 		RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 195, 100, 250);
 		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.0056, 0.001, 0.05);

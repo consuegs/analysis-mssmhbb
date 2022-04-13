@@ -56,7 +56,7 @@ int AnalysisWorkspaceSR3_2017TF()
 
 		///
 		/// GET SIG NORMALIZATION 
-		///
+		/// 
 
 		TFile *f_signal_in = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
@@ -79,12 +79,12 @@ int AnalysisWorkspaceSR3_2017TF()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR.root", "READ");
-		TH1F *SRHist = (TH1F*) f_sr_in->Get("mbb");	//data_obs SR
+		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
+		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
-		//int normSR = SRHist->GetEntries();
-		int normSR = 280889;
+		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
+		int normSR = SRHist_norm->GetEntries();
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
@@ -138,8 +138,7 @@ int AnalysisWorkspaceSR3_2017TF()
 		///
 		/// DEFINE TRANSFER FACTOR PDF
 		///		
-
-		/// Common transfer factor to 4 FR        
+   
 		RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.67, 0.0, 5);	//p0	//alpha
 		RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 350, 200, 750);	//p1	//x0	// lin: 0.15,0.1,0.5
 		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.015, 0.0001, 0.1);	//p2

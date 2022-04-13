@@ -1,9 +1,8 @@
 #!/bin/sh
 
 cp -r /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/input_2017_FH .
+cp -r /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/input_2017_SL .
 cp -r /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/input_2018_FH .
-cp -r /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/input_2018_2017TF_FH/ .
-cp -r ../Run2017/forSandra/Feb2022_v6/SL/Datacards_SL/input_2017TF_SL/ .
 
 cd datacards/
 
@@ -27,14 +26,14 @@ do
 
   echo "2017"
 
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards/hbb_mbb${mass}_SR1* ./  
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/hbb_mbb${mass}_SR1* ./  
   
   mv hbb_mbb${mass}_SR1_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_FH.txt
   mv hbb_mbb${mass}_SR1_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_FH.root
   
   echo "2018"
   
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards_2017TF/hbb_mbb${mass}_SR1* ./
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards/hbb_mbb${mass}_SR1* ./
   
   mv hbb_mbb${mass}_SR1_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2018_FH.txt
   mv hbb_mbb${mass}_SR1_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2018_FH.root
@@ -57,14 +56,14 @@ do
 
   echo "2017"
 
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards/hbb_mbb${mass}_SR2* ./  
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/hbb_mbb${mass}_SR2* ./  
   
   mv hbb_mbb${mass}_SR2_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_FH.txt
   mv hbb_mbb${mass}_SR2_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_FH.root
   
   echo "2018"
   
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards_2017TF/hbb_mbb${mass}_SR2* ./
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards/hbb_mbb${mass}_SR2* ./
   
   mv hbb_mbb${mass}_SR2_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2018_FH.txt
   mv hbb_mbb${mass}_SR2_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2018_FH.root
@@ -87,14 +86,14 @@ do
 
   echo "2017"
 
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards/hbb_mbb${mass}_SR3* ./  
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/hbb_mbb${mass}_SR3* ./  
   
   mv hbb_mbb${mass}_SR3_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_FH.txt
   mv hbb_mbb${mass}_SR3_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_FH.root
   
   echo "2018"
   
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards_2017TF/hbb_mbb${mass}_SR3* ./
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards/hbb_mbb${mass}_SR3* ./
   
   mv hbb_mbb${mass}_SR3_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2018_FH.txt
   mv hbb_mbb${mass}_SR3_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2018_FH.root
@@ -117,14 +116,14 @@ do
 
   echo "2017"
 
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards/hbb_mbb${mass}_SR4* ./  
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/hbb_mbb${mass}_SR4* ./  
   
   mv hbb_mbb${mass}_SR4_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_FH.txt
   mv hbb_mbb${mass}_SR4_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_FH.root
 
   echo "2018"
     
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards_2017TF/hbb_mbb${mass}_SR4* ./
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/Inputs/datacards/hbb_mbb${mass}_SR4* ./
   
   mv hbb_mbb${mass}_SR4_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2018_FH.txt
   mv hbb_mbb${mass}_SR4_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2018_FH.root
@@ -153,7 +152,7 @@ do
   
   echo "2017"
   
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/SL/Datacards_SL/hbb_mbb${mass}_SR1* ./ 
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR1* ./ 
   
   mv hbb_mbb${mass}_SR1_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
 
@@ -175,7 +174,7 @@ do
 
   echo "2017"
   
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/SL/Datacards_SL/hbb_mbb${mass}_SR2* ./ 
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR2* ./ 
   
   mv hbb_mbb${mass}_SR2_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
 
@@ -197,7 +196,7 @@ do
 
   echo "2017"
   
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/SL/Datacards_SL/hbb_mbb${mass}_SR3* ./ 
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR3* ./ 
   
   mv hbb_mbb${mass}_SR3_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
 
@@ -219,7 +218,7 @@ do
 
   echo "2017"
   
-  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/SL/Datacards_SL/hbb_mbb${mass}_SR4* ./ 
+  cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR4* ./ 
 
   mv hbb_mbb${mass}_SR4_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
 

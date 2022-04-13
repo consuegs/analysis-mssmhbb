@@ -1,0 +1,14 @@
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR1.AsymptoticLimits.mH300.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR1.AsymptoticLimits.mH350.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR2.AsymptoticLimits.mH400.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR2.AsymptoticLimits.mH450.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR2.AsymptoticLimits.mH500.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR2.AsymptoticLimits.mH600.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR3.AsymptoticLimits.mH700.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR3.AsymptoticLimits.mH800.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR3.AsymptoticLimits.mH900.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR3.AsymptoticLimits.mH1000.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR4.AsymptoticLimits.mH1200.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR4.AsymptoticLimits.mH1400.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR4.AsymptoticLimits.mH1600.root
+/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_FH/higgsCombineHbb_SR4.AsymptoticLimits.mH1800.root

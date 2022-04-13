@@ -6,7 +6,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	gROOT->SetBatch();
 
-	const int nPoints = 36;
+	const int nPoints = 21;
 
 	//// signal strength limits sigma*BR / sigma*BR (at tanb=30)	////
 	double mA[nPoints];
@@ -154,10 +154,10 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	TH2F *frame = NULL;
 
-	frame = new TH2F("frame", "", 2, 120, 1800, 2, 3.001e-2, 200);
+	frame = new TH2F("frame", "", 2, 125, 1800, 2, 5.001e-2, 200.1);
 	frame->SetStats(0);
-	frame->GetXaxis()->SetTitle("M_{12} (GeV)");
-	frame->GetYaxis()->SetTitle("95% CL limit on #sigma(bb#phi)#upointBR(#phi#rightarrow bb)");
+	frame->GetXaxis()->SetTitle("m_{A/H} [GeV]");
+	frame->GetYaxis()->SetTitle("#sigma(b#bar{b}A/H) #it{#Beta}(A/H#rightarrow b#bar{b}) [pb]");
     frame->GetXaxis()->SetNdivisions(506);
     frame->GetYaxis()->SetNdivisions(410);
 	frame->GetYaxis()->SetLabelFont(42);
@@ -165,7 +165,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 	frame->GetXaxis()->SetTitleOffset(1.2);
 	frame->GetYaxis()->SetTitleOffset(1.25);
 	frame->GetXaxis()->SetTitleSize(0.05);
-	frame->GetYaxis()->SetTitleSize(0.05);
+	frame->GetYaxis()->SetTitleSize(0.045);
 	frame->GetXaxis()->SetLabelSize(0.04);
 	frame->GetYaxis()->SetLabelSize(0.04);
 	frame->GetXaxis()->SetTickLength(0.2);

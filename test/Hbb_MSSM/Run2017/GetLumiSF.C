@@ -10,7 +10,9 @@ void GetLumiSF()
 	vector<int> masses_SL = { 125, 130, 140, 160, 180, 200, 250, 300, 350, 400, 450, 500, 600, 700 };
 	vector<string> srmasses_SL = { "125", "130", "140", "160", "180", "200", "250", "300", "350", "400", "450", "500", "600", "700" };
 
-	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/");
+	TString dir_FH("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/April2022_v6/");
+	
+	TString dir_SL("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/");
 
 	std::ofstream outtext("LumiSF_2017.txt");
 	outtext << "Lumi Scale Factors FH channel:" << endl;
@@ -23,7 +25,7 @@ void GetLumiSF()
 
 		TString srmass_FH = srmasses_FH[i];
 
-		TFile *file_FH = new TFile(dir + "FH/FH_SUSYGluGluToBBHToBB_M-" + srmass_FH + "_2017-v6.root", "READ");
+		TFile *file_FH = new TFile(dir_FH + "FH/FH_SUSYGluGluToBBHToBB_M-" + srmass_FH + "_2017-v6.root", "READ");
 
 		TH1D *hist_FH = (TH1D*) file_FH->Get("nentries");
 
@@ -46,7 +48,7 @@ void GetLumiSF()
 
 		TString srmass_SL = srmasses_SL[i];
 
-		TFile *file_SL = new TFile(dir + "/SL/SL_SUSYGluGluToBBHToBB_M-" + srmass_SL + "_2017-v6.root", "READ");
+		TFile *file_SL = new TFile(dir_SL + "/SL/SL_SUSYGluGluToBBHToBB_M-" + srmass_SL + "_2017-v6.root", "READ");
 
 		TH1D *hist_SL = (TH1D*) file_SL->Get("nentries");
 

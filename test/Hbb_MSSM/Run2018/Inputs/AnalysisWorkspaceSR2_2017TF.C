@@ -28,7 +28,7 @@ int AnalysisWorkspaceSR2_2017TF()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 29.64, 30.11, 30.22, 36.57 };	//SR2
+   	vector<double> lumiscalefactors = { 29.64, 30.11, 30.22, 36.57 };	//SR2
 	vector<string> srmasses = { "400", "450", "500", "600" };	//SR2
 
 	TString Tsrmasses[4] = { "400", "450", "500", "600" };	//SR2
@@ -45,7 +45,7 @@ int AnalysisWorkspaceSR2_2017TF()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 320, 800);	//SR 2: 400/450/500/600
+	RooRealVar mbb("mbb", "m_{12}", 320, 800);	//SR 2: 500/600
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -56,7 +56,7 @@ int AnalysisWorkspaceSR2_2017TF()
 
 		///
 		/// GET SIG NORMALIZATION 
-		///
+		/// 
 
 		TFile *f_signal_in = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
@@ -79,12 +79,12 @@ int AnalysisWorkspaceSR2_2017TF()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR.root", "READ");
-		TH1F *SRHist = (TH1F*) f_sr_in->Get("mbb");	//data_obs SR
+		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
+		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
-		//int normSR = SRHist->GetEntries();
-		int normSR = 280889;
+		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
+		int normSR = SRHist_norm->GetEntries();
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
@@ -138,7 +138,7 @@ int AnalysisWorkspaceSR2_2017TF()
 		///
 		/// DEFINE TRANSFER FACTOR PDF
 		///		
-
+    
 		RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.75, 0.0, 5);	//p0	//alpha
 		RooRealVar offsetTF("offsetTF", "offset of TF in y direction", 400, 100, 750);	//p1	//x0	// lin: 0.15,0.1,0.5	// eml 400,100,750
 		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.0085, 0.0001, 0.1);	//p2	//k

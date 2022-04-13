@@ -79,13 +79,12 @@ int AnalysisWorkspaceSR4()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR.root", "READ");
-		TH1F *SRHist = (TH1F*) f_sr_in->Get("mbb");	//data_obs SR
+		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
+		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
-		//int normSR = SRHist->GetEntries();
-		int normSR = 280889;
-		cout << "normSR: " << normSR << endl;
+		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
+		int normSR = SRHist_norm->GetEntries();
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
@@ -140,10 +139,9 @@ int AnalysisWorkspaceSR4()
 		/// DEFINE TRANSFER FACTOR PDF
 		///		
 
-		/// Transfer factor FR 4
-        double x0_centralValue = 2.89873e+02;
-        double k_centralValue = 6.94872e-05;
-        double norm_centralValue = 2.87116e-01;
+                double x0_centralValue = 2.89873e+02;
+                double k_centralValue = 6.94872e-05;
+                double norm_centralValue = 2.87116e-01;
 
 		RooRealVar x0("x0", "x0", x0_centralValue, 0.5*x0_centralValue, 2*x0_centralValue);
 		RooRealVar k("k", "k", k_centralValue, 0.5*k_centralValue, 2*k_centralValue);
@@ -153,7 +151,7 @@ int AnalysisWorkspaceSR4()
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9*normSR, 1.1*normSR);
 
-        x0.setConstant(true);
+                x0.setConstant(true);
 		k.setConstant(true);
 		norm.setConstant(true);
 		cout << "x0       = " << x0.getVal() << endl;
