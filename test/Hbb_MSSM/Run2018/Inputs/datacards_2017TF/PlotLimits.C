@@ -68,13 +68,13 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 		tree->GetEntry(4);
 		plus2R[counter] = float(LIMIT);
 
-        tree->GetEntry(5);
-        obsR[counter] = float(LIMIT);
-        if (blindData)
-          obsR[counter] = medianR[counter];
+		tree->GetEntry(5);
+		obsR[counter] = float(LIMIT);
+		if (blindData)
+			obsR[counter] = medianR[counter];
 
 		counter++;
-	} 
+	}
 
 	std::cout << " m(Phi1)  -2s   -1s   exp   +1s   +2s   obs " << std::endl;
 	//           "100  24.1  28.2  33.8  40.8  48.2  23.0
@@ -158,8 +158,8 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 	frame->SetStats(0);
 	frame->GetXaxis()->SetTitle("M_{12} (GeV)");
 	frame->GetYaxis()->SetTitle("95% CL limit on #sigma(bb#phi)#upointBR(#phi#rightarrow bb)");
-    frame->GetXaxis()->SetNdivisions(506);
-    frame->GetYaxis()->SetNdivisions(410);
+	frame->GetXaxis()->SetNdivisions(506);
+	frame->GetYaxis()->SetNdivisions(410);
 	frame->GetYaxis()->SetLabelFont(42);
 	frame->GetXaxis()->SetLabelFont(42);
 	frame->GetXaxis()->SetTitleOffset(1.2);

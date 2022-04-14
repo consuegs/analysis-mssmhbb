@@ -68,13 +68,13 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 		tree->GetEntry(4);
 		plus2R[counter] = float(LIMIT);
 
-        tree->GetEntry(5);
-        obsR[counter] = float(LIMIT);
-        if (blindData)
-          obsR[counter] = medianR[counter];
+		tree->GetEntry(5);
+		obsR[counter] = float(LIMIT);
+		if (blindData)
+			obsR[counter] = medianR[counter];
 
 		counter++;
-	} 
+	}
 
 	std::cout << " m(Phi1)  -2s   -1s   exp   +1s   +2s   obs " << std::endl;
 	//           "100  24.1  28.2  33.8  40.8  48.2  23.0
@@ -154,17 +154,17 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	TH2F *frame = NULL;
 
-    // 125-700 GeV
+	// 125-700 GeV
 	frame = new TH2F("frame", "", 2, 105, 720, 2, 1, 1500.1);
 	// Up to 300 GeV
 	//frame = new TH2F("frame", "", 2, 120, 305, 2, 1, 1500.1);
 	// From 300 to 700 GeV
 	//frame = new TH2F("frame", "", 2, 280, 720, 2, 1, 200.1);
 	frame->SetStats(0);
-	frame->GetXaxis()->SetTitle("m_{A/H} [GeV]");
-	frame->GetYaxis()->SetTitle("#sigma(b#bar{b}A/H) #it{#Beta}(A/H#rightarrow b#bar{b}) [pb]");
-    frame->GetXaxis()->SetNdivisions(506);
-    frame->GetYaxis()->SetNdivisions(410);
+	frame->GetXaxis()->SetTitle("m_{A/H}[GeV]");
+	frame->GetYaxis()->SetTitle("#sigma(b#bar{b}A/H) #it{#Beta}(A/H#rightarrow b#bar{b})[pb]");
+	frame->GetXaxis()->SetNdivisions(506);
+	frame->GetYaxis()->SetNdivisions(410);
 	frame->GetYaxis()->SetLabelFont(42);
 	frame->GetXaxis()->SetLabelFont(42);
 	frame->GetXaxis()->SetTitleOffset(1.2);
