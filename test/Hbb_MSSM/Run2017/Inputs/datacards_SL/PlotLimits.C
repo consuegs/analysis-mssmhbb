@@ -155,11 +155,11 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 	TH2F *frame = NULL;
 
     // 125-700 GeV
-	frame = new TH2F("frame", "", 2, 125, 700, 2, 1.001, 2000.1);
+	frame = new TH2F("frame", "", 2, 105, 720, 2, 1, 1500.1);
 	// Up to 300 GeV
-	//frame = new TH2F("frame", "", 2, 125, 300, 2, 1.001, 2000.1);
+	//frame = new TH2F("frame", "", 2, 120, 305, 2, 1, 1500.1);
 	// From 300 to 700 GeV
-	//frame = new TH2F("frame", "", 2, 300, 700, 2, 5.001e-2, 200.1);
+	//frame = new TH2F("frame", "", 2, 280, 720, 2, 1, 200.1);
 	frame->SetStats(0);
 	frame->GetXaxis()->SetTitle("m_{A/H} [GeV]");
 	frame->GetYaxis()->SetTitle("#sigma(b#bar{b}A/H) #it{#Beta}(A/H#rightarrow b#bar{b}) [pb]");

@@ -1,7 +1,5 @@
 #include "CMS_lumi.C"
 using namespace RooFit;
-#include "Analysis/Models/interface/RooFitQuality.h"
-#include "Analysis/Models/interface/RooFitUtils.h"
 
 // SR1 : 120-300
 // SR2 : 160-450

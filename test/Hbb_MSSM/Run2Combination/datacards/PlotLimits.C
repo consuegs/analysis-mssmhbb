@@ -154,7 +154,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	TH2F *frame = NULL;
 
-	frame = new TH2F("frame", "", 2, 125, 1800, 2, 5.001e-2, 200.1);
+	frame = new TH2F("frame", "", 2, 105, 1850, 2, 5.001e-2, 2500.1);
 	frame->SetStats(0);
 	frame->GetXaxis()->SetTitle("m_{A/H} [GeV]");
 	frame->GetYaxis()->SetTitle("#sigma(b#bar{b}A/H) #it{#Beta}(A/H#rightarrow b#bar{b}) [pb]");

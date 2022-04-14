@@ -155,6 +155,7 @@ do
   cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR1* ./ 
   
   mv hbb_mbb${mass}_SR1_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
+  mv hbb_mbb${mass}_SR1_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_SL.root
 
 
 done
@@ -177,6 +178,7 @@ do
   cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR2* ./ 
   
   mv hbb_mbb${mass}_SR2_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
+  mv hbb_mbb${mass}_SR2_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_SL.root
 
 
 done
@@ -199,6 +201,7 @@ do
   cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR3* ./ 
   
   mv hbb_mbb${mass}_SR3_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
+  mv hbb_mbb${mass}_SR3_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_SL.root
 
 
 done
@@ -221,6 +224,7 @@ do
   cp /nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/hbb_mbb${mass}_SR4* ./ 
 
   mv hbb_mbb${mass}_SR4_mssm-13TeV.txt hbb_mbb${mass}_mssm-13TeV_2017_SL.txt
+  mv hbb_mbb${mass}_SR4_mssm-13TeV.root hbb_mbb${mass}_mssm-13TeV_2017_SL.root
 
 done
 

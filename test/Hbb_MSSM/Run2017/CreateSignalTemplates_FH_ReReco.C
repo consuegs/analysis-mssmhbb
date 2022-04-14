@@ -1,26 +1,25 @@
 #include "CMS_lumi.C"
 using namespace RooFit;
 
-// SR1 : 220-520
-// SR2 : 260-780
+// SR1 : 200-500
+// SR2 : 260-785
 // SR3 : 390-1270
 // SR4 : 500-2000
 
 map<int, double> lumi_sf = {
-    {300,52.87},
-    {350,54.38},
-    {400,55.07},
-    {450,54.27},
-    {500,54.80},
-    {600,59.76},
-    {700,59.70},
-    {800,57.45},
-    {900,58.18},
-    {1000,58.04},
-    {1200,56.04},
-    {1400,54.45},
-    {1600,53.08},
-    {1800,49.24},
+    {300,142.9},
+    {350,69.29},
+    {400,75.24},
+    {450,75.45},
+    {500,64.51},
+    {600,77.85},
+    {700,70.42},
+    {800,72.21},
+    {900,75.66},
+    {1000,74.27},
+    {1200,71.75},
+    {1400,73.48},
+    {1600,75.70},
 };
 
 map<int, int> mass_region = {
@@ -37,7 +36,6 @@ map<int, int> mass_region = {
     {1200,4},
     {1400,4},
     {1600,4},
-    {1800,4},
 };
 
 map<int, int> mass_binning = {
@@ -54,24 +52,23 @@ map<int, int> mass_binning = {
     {1200,10},
     {1400,10},
     {1600,10},
-    {1800,10},
 };
 
 map<int, double> mbb_low = {
-    {1,220.},
+    {1,200.},
     {2,260.},
     {3,390.},
     {4,500.},
 };
 
 map<int, double> mbb_high = {
-    {1,520.},
-    {2,780.},
+    {1,500.},
+    {2,785.},
     {3,1270.},
     {4,2000.},
 };
 
-TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/April2022_v6/FH/");
+TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017_ReReco/");
 
 map<TString, TString> histName_suffix = {
 		{
@@ -111,12 +108,11 @@ map<int, vector < double>> mass_fit = {
     {1200,{1165.,66.,0.4,1.9,4.90,2.0}},
     {1400,{1360.,77.,0.4,1.9,5.00,2.2}},
     {1600,{1550.,83.,0.4,1.7,3.00,4.0}},
-    {1800,{1750.,83.,0.4,1.7,3.00,4.0}},
 };
 
-vector<int> masses = { 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800 };
+vector<int> masses = { 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600 };
 
-std::ofstream outtext("signal_out_FH.txt");
+std::ofstream outtext("signal_out_FH_ReReco.txt");
 
 void CreateSignalPDF(int mass,
 	int region,
@@ -159,11 +155,7 @@ void CreateSignalPDF(int mass,
 		TH1D *hist = Hists[histName];
 		if (mass < 700)
 		{
-			hist->Rebin(50);
-		}
-		else
-		{
-			hist->Rebin(100);
+			hist->Rebin(5);
 		}
 
 		// Bin width
@@ -244,7 +236,7 @@ void CreateSignalPDF(int mass,
 		};
 		//// Legend	////
 		float xpad1Leg;
-		if (mass == 600 || mass == 1000 || mass == 1600 || mass == 1800)
+		if (mass == 600 || mass == 1000 || mass == 1600)
 		{
 			xpad1Leg = 0.42;
 		}
@@ -256,13 +248,13 @@ void CreateSignalPDF(int mass,
 		int fitRangeMin, fitRangeMax;
 		if (mass < 400)
 		{
-			fitRangeMin = 220;
-			fitRangeMax = 520;
+			fitRangeMin = 200;
+			fitRangeMax = 500;
 		}
 		else if (mass >= 400 &mass < 700)
 		{
 			fitRangeMin = 260;
-			fitRangeMax = 780;
+			fitRangeMax = 785;
 		}
 		else if (mass >= 700 &mass < 1200)
 		{
@@ -274,7 +266,7 @@ void CreateSignalPDF(int mass,
 			fitRangeMin = 500;
 			fitRangeMax = 2000;
 		}
-     
+    
 		int nParameters = res->floatParsFinal().getSize();
 		double chi = frame1->chiSquare(nParameters);
 		double ndof = nBins - nParameters;
@@ -299,7 +291,7 @@ void CreateSignalPDF(int mass,
 		frame1->GetYaxis()->SetLabelSize(0.033);
 		frame1->Draw();
 
-		float lumi_2017_FH = 36.26;
+		float lumi_2017_FH = 36.0;
 
 		std::string lumistr(Form("%.1f", lumi_2017_FH));
 		std::string chi2str(Form("#chi^{2}/ndof = %.2f ", chi));
@@ -338,7 +330,7 @@ void CreateSignalPDF(int mass,
 
 		// Construct a histogram with the pulls of the data w.r.t the curve (('curve' - histogram) / err_histogram)
 		RooHist *hpull = frame1->pullHist();
-		hpull->SetMarkerSize(0.8);	
+		hpull->SetMarkerSize(0.8);	//0.8 for lowM
 		std::unique_ptr<RooPlot> frame2(mbbx.frame());
 		frame2->addPlotable(hpull, "P");
 
@@ -367,8 +359,8 @@ void CreateSignalPDF(int mass,
 		frame2->SetMaximum(+5.);
 		frame2->Draw();
 
-		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
-		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
+		c1->Print("input_doubleCB_FH_ReReco/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
+		c1->Print("input_doubleCB_FH_ReReco/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
 		delete c1;
 
 		mapMean[histName] = meanx.getVal();
@@ -447,7 +439,7 @@ void CreateSignalPDF(int mass,
 
 }
 
-void CreateSignalTemplates_FH()
+void CreateSignalTemplates_FH_ReReco()
 {
 
 	vector<TString> histNames = { "nominal" };
@@ -468,12 +460,12 @@ void CreateSignalTemplates_FH()
 		double mbb_max = mbb_high[region];
 		for (auto histName: histNames)
 		{
-			TFile *file = new TFile(dir + "/FH_SUSYGluGluToBBHToBB_M-" + Mass + "_2017-v6.root", "READ");
-			TH1D *hist = (TH1D*) file->Get("mbb");
+			TFile *file = new TFile(dir + "/mc-sig-" + Mass + "-NLO-deep-SR-3j.root", "READ");
+			TH1D *hist = (TH1D*) file->Get("m12_SR" + Region + "_" + Bin + "GeV");
 			Hists[histName] = hist;
 		}
 		CreateSignalPDF(mass, region, histNames, Hists, w, mbb_min, mbb_max);
-		TFile *fileOutput = new TFile("input_doubleCB_FH/signal_m" + Mass + "_SR" + Region + ".root", "recreate");
+		TFile *fileOutput = new TFile("input_doubleCB_FH_ReReco/signal_m" + Mass + "_SR" + Region + ".root", "recreate");
 		fileOutput->cd("");
 		w->Write("w");
 		fileOutput->Write();

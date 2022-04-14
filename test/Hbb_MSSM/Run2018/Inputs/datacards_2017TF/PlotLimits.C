@@ -6,7 +6,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	gROOT->SetBatch();
 
-	const int nPoints = 29;
+	const int nPoints = 14;
 
 	//// signal strength limits sigma*BR / sigma*BR (at tanb=30)	////
 	double mA[nPoints];
@@ -154,7 +154,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	TH2F *frame = NULL;
 
-	frame = new TH2F("frame", "", 2, 300, 1800, 2, 3.001e-2, 30.1);
+	frame = new TH2F("frame", "", 2, 250, 1850, 2, 3.001e-2, 30.1);
 	frame->SetStats(0);
 	frame->GetXaxis()->SetTitle("M_{12} (GeV)");
 	frame->GetYaxis()->SetTitle("95% CL limit on #sigma(bb#phi)#upointBR(#phi#rightarrow bb)");
