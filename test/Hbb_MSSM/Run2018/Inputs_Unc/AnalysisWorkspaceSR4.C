@@ -123,12 +123,12 @@ int AnalysisWorkspaceSR4()
 		RooWorkspace *w_signalfit_JES_Down = (RooWorkspace*) f_signal_in_unbinned_JES_Down->Get("w");
 		RooAbsPdf *signalx_JES_Down = w_signalfit_JES_Down->pdf("signal_dcb");
 
-		RooRealVar * mean_ws = (RooRealVar*)w_signalfit->var("mean");
-		RooRealVar * sigma_ws = (RooRealVar*)w_signalfit->var("sigma");
-		RooRealVar * alpha1_ws = (RooRealVar*)w_signalfit->var("alpha1");
-		RooRealVar * alpha2_ws = (RooRealVar*)w_signalfit->var("alpha2");
-		RooRealVar * n1_ws = (RooRealVar*)w_signalfit->var("n1");
-		RooRealVar * n2_ws = (RooRealVar*)w_signalfit->var("n2");
+		RooRealVar *mean_ws = (RooRealVar*) w_signalfit->var("mean");
+		RooRealVar *sigma_ws = (RooRealVar*) w_signalfit->var("sigma");
+		RooRealVar *alpha1_ws = (RooRealVar*) w_signalfit->var("alpha1");
+		RooRealVar *alpha2_ws = (RooRealVar*) w_signalfit >var("alpha2");
+		RooRealVar *n1_ws = (RooRealVar*) w_signalfit->var ("n1");
+		RooRealVar *n2_ws = (RooRealVar*) w_signalfit->var ("n2");
 		mean_ws->setConstant(true);
 		sigma_ws->setConstant(true);
 		alpha1_ws->setConstant(true);
@@ -141,16 +141,16 @@ int AnalysisWorkspaceSR4()
 		cout << "alpha2 = " << alpha2_ws->getVal() << endl;
 		cout << "n1 = " << n1_ws->getVal() << endl;
 		cout << "n2 = " << n2_ws->getVal() << endl;
-		
-		RooRealVar *mean_JES_Up = (RooRealVar*) w_signalfit_JES_Up->var("mean");
-        RooRealVar *mean_JES_Down = (RooRealVar*) w_signalfit_JES_Down->var("mean");
-        
-        mean_JES_Up->setConstant(true);
-        mean_JES_Down->setConstant(true);
-        
-        RooRealVar *sigma_JER_Up = (RooRealVar*) w_signalfit_JER_Up->var("sigma");
-        RooRealVar *sigma_JER_Down = (RooRealVar*) w_signalfit_JER_Down->var("sigma");
 
+		RooRealVar *mean_JES_Up = (RooRealVar*) w_signalfit_JES_Up->var("mean");
+		RooRealVar *mean_JES_Down = (RooRealVar*) w_signalfit_JES_Down->var("mean");
+
+		mean_JES_Up->setConstant(true);
+		mean_JES_Down->setConstant(true);
+
+		RooRealVar *sigma_JER_Up = (RooRealVar*) w_signalfit_JER_Up->var("sigma");
+		RooRealVar *sigma_JER_Down = (RooRealVar*) w_signalfit_JER_Down->var("sigma");
+		
 		sigma_JER_Up->setConstant(true);
 		sigma_JER_Down->setConstant(true);
 
