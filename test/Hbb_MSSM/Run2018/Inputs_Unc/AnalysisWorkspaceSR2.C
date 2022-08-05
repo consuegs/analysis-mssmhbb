@@ -127,8 +127,8 @@ int AnalysisWorkspaceSR2()
 		RooRealVar *sigma_ws = (RooRealVar*) w_signalfit->var("sigma");
 		RooRealVar *alpha1_ws = (RooRealVar*) w_signalfit->var("alpha1");
 		RooRealVar *alpha2_ws = (RooRealVar*) w_signalfit >var("alpha2");
-		RooRealVar *n1_ws = (RooRealVar*) w_signalfit->var ("n1");
-		RooRealVar *n2_ws = (RooRealVar*) w_signalfit->var ("n2");
+		RooRealVar *n1_ws = (RooRealVar*) w_signalfit->var("n1");
+		RooRealVar *n2_ws = (RooRealVar*) w_signalfit->var("n2");
 		mean_ws->setConstant(true);
 		sigma_ws->setConstant(true);
 		alpha1_ws->setConstant(true);
