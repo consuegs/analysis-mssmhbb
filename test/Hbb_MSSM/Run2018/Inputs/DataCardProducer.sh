@@ -3,7 +3,7 @@ do
     limit_file=Hbb.limits
     [[ -f "$limit_file" ]] && rm "$limit_file"
     if [ "$subrange" = "SR1" ]
-    then masses=(300 350)
+    then masses=(300 350 400)
     fi
     echo "$subrange, masses ${masses[@]}"
     for mass in ${masses[@]}
@@ -42,7 +42,7 @@ do
     limit_file=Hbb.limits
     [[ -f "$limit_file" ]] && rm "$limit_file"
     if [ "$subrange" = "SR2" ]
-    then masses=(400 450 500 600)
+    then masses=(450 500 600 700)
     fi
     echo "$subrange, masses ${masses[@]}"
     for mass in ${masses[@]}
@@ -83,7 +83,7 @@ do
     limit_file=Hbb.limits
     [[ -f "$limit_file" ]] && rm "$limit_file"
     if [ "$subrange" = "SR3" ]
-    then masses=(700 800 900 1000)
+    then masses=(800 900 1000)
     fi
     echo "$subrange, masses ${masses[@]}"
     for mass in ${masses[@]}

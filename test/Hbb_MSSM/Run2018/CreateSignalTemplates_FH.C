@@ -3,8 +3,7 @@ using namespace RooFit;
 
 // SR1 : 260-550
 // SR2 : 320-800
-// SR3 : 390-1270
-// SR4 : 500-2000
+// SR3 : 380-2000
 
 map<int, double> lumi_sf = {
     {300,29.89},
@@ -26,11 +25,11 @@ map<int, double> lumi_sf = {
 map<int, int> mass_region = {
     {300,1}, 
     {350,1},  
-    {400,2},
+    {400,1},
     {450,2},
     {500,2},
     {600,2},
-    {700,3},
+    {700,2},
     {800,3},
     {900,3},
     {1000,3},
@@ -60,14 +59,14 @@ map<int, int> mass_binning = {
 map<int, double> mbb_low = {
     {1,260.},
     {2,320.},
-    {3,390.},
+    {3,380.},
     {4,500.},
 };
 
 map<int, double> mbb_high = {
     {1,550.},
     {2,800.},
-    {3,1270.},
+    {3,2000.},
     {4,2000.},
 };
 
@@ -203,7 +202,8 @@ void CreateSignalPDF(int mass,
 
 		RooDoubleCB cbx("cb", "CBshape", mbbx, meanx, sigmax, alpha1x, n1x, alpha2x, n2x);
 
-		RooDataHist sig("sig", "sig", mbbx, hist);
+		RooDataHist sig("sig", "sig", mbbx, hist);   
+		w->import(sig);
 
 		RooFitResult *res = cbx.fitTo(sig, Save(), SumW2Error(kTRUE));
 		res->Print();
@@ -244,7 +244,7 @@ void CreateSignalPDF(int mass,
 		};
 		//// Legend	////
 		float xpad1Leg;
-		if (mass == 600 || mass == 1000 || mass == 1600 || mass == 1800)
+		if (mass == 600 || mass == 1600 || mass == 1800)
 		{
 			xpad1Leg = 0.42;
 		}
@@ -254,20 +254,20 @@ void CreateSignalPDF(int mass,
 		}
 
 		int fitRangeMin, fitRangeMax;
-		if (mass < 500)
+		if (mass < 450)
 		{
 			fitRangeMin = 260;
 			fitRangeMax = 550;
 		}
-		else if (mass >= 500 &mass < 700)
+		else if (mass >= 450 & mass < 800)
 		{
 			fitRangeMin = 320;
 			fitRangeMax = 800;
 		}
-		else if (mass >= 700 &mass < 1200)
+		else if (mass >= 800 & mass < 1200)
 		{
-			fitRangeMin = 390;
-			fitRangeMax = 1270;
+			fitRangeMin = 380;
+			fitRangeMax = 2000;
 		}
 		else
 		{
@@ -437,7 +437,7 @@ void CreateSignalPDF(int mass,
 		TString xbinStr(xbinCh);
 		mbb.setVal(xbin);
 		double pdf = signal_dcb.getVal();
-		outtext << xbinStr << " : " << pdf << endl;
+		//outtext << xbinStr << " : " << pdf << endl;
 	}
 
 	outtext << endl;
@@ -450,8 +450,18 @@ void CreateSignalPDF(int mass,
 
 void CreateSignalTemplates_FH()
 {
+	gROOT->SetBatch();
+	// Silence INFO messages
+	RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
+	// Silence additional MINUIT output 
+	RooMsgService::instance().setSilentMode(true);
+	// Silence Info in TCanvas::Print: messages
+	gErrorIgnoreLevel = kWarning;
 
 	vector<TString> histNames = { "nominal" };
+
+    vector<double> lumiscalefactors = { 29.89, 29.82, 29.64 };	//SR1
+	vector<string> srmasses = { "300", "350", "400" };	//SR1
 
 	for (unsigned int i = 0; i < masses.size(); ++i)
 	{
@@ -471,7 +481,7 @@ void CreateSignalTemplates_FH()
 		{
 			TFile *file = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Mass + ".root", "READ");
 			TH1D *hist = (TH1D*) file->Get("mbb");
-			Hists[histName] = hist;
+			Hists[histName] = hist;				
 		}
 		CreateSignalPDF(mass, region, histNames, Hists, w, mbb_min, mbb_max);
 		TFile *fileOutput = new TFile("input_doubleCB/signal_m" + Mass + "_SR" + Region + ".root", "recreate");

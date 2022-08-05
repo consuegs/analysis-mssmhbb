@@ -21,6 +21,7 @@ using namespace RooFit;
 int AnalysisWorkspaceSR3()
 {
 
+	std::ofstream textout("figs/AnalysisWorkspaceSR3.txt");
 	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
 
 	int rebin = 10;
@@ -28,10 +29,10 @@ int AnalysisWorkspaceSR3()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 36.43, 35.68, 36.00, 35.77 };	//SR3
-	vector<string> srmasses = { "700", "800", "900", "1000" };	//SR3
+	vector<double> lumiscalefactors = { 35.68, 36.00, 35.77 };	//SR3
+	vector<string> srmasses = { "800", "900", "1000" };	//SR3
 
-	TString Tsrmasses[4] = { "700", "800", "900", "1000" };	//SR3
+	TString Tsrmasses[3] = { "800", "900", "1000" };	//SR3
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{
@@ -45,7 +46,7 @@ int AnalysisWorkspaceSR3()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 390, 1270);	//SR 3: 700/800/900/1000
+	RooRealVar mbb("mbb", "m_{12}", 380, 2000);	//SR 3: 800/900/1000
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -91,7 +92,7 @@ int AnalysisWorkspaceSR3()
 		/// GET BG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/UL_2018_background_FR3_390to1270_extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
+		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/results_FR3_newdefinition_20GeVbins/380to2000/extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0, 1000000);
@@ -137,19 +138,19 @@ int AnalysisWorkspaceSR3()
 
 		///
 		/// DEFINE TRANSFER FACTOR PDF
-		///		
+		///			
 
-                double x0_centralValue = 2.89873e+02;
-                double k_centralValue = 6.94872e-05;
-                double norm_centralValue = 2.87116e-01;
+		double x0_centralValue = 4.25705e+04;
+		double k_centralValue = 3.87089e-07;
+		double norm_centralValue = -7.91822e+00;
 
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5*x0_centralValue, 2*x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5*k_centralValue, 2*k_centralValue);
-		RooRealVar norm("norm", "norm", norm_centralValue, 0.5*norm_centralValue, 2*norm_centralValue);
+		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
 		RooArgList varsTF(mbb, x0, k, norm);
-		RooGenericPdf TF("TF", "TF", "norm/(1+TMath::Exp(-k*(mbb-x0)))", varsTF);	// std logistic
+		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))", varsTF);	// std gaus erf
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
-		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9*normSR, 1.1*normSR);
+		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		x0.setConstant(true);
 		k.setConstant(true);
@@ -159,7 +160,7 @@ int AnalysisWorkspaceSR3()
 		cout << "norm     = " << norm.getVal() << endl;
 
 		//Output file
-		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + "_SR3.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -172,7 +173,7 @@ int AnalysisWorkspaceSR3()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR3.root" << endl;
 		fOut->Close();
 	}
 	return 0;

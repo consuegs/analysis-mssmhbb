@@ -21,6 +21,7 @@ using namespace RooFit;
 int AnalysisWorkspaceSR4()
 {
 
+	std::ofstream textout("figs/AnalysisWorkspaceSR4.txt");
 	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
 
 	int rebin = 10;
@@ -56,7 +57,7 @@ int AnalysisWorkspaceSR4()
 
 		///
 		/// GET SIG NORMALIZATION 
-		///  
+		/// 
 
 		TFile *f_signal_in = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
@@ -91,7 +92,7 @@ int AnalysisWorkspaceSR4()
 		/// GET BG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/UL_2018_background_FR4_500to2000_novosibirsk/workspace/FitContainer_workspace.root", "READ");
+		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/results_FR3_newdefinition_20GeVbins/500to2000/extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0, 1000000);
@@ -137,21 +138,21 @@ int AnalysisWorkspaceSR4()
 
 		///
 		/// DEFINE TRANSFER FACTOR PDF
-		///		
+		///			
 
-                double x0_centralValue = 2.89873e+02;
-                double k_centralValue = 6.94872e-05;
-                double norm_centralValue = 2.87116e-01;
+		double x0_centralValue = 4.25705e+04;
+		double k_centralValue = 3.87089e-07;
+		double norm_centralValue = -7.91822e+00;
 
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5*x0_centralValue, 2*x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5*k_centralValue, 2*k_centralValue);
-		RooRealVar norm("norm", "norm", norm_centralValue, 0.5*norm_centralValue, 2*norm_centralValue);
+		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
 		RooArgList varsTF(mbb, x0, k, norm);
-		RooGenericPdf TF("TF", "TF", "norm/(1+TMath::Exp(-k*(mbb-x0)))", varsTF);	// std logistic
+		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))", varsTF);	// std gaus erf
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
-		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9*normSR, 1.1*normSR);
+		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
-                x0.setConstant(true);
+		x0.setConstant(true);
 		k.setConstant(true);
 		norm.setConstant(true);
 		cout << "x0       = " << x0.getVal() << endl;
@@ -159,7 +160,7 @@ int AnalysisWorkspaceSR4()
 		cout << "norm     = " << norm.getVal() << endl;
 
 		//Output file
-		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + "_SR4.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -172,7 +173,7 @@ int AnalysisWorkspaceSR4()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR4.root" << endl;
 		fOut->Close();
 	}
 	return 0;

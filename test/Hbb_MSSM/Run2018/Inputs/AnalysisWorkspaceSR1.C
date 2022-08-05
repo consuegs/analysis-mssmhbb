@@ -21,17 +21,18 @@ using namespace RooFit;
 int AnalysisWorkspaceSR1()
 {
 
+	std::ofstream textout("figs/AnalysisWorkspaceSR1.txt");
 	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
 
 	int rebin = 10;
 
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
-	
-	vector<double> lumiscalefactors = { 29.89, 29.82 };	//SR1
-	vector<string> srmasses = { "300", "350" };	//SR1
 
-	TString Tsrmasses[2] = { "300", "350" };	//SR1
+	vector<double> lumiscalefactors = { 29.89, 29.82, 29.64 };	//SR1
+	vector<string> srmasses = { "300", "350", "400" };	//SR1
+
+	TString Tsrmasses[3] = { "300", "350", "400" };	//SR1
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{
@@ -45,7 +46,7 @@ int AnalysisWorkspaceSR1()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 260, 550);	//SR 1: 300/350
+	RooRealVar mbb("mbb", "m_{12}", 260, 550);	//SR 1: 300/350/400
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -106,12 +107,12 @@ int AnalysisWorkspaceSR1()
 		signal->SetName("signal");
 		RooRealVar signal_norm("signal_norm", "signal_norm", normSignal);
 
-		RooRealVar * mean = (RooRealVar*)w_signalfit->var("mean");
-		RooRealVar * sigma = (RooRealVar*)w_signalfit->var("sigma");
-		RooRealVar * alpha1 = (RooRealVar*)w_signalfit->var("alpha1");
-		RooRealVar * alpha2 = (RooRealVar*)w_signalfit->var("alpha2");
-		RooRealVar * n1 = (RooRealVar*)w_signalfit->var("n1");
-		RooRealVar * n2 = (RooRealVar*)w_signalfit->var("n2");
+		RooRealVar * mean_ws = (RooRealVar*)w_signalfit->var("mean");
+		RooRealVar * sigma_ws = (RooRealVar*)w_signalfit->var("sigma");
+		RooRealVar * alpha1_ws = (RooRealVar*)w_signalfit->var("alpha1");
+		RooRealVar * alpha2_ws = (RooRealVar*)w_signalfit->var("alpha2");
+		RooRealVar * n1_ws = (RooRealVar*)w_signalfit->var("n1");
+		RooRealVar * n2_ws = (RooRealVar*)w_signalfit->var("n2");
 		mean->setConstant(true);
 		sigma->setConstant(true);
 		alpha1->setConstant(true);
@@ -139,19 +140,19 @@ int AnalysisWorkspaceSR1()
 		/// DEFINE TRANSFER FACTOR PDF
 		///		
 
-                double x0_centralValue = 2.32930e+02;
-                double k_centralValue = 2.07508e-02;
-                double norm_centralValue = 1.50352e-01;
-                double ext_centralValue = 7.59274e-05;
+		double x0_centralValue = 2.32930e+02;
+		double k_centralValue = 2.07508e-02;
+		double norm_centralValue = 1.50352e-01;
+		double ext_centralValue = 7.59274e-05;
 
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5*x0_centralValue, 2*x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5*k_centralValue, 2*k_centralValue);
-		RooRealVar norm("norm", "norm", norm_centralValue, 0.5*norm_centralValue, 2*norm_centralValue);
-		RooRealVar ext("ext", "ext", ext_centralValue, 0.5*ext_centralValue, 2*ext_centralValue);
+		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
+		RooRealVar ext("ext", "ext", ext_centralValue, 0.5 *ext_centralValue, 2 *ext_centralValue);
 		RooArgList varsTF(mbb, x0, k, norm, ext);
 		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))*(1-ext*mbb)", varsTF);	// ext. gauss erf
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
-		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9*normSR, 1.1*normSR);
+		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		x0.setConstant(true);
 		k.setConstant(true);
@@ -163,7 +164,7 @@ int AnalysisWorkspaceSR1()
 		cout << "ext     = " << ext.getVal() << endl;
 
 		//Output file
-		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + "_SR1.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -176,7 +177,7 @@ int AnalysisWorkspaceSR1()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR1.root" << endl;
 		fOut->Close();
 	}
 	return 0;
