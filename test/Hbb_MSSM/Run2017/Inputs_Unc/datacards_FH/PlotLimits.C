@@ -6,7 +6,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	gROOT->SetBatch();
 
-	const int nPoints = 25;
+	const int nPoints = 17;
 
 	//// signal strength limits sigma*BR / sigma*BR (at tanb=30)	////
 	double mA[nPoints];
@@ -154,7 +154,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	TH2F *frame = NULL;
 
-	frame = new TH2F("frame", "", 2, 105, 1850, 2, 5.001e-2, 2500.1);
+	frame = new TH2F("frame", "", 2, 250, 1850, 2, 5.001e-2, 30.1);
 	frame->SetStats(0);
 	frame->GetXaxis()->SetTitle("m_{A/H}[GeV]");
 	frame->GetYaxis()->SetTitle("#sigma(b#bar{b}A/H) #it{#Beta}(A/H#rightarrow b#bar{b})[pb]");
@@ -192,26 +192,23 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	extraText = "Work in progress";
 	writeExtraText = true;
-	CMS_lumi(canv, 13, 33);
+	CMS_lumi(canv, 5, 33);
 
 	canv->RedrawAxis();
 
 	leg->Draw();
-	TLine *l1 = new TLine(250,0,250,50);
+	TLine *l1 = new TLine(400,0,400,10);
 	l1->SetLineStyle(2);
 	l1->Draw();
-	TLine *l2 = new TLine(400,0,400,10);
+	TLine *l2 = new TLine(700,0,700,4);
 	l2->SetLineStyle(2);
 	l2->Draw();
-	TLine *l3 = new TLine(700,0,700,4);
+	TLine *l3 = new TLine(1000,0,1000,3);
 	l3->SetLineStyle(2);
-	l3->Draw();
-	TLine *l4 = new TLine(1000,0,1000,3);
-	l4->SetLineStyle(2);
-	l4->Draw();	
+	l3->Draw();	
 	canv->SetLogy(true);
 	canv->Update();
-	canv->Print("BR_limits_Run2Combination.png");
-	canv->Print("BR_limits_Run2Combination.pdf");
+	canv->Print("BR_limits.png");
+	canv->Print("BR_limits.pdf");
 
 }

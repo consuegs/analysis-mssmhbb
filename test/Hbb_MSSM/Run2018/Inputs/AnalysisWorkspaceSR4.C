@@ -29,10 +29,10 @@ int AnalysisWorkspaceSR4()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 35.54, 34.05, 34.77, 32.86 };	//SR4
-	vector<string> srmasses = { "1200", "1400", "1600", "1800" };	//SR4
+	vector<double> lumiscalefactors = { 35.77, 35.54, 34.05, 34.77, 32.86 };	//SR4
+	vector<string> srmasses = { "1000", "1200", "1400", "1600", "1800" };	//SR4
 
-	TString Tsrmasses[4] = { "1200", "1400", "1600", "1800" };	//SR4
+	TString Tsrmasses[5] = { "1000", "1200", "1400", "1600", "1800" };	//SR4
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{

@@ -4,6 +4,7 @@ using namespace RooFit;
 // SR1 : 260-550
 // SR2 : 320-800
 // SR3 : 380-2000
+// SR4 : 500-2000
 
 map<int, double> lumi_sf = {
     {300,29.89},
@@ -459,9 +460,6 @@ void CreateSignalTemplates_FH()
 	gErrorIgnoreLevel = kWarning;
 
 	vector<TString> histNames = { "nominal" };
-
-    vector<double> lumiscalefactors = { 29.89, 29.82, 29.64 };	//SR1
-	vector<string> srmasses = { "300", "350", "400" };	//SR1
 
 	for (unsigned int i = 0; i < masses.size(); ++i)
 	{

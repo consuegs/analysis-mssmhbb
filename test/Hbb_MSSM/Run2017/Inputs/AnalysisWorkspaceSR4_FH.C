@@ -28,10 +28,10 @@ int AnalysisWorkspaceSR4_FH()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 56.04, 54.45, 53.08, 49.24 };	//SR4
-	vector<string> srmasses = { "1200", "1400", "1600", "1800" };	//SR4
+	vector<double> lumiscalefactors = { 58.04, 56.04, 54.45, 53.08, 49.24 };	//SR4
+	vector<string> srmasses = { "1000", "1200", "1400", "1600", "1800" };	//SR4
 
-	TString Tsrmasses[4] = { "1200", "1400", "1600", "1800" };	//SR4
+	TString Tsrmasses[5] = { "1000", "1200", "1400", "1600", "1800" };	//SR4
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{
@@ -45,7 +45,7 @@ int AnalysisWorkspaceSR4_FH()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 500, 2000);	//SR 4: 1200/1400/1600/1800
+	RooRealVar mbb("mbb", "m_{12}", 500, 2000);	//SR 4: 1000/1200/1400/1600/1800
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -58,7 +58,7 @@ int AnalysisWorkspaceSR4_FH()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir + "/forSandra/April2022_v6/FH/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -148,7 +148,7 @@ int AnalysisWorkspaceSR4_FH()
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		//Output file
-		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass]  + "_SR4.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -161,7 +161,7 @@ int AnalysisWorkspaceSR4_FH()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR4.root" << endl;
 		fOut->Close();
 	}
 	return 0;

@@ -29,10 +29,10 @@ int AnalysisWorkspaceSR2()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 30.11, 30.22, 36.57, 36.43 };	//SR2
-	vector<string> srmasses = { "450", "500", "600", "700" };	//SR2
+	vector<double> lumiscalefactors = { 29.64, 30.11, 30.22, 36.57, 36.43 };	//SR2
+	vector<string> srmasses = { "400", "450", "500", "600", "700" };	//SR2
 
-	TString Tsrmasses[4] = { "450", "500", "600", "700" };	//SR2
+	TString Tsrmasses[5] = {  "400", "450", "500", "600", "700" };	//SR2
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{
@@ -72,7 +72,7 @@ int AnalysisWorkspaceSR2()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 
-		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR.root", "READ");	//CR, 3j, full 2018
+		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR_threhold_130-130.root", "READ");	//CR, 3j, full 2018
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);
@@ -122,11 +122,19 @@ int AnalysisWorkspaceSR2()
 		TFile *f_signal_in_unbinned_JES_Down = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR2_JES_1sigmadown.root", "READ");
 		RooWorkspace *w_signalfit_JES_Down = (RooWorkspace*) f_signal_in_unbinned_JES_Down->Get("w");
 		RooAbsPdf *signalx_JES_Down = w_signalfit_JES_Down->pdf("signal_dcb");
+		
+		TFile *f_signal_in_unbinned_JKTE_Up = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR2_JKTE_1sigmaup.root", "READ");
+        RooWorkspace *w_signalfit_JKTE_Up = (RooWorkspace*) f_signal_in_unbinned_JKTE_Up->Get("w");
+        RooAbsPdf *signalx_JKTE_Up = w_signalfit_JKTE_Up->pdf("signal_dcb");
+       
+        TFile *f_signal_in_unbinned_JKTE_Down = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR2_JKTE_1sigmadown.root", "READ");
+        RooWorkspace *w_signalfit_JKTE_Down = (RooWorkspace*) f_signal_in_unbinned_JKTE_Down->Get("w");
+        RooAbsPdf *signalx_JKTE_Down = w_signalfit_JKTE_Down->pdf("signal_dcb");
 
 		RooRealVar *mean_ws = (RooRealVar*) w_signalfit->var("mean");
 		RooRealVar *sigma_ws = (RooRealVar*) w_signalfit->var("sigma");
 		RooRealVar *alpha1_ws = (RooRealVar*) w_signalfit->var("alpha1");
-		RooRealVar *alpha2_ws = (RooRealVar*) w_signalfit >var("alpha2");
+		RooRealVar *alpha2_ws = (RooRealVar*) w_signalfit->var("alpha2");
 		RooRealVar *n1_ws = (RooRealVar*) w_signalfit->var("n1");
 		RooRealVar *n2_ws = (RooRealVar*) w_signalfit->var("n2");
 		mean_ws->setConstant(true);
@@ -152,22 +160,35 @@ int AnalysisWorkspaceSR2()
 		RooRealVar *sigma_JER_Down = (RooRealVar*) w_signalfit_JER_Down->var("sigma");
 
 		sigma_JER_Up->setConstant(true);
-		sigma_JER_Down->setConstant(true);
+		sigma_JER_Down->setConstant(true);	
+			
+		RooRealVar *sigma_JKTE_Up = (RooRealVar*) w_signalfit_JKTE_Up->var("sigma");
+		RooRealVar *sigma_JKTE_Down = (RooRealVar*) w_signalfit_JKTE_Down->var("sigma");
+
+		sigma_JKTE_Up->setConstant(true);
+		sigma_JKTE_Down->setConstant(true);
 
 		///
 		/// SYSTEMATIC VARIATIONS OF THE SIGNAL SHAPE PARAMETERS
 		///
 		RooRealVar theta_JES("CMS_JES_2018", "CMS_JES_2018", 0., -5., 5.);
 		RooRealVar theta_JER("CMS_JER_2018", "CMS_JER_2018", 0., -5., 5.);
+		RooRealVar theta_JKTE("CMS_JKTE_2018", "CMS_JKTE_2018", 0., -5., 5.);	
 
 		double Mean = 0.5 *(mean_JES_Up->getVal() + mean_JES_Down->getVal());
 		double d_Mean = mean_JES_Up->getVal() - Mean;
 
-		double Sigma = 0.5 *(sigma_JER_Up->getVal() + sigma_JER_Down->getVal());
-		double d_Sigma = sigma_JER_Up->getVal() - Sigma;
+		double Sigma_JER = 0.5 *(sigma_JER_Up->getVal() + sigma_JER_Down->getVal());
+		double d_Sigma_JER = sigma_JER_Up->getVal() - Sigma_JER;		
+		
+		double Sigma_JKTE =  0.5 *(sigma_JKTE_Up->getVal() + sigma_JKTE_Down->getVal());
+		double d_Sigma_JKTE = sigma_JKTE_Up->getVal() - Sigma_JKTE;
+		
+		double Sigma = 0.5 *(Sigma_JER + Sigma_JKTE);
 
 		RooRealVar shift_JES_mean("shift_JES_mean", "shift_JES_mean", d_Mean, d_Mean - 1.0, d_Mean + 1.0);
-		RooRealVar shift_JER_Sigma("shift_JER_Sigma", "shift_JER_Sigma", d_Sigma, d_Sigma - 1.0, d_Sigma + 1.0);
+		RooRealVar shift_JER_Sigma("shift_JER_Sigma", "shift_JER_Sigma", d_Sigma_JER, d_Sigma_JER - 1.0, d_Sigma_JER + 1.0);
+		RooRealVar shift_JKTE_Sigma("shift_JKTE_Sigma", "shift_JKTE_Sigma", d_Sigma_JKTE, d_Sigma_JKTE - 1.0, d_Sigma_JKTE + 1.0);
 
 		RooRealVar mean("mean", "mean", 300, 280, 2000);
 		RooRealVar sigma("sigma", "sigma", 30, 20, 90);
@@ -194,8 +215,8 @@ int AnalysisWorkspaceSR2()
 			"@0 + @1*@2",
 			RooArgList(mean, theta_JES, shift_JES_mean));
 		RooFormulaVar sigma_shifted("sigma_shifted",
-			"@0 + @1*@2",
-			RooArgList(sigma, theta_JER, shift_JER_Sigma));
+			"@0 + @1*@2 + @3*@4",
+			RooArgList(sigma, theta_JER, shift_JER_Sigma, theta_JKTE, shift_JKTE_Sigma));
 
 		double normSR_JES_Up, normSR_JES_Down, normSR_JER_Up, normSR_JER_Down;
 

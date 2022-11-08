@@ -3,8 +3,8 @@ using namespace RooFit;
 
 // SR1 : 120-300
 // SR2 : 160-450
-// SR3 : 240-580
-// SR4 : 350-800
+// SR3 : 240-800
+// former SR3 (240-580) and SR4 (350-800) merged
 
 map<int, double> lumi_sf = {
 	{125,48.91},
@@ -30,14 +30,14 @@ map<int, int> mass_region = {
 	{160,1},
 	{180,1},
 	{200,1},
-	{250,2},
+	{250,1},
 	{300,2},
 	{350,2},
-	{400,3},
+	{400,2},
 	{450,3},
 	{500,3},
-	{600,4},
-	{700,4},
+	{600,3},
+	{700,3},
 };
 
 map<int, int> mass_binning = {
@@ -61,17 +61,15 @@ map<int, double> mbb_low = {
 	{1,120.},
 	{2,160.},
 	{3,240.},
-	{4,350.},
 };
 
 map<int, double> mbb_high = {
 	{1,300.},
 	{2,450.},
-	{3,580.},
-	{4,800.},
+	{3,800.},
 };
 
-TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Feb2022_v6/SL/");
+TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Sep2022_v6/SL/Central");
 
 map<TString, TString> histName_suffix = {
 		{
@@ -160,11 +158,11 @@ void CreateSignalPDF(int mass,
 		TH1D *hist = Hists[histName];
 		if (mass < 180)
 		{
-			hist->Rebin(30);
+			hist->Rebin(3);
 		}
 		else
 		{
-			hist->Rebin(100);
+			hist->Rebin(10);
 		}
 
 		// Bin width
@@ -281,6 +279,7 @@ void CreateSignalPDF(int mass,
 		double ndof = nBins - nParameters;
 		double p_value = TMath::Prob(chi *ndof, ndof);
 		cout << "M_{12} = " + Mass + " GeV: " << endl;
+		cout << "Bin width: " << binWidth << endl;
 		cout << "Number of parameters of double sided crystal ball = " << nParameters << endl;
 		cout << "chi^2 / ndof = " << Form("%.2f", chi *ndof) << " / " << nBins - nParameters << " = " << chi << endl;
 		cout << "p-value = " << Form("%.2f", p_value) << endl;
@@ -368,8 +367,8 @@ void CreateSignalPDF(int mass,
 		frame2->SetMaximum(+5.);
 		frame2->Draw();
 
-		c1->Print("input_doubleCB_SL/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
-		c1->Print("input_doubleCB_SL/figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
+		c1->Print("Figs/SL/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
+		c1->Print("Figs/SL/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
 		delete c1;
 
 		mapMean[histName] = meanx.getVal();

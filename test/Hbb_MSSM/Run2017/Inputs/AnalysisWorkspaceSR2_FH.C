@@ -28,10 +28,10 @@ int AnalysisWorkspaceSR2_FH()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 75.24, 75.45, 64.51, 77.85};	//SR2
-	vector<string> srmasses = { "400", "450", "500", "600" };	//SR2
+	vector<double> lumiscalefactors = { 75.24, 75.45, 64.51, 77.85, 59.7 };	//SR2
+	vector<string> srmasses = { "400", "450", "500", "600", "700" };	//SR2
 
-	TString Tsrmasses[4] = { "400", "450", "500", "600" };	//SR2
+	TString Tsrmasses[5] = { "400", "450", "500", "600", "700" };	//SR2
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{
@@ -58,7 +58,7 @@ int AnalysisWorkspaceSR2_FH()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir + "/forSandra/April2022_v6/FH/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -148,7 +148,7 @@ int AnalysisWorkspaceSR2_FH()
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		//Output file
-		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass]  + "_SR2.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -161,7 +161,7 @@ int AnalysisWorkspaceSR2_FH()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR2.root" << endl;
 		fOut->Close();
 	}
 	return 0;

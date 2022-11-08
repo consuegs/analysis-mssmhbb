@@ -29,10 +29,10 @@ int AnalysisWorkspaceSR3_SL()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 54.45, 53.67, 54.19 };	//SR3
-	vector<string> srmasses = { "400", "450", "500" };	//SR3
+	vector<double> lumiscalefactors = { 54.45, 53.67, 54.19, 59.09, 59.03 };	//SR3
+	vector<string> srmasses = { "400", "450", "500", "600", "700" };	//SR3
 
-	TString Tsrmasses[3] = { "400", "450", "500" };	//SR3
+	TString Tsrmasses[5] = { "400", "450", "500", "600", "700" };	//SR3
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{
@@ -46,7 +46,7 @@ int AnalysisWorkspaceSR3_SL()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 240, 580);	//SR3: 400, 450, 500
+	RooRealVar mbb("mbb", "m_{12}", 240, 800);	//SR3: 400, 450, 500, 600, 700
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -59,7 +59,7 @@ int AnalysisWorkspaceSR3_SL()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir + "/forSandra/Feb2022_v6/SL/SL_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/Sep2022_v6/SL/Central/SL_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -92,7 +92,7 @@ int AnalysisWorkspaceSR3_SL()
 		/// GET BG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_bgfit = new TFile(dir + "/forSandra/Feb2022_v6/SL/UL2017_background_novosibirsk_240to580_5GeV/workspace/FitContainer_workspace.root", "READ");
+		TFile *f_bgfit = new TFile(dir + "/forSandra/Feb2022_v6/SL/UL2017_background_novosibirsk_240to800_5GeV/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		background->SetName("background");
@@ -140,31 +140,16 @@ int AnalysisWorkspaceSR3_SL()
 		///
 		/// DEFINE TRANSFER FACTOR PDF
 		///	
-		// from Paul's
 
-		RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 195, 100, 250);
-		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.0056, 0.001, 0.05);
-		RooRealVar slopelinTF("slopelinTF", "Slope of lienar decrease for extended functions", 2.41e-5, 1e-6, 1e-4);
-		RooRealVar alpha("alpha", "Modification of shape", 0.38, 0.0, 2.0);
-		RooArgList varsTF(mbb, alpha, offsetTF, steepnessTF, slopelinTF);
-		RooGenericPdf TF("TF", "TF", "(1+alpha*TMath::Exp(-steepnessTF*(mbb-offsetTF)))/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF)))*(1-slopelinTF*mbb)", varsTF);	//(ext) (mod) logistic
-
-		//RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.75, 0.0, 5);    	//p0   	//alpha
-		//RooRealVar offsetTF("offsetTF", "offset of TF in y direction", 400, 100, 750); 	//p1   	//x0   	// lin: 0.15,0.1,0.5   	// eml 400,100,750
-		//RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.0085, 0.0001, 0.1); 	//p2   	//k
-		//RooRealVar slopelinTF("slopelinTF", "Slope of linear part of TF", 3.5e-4, -5e-5, 8e-4);	//p3   	//lin: -1.55e-5,-4e-5,2e-5     	// eml 2.58e-4,-2e-5,4e-4
-		//RooArgList varsTF(mbb, alphaTF, offsetTF, steepnessTF, slopelinTF);
-		//RooGenericPdf TF("TF", "TF", "(1+alphaTF*TMath::Exp(-steepnessTF*(mbb-offsetTF)))/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF)))*(1-slopelinTF*mbb)", varsTF);
-		// from SL data rereco
-		//RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 30, -100, 100);
-		//RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.015, 0.001, 0.050);
-		//RooArgList varsTF(mbb, offsetTF, steepnessTF);
-		//RooGenericPdf TF("TF", "TF", "(1/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF))))", varsTF);    	//standard logistic
+                RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 30, -100, 100);
+                RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.015, 0.001, 0.050);
+                RooArgList varsTF(mbb, offsetTF, steepnessTF);
+                RooGenericPdf TF("TF", "TF", "(1/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF))))", varsTF);     //standard logistic
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		//Output file
-		TFile *fOut = new TFile("input_2017_SL/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2017_SL/signal_workspace_" + Tsrmasses[mass] + "_SR3.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -177,7 +162,7 @@ int AnalysisWorkspaceSR3_SL()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR3.root" << endl;
 		fOut->Close();
 	}
 	return 0;

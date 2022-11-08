@@ -1,26 +1,26 @@
 #include "CMS_lumi.C"
 using namespace RooFit;
 
-// SR1 : 260-550
-// SR2 : 320-800
-// SR3 : 380-2000
+// SR1 : 220-520
+// SR2 : 260-780
+// SR3 : 390-1270
 // SR4 : 500-2000
 
 map<int, double> lumi_sf = {
-    {300,29.89},
-    {350,29.82},
-    {400,29.64},
-    {450,30.11},
-    {500,30.22},
-    {600,36.57},
-    {700,36.43},
-    {800,35.68},
-    {900,36.00},
-    {1000,35.77},
-    {1200,35.54},
-    {1400,34.05},
-    {1600,34.77},
-    {1800,32.86},
+    {300,52.76},
+    {350,53.97},
+    {400,53.94},
+    {450,54.09},
+    {500,54.46},
+    {600,55.39},
+    {700,59.57},
+    {800,57.45},
+    {900,58.18},
+    {1000,56.52},
+    {1200,54.51},
+    {1400,54.45},
+    {1600,53.08},
+    {1800,49.24},
 };
 
 map<int, int> mass_region = {
@@ -58,20 +58,20 @@ map<int, int> mass_binning = {
 };
 
 map<int, double> mbb_low = {
-    {1,260.},
-    {2,320.},
-    {3,380.},
+    {1,220.},
+    {2,260.},
+    {3,390.},
     {4,500.},
 };
 
 map<int, double> mbb_high = {
-    {1,550.},
-    {2,800.},
-    {3,2000.},
+    {1,520.},
+    {2,780.},
+    {3,1270.},
     {4,2000.},
 };
 
-TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
+TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Sep2022_v6/FH/");
 
 map<TString, TString> histName_suffix = {
 		{
@@ -98,20 +98,20 @@ TString IntToStr(int i)
 // initial fit parameters for double-sided crystall ball
 // mass, mean, sigma, alpha1, alpha2, n1, n2
 map<int, vector < double>> mass_fit = {
-    { 300,{ 305.543, 19.6711, 2.02708, 0.71088, 14.9264, 1.30956}},
-    { 350,{ 342.308, 28.0641, 2.02214, 1.61761, 157.272, 0.785829}},
-    { 400,{ 378.844, 35.2312, 1.66471, 1.97366, 137.863, 0.680657}},
-    { 450,{ 418.754, 39.7786, 1.04682, 1.85577, 140.508, 1.59979}},
-    { 500,{ 460.87, 44.4254, 0.907926, 1.9792, 137.948, 1.51224}},
-    { 600,{ 548.425, 52.5931, 0.711675, 2.18446, 120.6, 1.49503}},
-    { 700,{ 641.952, 57.9613, 0.563561, 9.68348, 129.457, 16.6035}},
-    { 800,{ 740.495, 58.7067, 0.429818, 2.0715, 123.292, 2.37401}},
-    { 900,{ 837.662, 60.8068, 0.375792, 2.17409, 121.65, 2.33908}},
-    {1000,{ 932.4, 64.632, 0.336393, 2.29213, 119.647, 2.01045}},
-    {1200,{ 1124.55, 70.9776, 0.300699, 2.27991, 7.019, 1.84392}},
-    {1400,{ 1315.38, 77.9177, 0.236054, 2.47207, 5.92958, 1.53214}},
-    {1600,{ 1490.87, 94.1763, 0.190099, 2.42752, 4.08246, 3.77129}},
-    {1800,{ 1658.89, 108.297, 0.134896, 12.167, 105.915, 11.0475}},
+    { 300,{ 303.443, 23.5887, 2.22792, 1.07291, 2.42434, 1.16689}},
+    { 350,{ 340.55, 30.6988, 1.64807, 1.74502, 152.128, 0.755162}},
+    { 400,{ 379.386, 35.6262, 1.34011, 1.95525, 140.423, 0.826012}},
+    { 450,{ 422.311, 39.104, 0.997975, 1.94361, 140.54, 1.27567}},
+    { 500,{ 466.537, 42.8306, 0.824942, 2.06429, 132.86, 1.16684}},
+    { 600,{ 555.956, 51.2396, 0.694223, 2.50088, 127.271, 0.440924}},
+    { 700,{ 655.049, 53.3507, 0.519055, 2.46523, 124.627, 0.063603}},
+    { 800,{ 754.107, 54.2033, 0.399302, 2.24131, 123.161, 1.18751}},
+    { 900,{ 846.971, 60.652, 0.387339, 2.12719, 100.482, 1.53082}},
+    {1000,{ 946.199, 61.5749, 0.392846, 2.19355, 5.52425, 1.20806}},
+    {1200,{ 1130.33, 75.6453, 0.428955, 2.19965, 3.70912, 1.53987}},
+    {1400,{ 1338.17, 72.9577, 0.363791, 2.03519, 2.59918, 1.92887}},
+    {1600,{ 1525.17, 83.4109, 0.434269, 2.22215, 1.813, 1.51035}},
+    {1800,{ 1718.9, 83.182, 0.429819, 1.91468, 1.66245, 3.35081}},
 };
 
 vector<int> masses = { 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800 };
@@ -158,13 +158,13 @@ void CreateSignalPDF(int mass,
 		outtext << std::endl;
 
 		TH1D *hist = Hists[histName];
-		if (mass < 700)
+		if (mass < 800)
 		{
-			hist->Rebin(50);
+			hist->Rebin(5);
 		}
 		else
 		{
-			hist->Rebin(100);
+			hist->Rebin(10);
 		}
 
 		// Bin width
@@ -276,17 +276,12 @@ void CreateSignalPDF(int mass,
 		if (mass < 450)
 		{
 			fitRangeMin = 260;
-			fitRangeMax = 550;
+			fitRangeMax = 520;
 		}
 		else if (mass >= 450 & mass < 800)
 		{
-			fitRangeMin = 320;
-			fitRangeMax = 800;
-		}
-		else if (mass >= 800 & mass < 1200)
-		{
-			fitRangeMin = 380;
-			fitRangeMax = 2000;
+			fitRangeMin = 260;
+			fitRangeMax = 780;
 		}
 		else
 		{
@@ -478,6 +473,7 @@ void CreateSignalTemplates_FH_UpDown()
 	gErrorIgnoreLevel = kWarning;
 
 	vector<TString> histNames = { "nominal" };
+	TString SysVariationsInput[6] = { "JERup", "JERdown", "JECdown", "JECup", "TrigSFup", "TrigSFdown" };
 	TString SysVariations[6] = { "_JER_1sigmaup", "_JER_1sigmadown", "_JES_1sigmaup", "_JES_1sigmadown", "_JKTE_1sigmaup", "_JKTE_1sigmadown" };
 	int nVariations = 6;
 
@@ -500,12 +496,12 @@ void CreateSignalTemplates_FH_UpDown()
 			double mbb_max = mbb_high[region];
 			for (auto histName: histNames)
 			{
-				TFile *file = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Mass + SysVariations[j] + ".root", "READ");
+				TFile *file = new TFile(dir + "/" + SysVariationsInput[j] + "/FH_SUSYGluGluToBBHToBB_M-" + Mass + "_2017-v6.root", "READ");
 				TH1D *hist = (TH1D*) file->Get("mbb");
 				Hists[histName] = hist;
 			}
 			CreateSignalPDF(mass, region, histNames, Hists, w, mbb_min, mbb_max, SysVariations[j]);
-			TFile *fileOutput = new TFile("input_doubleCB/signal_m" + Mass + "_SR" + Region + SysVariations[j] + ".root", "recreate");
+			TFile *fileOutput = new TFile("input_doubleCB_FH/signal_m" + Mass + "_SR" + Region + SysVariations[j] + ".root", "recreate");
 			fileOutput->cd("");
 			w->Write("w");
 			fileOutput->Write();

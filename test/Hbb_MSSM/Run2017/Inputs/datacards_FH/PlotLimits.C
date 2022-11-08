@@ -6,7 +6,7 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 
 	gROOT->SetBatch();
 
-	const int nPoints = 14;
+	const int nPoints = 17;
 
 	//// signal strength limits sigma*BR / sigma*BR (at tanb=30)	////
 	double mA[nPoints];
@@ -197,6 +197,15 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 	canv->RedrawAxis();
 
 	leg->Draw();
+	TLine *l1 = new TLine(400,0,400,10);
+	l1->SetLineStyle(2);
+	l1->Draw();
+	TLine *l2 = new TLine(700,0,700,4);
+	l2->SetLineStyle(2);
+	l2->Draw();
+	TLine *l3 = new TLine(1000,0,1000,3);
+	l3->SetLineStyle(2);
+	l3->Draw();
 	canv->SetLogy(true);
 	canv->Update();
 	canv->Print("BR_limits.png");

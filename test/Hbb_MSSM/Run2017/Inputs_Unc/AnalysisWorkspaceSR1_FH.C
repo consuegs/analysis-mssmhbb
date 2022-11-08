@@ -18,18 +18,18 @@
 using namespace std;
 using namespace RooFit;
 
-int AnalysisWorkspaceSR1()
+int AnalysisWorkspaceSR1_FH()
 {
 
-	std::ofstream textout("figs/AnalysisWorkspaceSR1.txt");
-	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
+	std::ofstream textout("figs/AnalysisWorkspaceSR1_FH.txt");
+	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/");
 
 	int rebin = 10;
 
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 29.89, 29.82, 29.64 };	//SR1
+	vector<double> lumiscalefactors = { 52.76, 53.97, 53.94 };	//SR1
 	vector<string> srmasses = { "300", "350", "400" };	//SR1
 
 	TString Tsrmasses[3] = { "300", "350", "400" };	//SR1
@@ -46,7 +46,7 @@ int AnalysisWorkspaceSR1()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 260, 550);	//SR 1: 300/350/400
+	RooRealVar mbb("mbb", "m_{12}", 260, 520);	//SR 1: 260/520
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -59,7 +59,7 @@ int AnalysisWorkspaceSR1()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir +  "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -72,7 +72,7 @@ int AnalysisWorkspaceSR1()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 
-		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR_threhold_130-130.root", "READ");	//CR, 3j, full 2018
+		TFile *f_cr_in = new TFile(dir + "/forSandra/April2022_v6/FH/FullhadCR_BTagCSV_UL2017-v6.root", "READ");	//CR, 3j, full 2017
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);
@@ -80,7 +80,7 @@ int AnalysisWorkspaceSR1()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
+		TFile *f_sr_in = new TFile(dir + "/forSandra/April2022_v6/FH/FullhadSR_BTagCSV_UL2017-v6.root", "READ");
 		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
@@ -92,7 +92,7 @@ int AnalysisWorkspaceSR1()
 		/// GET BG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/UL_2018_background_FR1_260to550_extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
+		TFile *f_bgfit = new TFile(dir + "/forSandra/April2022_v6/FH/UL2017_background_extnovosibirsk_220to520_10GeV/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0, 1000000);
@@ -101,35 +101,35 @@ int AnalysisWorkspaceSR1()
 		/// GET SIG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_signal_in_unbinned = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR1.root", "READ");
+		TFile *f_signal_in_unbinned = new TFile(dir + "/input_doubleCB_FH/signal_m" + Tsrmasses[mass] + "_SR1.root", "READ");
 		RooWorkspace *w_signalfit = (RooWorkspace*) f_signal_in_unbinned->Get("w");
 		RooAbsPdf *signalx = w_signalfit->pdf("signal_dcb");
 		signalx->SetName("signal");
 		//RooRealVar signal_norm("signal_norm", "signal_norm", normSignal);
 
-		TFile *f_signal_in_unbinned_JER_Up = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR1_JER_1sigmaup.root", "READ");
+		TFile *f_signal_in_unbinned_JER_Up = new TFile(dir + "/input_doubleCB_FH/signal_m" + Tsrmasses[mass] + "_SR1_JER_1sigmaup.root", "READ");
 		RooWorkspace *w_signalfit_JER_Up = (RooWorkspace*) f_signal_in_unbinned_JER_Up->Get("w");
 		RooAbsPdf *signalx_JER_Up = w_signalfit_JER_Up->pdf("signal_dcb");
 
-		TFile *f_signal_in_unbinned_JER_Down = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR1_JER_1sigmadown.root", "READ");
+		TFile *f_signal_in_unbinned_JER_Down = new TFile(dir + "/input_doubleCB_FH/signal_m" + Tsrmasses[mass] + "_SR1_JER_1sigmadown.root", "READ");
 		RooWorkspace *w_signalfit_JER_Down = (RooWorkspace*) f_signal_in_unbinned_JER_Down->Get("w");
 		RooAbsPdf *signalx_JER_Down = w_signalfit_JER_Down->pdf("signal_dcb");
 
-		TFile *f_signal_in_unbinned_JES_Up = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR1_JES_1sigmaup.root", "READ");
+		TFile *f_signal_in_unbinned_JES_Up = new TFile(dir + "/input_doubleCB_FH/signal_m" + Tsrmasses[mass] + "_SR1_JES_1sigmaup.root", "READ");
 		RooWorkspace *w_signalfit_JES_Up = (RooWorkspace*) f_signal_in_unbinned_JES_Up->Get("w");
 		RooAbsPdf *signalx_JES_Up = w_signalfit_JES_Up->pdf("signal_dcb");
 
-		TFile *f_signal_in_unbinned_JES_Down = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR1_JES_1sigmadown.root", "READ");
+		TFile *f_signal_in_unbinned_JES_Down = new TFile(dir + "/input_doubleCB_FH/signal_m" + Tsrmasses[mass] + "_SR1_JES_1sigmadown.root", "READ");
 		RooWorkspace *w_signalfit_JES_Down = (RooWorkspace*) f_signal_in_unbinned_JES_Down->Get("w");
 		RooAbsPdf *signalx_JES_Down = w_signalfit_JES_Down->pdf("signal_dcb");
 		
-		TFile *f_signal_in_unbinned_JKTE_Up = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR1_JKTE_1sigmaup.root", "READ");
-        RooWorkspace *w_signalfit_JKTE_Up = (RooWorkspace*) f_signal_in_unbinned_JKTE_Up->Get("w");
-        RooAbsPdf *signalx_JKTE_Up = w_signalfit_JKTE_Up->pdf("signal_dcb");
+		TFile *f_signal_in_unbinned_JKTE_Up = new TFile(dir + "/input_doubleCB_FH/signal_m" + Tsrmasses[mass] + "_SR1_JKTE_1sigmaup.root", "READ");
+                RooWorkspace *w_signalfit_JKTE_Up = (RooWorkspace*) f_signal_in_unbinned_JKTE_Up->Get("w");
+                RooAbsPdf *signalx_JKTE_Up = w_signalfit_JKTE_Up->pdf("signal_dcb");
        
-        TFile *f_signal_in_unbinned_JKTE_Down = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR1_JKTE_1sigmadown.root", "READ");
-        RooWorkspace *w_signalfit_JKTE_Down = (RooWorkspace*) f_signal_in_unbinned_JKTE_Down->Get("w");
-        RooAbsPdf *signalx_JKTE_Down = w_signalfit_JKTE_Down->pdf("signal_dcb");
+                TFile *f_signal_in_unbinned_JKTE_Down = new TFile(dir + "/input_doubleCB_FH/signal_m" + Tsrmasses[mass] + "_SR1_JKTE_1sigmadown.root", "READ");
+                RooWorkspace *w_signalfit_JKTE_Down = (RooWorkspace*) f_signal_in_unbinned_JKTE_Down->Get("w");
+                RooAbsPdf *signalx_JKTE_Down = w_signalfit_JKTE_Down->pdf("signal_dcb");
 
 		RooRealVar *mean_ws = (RooRealVar*) w_signalfit->var("mean");
 		RooRealVar *sigma_ws = (RooRealVar*) w_signalfit->var("sigma");
@@ -168,12 +168,12 @@ int AnalysisWorkspaceSR1()
 		sigma_JKTE_Up->setConstant(true);
 		sigma_JKTE_Down->setConstant(true);
 		
-	    ///
+	        ///
 		/// SYSTEMATIC VARIATIONS OF THE SIGNAL SHAPE PARAMETERS
 		///
-		RooRealVar theta_JES("CMS_JES_2018", "CMS_JES_2018", 0., -5., 5.);
-		RooRealVar theta_JER("CMS_JER_2018", "CMS_JER_2018", 0., -5., 5.);
-		RooRealVar theta_JKTE("CMS_JKTE_2018", "CMS_JKTE_2018", 0., -5., 5.);	
+		RooRealVar theta_JES("CMS_JES_2017", "CMS_JES_2017", 0., -5., 5.);
+		RooRealVar theta_JER("CMS_JER_2017", "CMS_JER_2017", 0., -5., 5.);
+		RooRealVar theta_JKTE("CMS_JKTE_2017", "CMS_JKTE_2017", 0., -5., 5.);	
 
 		double Mean = 0.5 *(mean_JES_Up->getVal() + mean_JES_Down->getVal());
 		double d_Mean = mean_JES_Up->getVal() - Mean;
@@ -220,19 +220,19 @@ int AnalysisWorkspaceSR1()
 
 		double normSR_JES_Up, normSR_JES_Down, normSR_JER_Up, normSR_JER_Down;
 
-		TFile fileJesUp(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + "_JES_1sigmaup.root");
+		TFile fileJesUp(dir + "/forSandra/Sep2022_v6/FH/JECup/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root");
 		TH1F *SRHist_JES_Up = (TH1F*) fileJesUp.Get("mbb");
 		normSR_JES_Up = SRHist_JES_Up->GetSumOfWeights() *lumisf;
 
-		TFile fileJesDown(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + "_JES_1sigmadown.root");
+		TFile fileJesDown(dir + "/forSandra/Sep2022_v6/FH/JECdown/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root");
 		TH1F *SRHist_JES_Down = (TH1F*) fileJesDown.Get("mbb");
 		normSR_JES_Down = SRHist_JES_Down->GetSumOfWeights() *lumisf;
 
-		TFile fileJerUp(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + "_JER_1sigmaup.root");
+		TFile fileJerUp(dir + "/forSandra/Sep2022_v6/FH/JERup/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root");
 		TH1F *SRHist_JER_Up = (TH1F*) fileJerUp.Get("mbb");
 		normSR_JER_Up = SRHist_JER_Up->GetSumOfWeights() *lumisf;
 
-		TFile fileJerDown(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + "_JER_1sigmadown.root");
+		TFile fileJerDown(dir + "/forSandra/Sep2022_v6/FH/JERdown/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root");
 		TH1F *SRHist_JER_Down = (TH1F*) fileJerDown.Get("mbb");
 		normSR_JER_Down = SRHist_JER_Down->GetSumOfWeights() *lumisf;
 
@@ -288,31 +288,17 @@ int AnalysisWorkspaceSR1()
 		/// DEFINE TRANSFER FACTOR PDF
 		///		
 
-		double x0_centralValue = 2.32930e+02;
-		double k_centralValue = 2.07508e-02;
-		double norm_centralValue = 1.50352e-01;
-		double ext_centralValue = 7.59274e-05;
-
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
-		RooRealVar normTF("normTF", "normTF", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
-		RooRealVar ext("ext", "ext", ext_centralValue, 0.5 *ext_centralValue, 2 *ext_centralValue);
-		RooArgList varsTF(mbb, x0, k, normTF, ext);
-		RooGenericPdf TF("TF", "TF", "normTF*erf(k*(mbb-x0))*(1-ext*mbb)", varsTF);	// ext. gauss erf
+		RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 195, 100, 250);
+		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.0056, 0.001, 0.05);
+		RooRealVar slopelinTF("slopelinTF", "Slope of lienar decrease for extended functions", 2.41e-5, 1e-6, 1e-4);
+		RooRealVar alpha("alpha", "Modification of shape", 0.38, 0.0, 2.0);
+		RooArgList varsTF(mbb, alpha, offsetTF, steepnessTF, slopelinTF);
+		RooGenericPdf TF("TF", "TF", "(1+alpha*TMath::Exp(-steepnessTF*(mbb-offsetTF)))/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF)))*(1-slopelinTF*mbb)", varsTF);	//(ext) (mod) logistic
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
-		x0.setConstant(true);
-		k.setConstant(true);
-		normTF.setConstant(true);
-		ext.setConstant(true);
-		cout << "x0       = " << x0.getVal() << endl;
-		cout << "k     = " << k.getVal() << endl;
-		cout << "normTF     = " << normTF.getVal() << endl;
-		cout << "ext     = " << ext.getVal() << endl;
-
 		//Output file
-		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + "_SR1.root", "RECREATE");
+		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass]  + "_SR1.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);

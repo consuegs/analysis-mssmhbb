@@ -55,7 +55,7 @@ do
 done
 
 
-for i in 700 800 900 1000 
+for i in 700 800 900 1000
 do
 
     subrange=SR3
@@ -99,4 +99,3 @@ do
 	echo "$root_name" >> "Hbb.limits"
 	
 done
-

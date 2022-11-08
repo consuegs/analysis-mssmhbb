@@ -15,8 +15,8 @@ do
 	    #elif [ ${mass} = 400 ]
 	    #then bias=0.45; offbtag=1.091; onlbtag=1.041; kintrig=1.013; purew=1.003
 	    #fi
-        cd datacards
-	    cp ../datacard_Analysis_template.txt hbb_mbb${mass}_SR1_mssm-13TeV.txt
+        cd datacards_FH
+	    cp ../datacard_Analysis_template_FH.txt hbb_mbb${mass}_SR1_mssm-13TeV.txt
 	
 	    sed -i "s/MASS/${mass}/g" hbb_mbb${mass}_SR1_mssm-13TeV.txt
 	    sed -i "s/SUBRANGE/${subrange}/g" hbb_mbb${mass}_SR1_mssm-13TeV.txt
@@ -56,8 +56,8 @@ do
 	    #elif [ ${mass} = 700 ]
         #then bias=0.102; offbtag=1.097; onlbtag=1.056; kintrig=1.011; purew=1.002
         #fi
-        cd datacards
-	    cp ../datacard_Analysis_template.txt hbb_mbb${mass}_SR2_mssm-13TeV.txt
+        cd datacards_FH
+	    cp ../datacard_Analysis_template_FH.txt hbb_mbb${mass}_SR2_mssm-13TeV.txt
 	
 	    sed -i "s/MASS/${mass}/g" hbb_mbb${mass}_SR2_mssm-13TeV.txt
 	    sed -i "s/SUBRANGE/${subrange}/g" hbb_mbb${mass}_SR2_mssm-13TeV.txt
@@ -97,8 +97,8 @@ do
         #elif [ ${mass} = 1000 ]
         #then bias=0.017; offbtag=1.112; onlbtag=1.072; kintrig=1.011; purew=1.001
         #fi
-        cd datacards
-	    cp ../datacard_Analysis_template.txt hbb_mbb${mass}_SR3_mssm-13TeV.txt
+        cd datacards_FH
+	    cp ../datacard_Analysis_template_FH.txt hbb_mbb${mass}_SR3_mssm-13TeV.txt
 	
 	    sed -i "s/MASS/${mass}/g" hbb_mbb${mass}_SR3_mssm-13TeV.txt
 	    sed -i "s/SUBRANGE/${subrange}/g" hbb_mbb${mass}_SR3_mssm-13TeV.txt
@@ -116,6 +116,7 @@ do
     done
     
 done
+
 
 
 for subrange in SR4
@@ -137,8 +138,8 @@ do
         #elif [ ${mass} = 1800 ]
         #then bias=0.010; offbtag=1.116; onlbtag=1.105; kintrig=1.011; purew=1.000
         #fi
-        cd datacards
-	    cp ../datacard_Analysis_template.txt hbb_mbb${mass}_SR4_mssm-13TeV.txt
+        cd datacards_FH
+	    cp ../datacard_Analysis_template_FH.txt hbb_mbb${mass}_SR4_mssm-13TeV.txt
 	
 	    sed -i "s/MASS/${mass}/g" hbb_mbb${mass}_SR4_mssm-13TeV.txt
 	    sed -i "s/SUBRANGE/${subrange}/g" hbb_mbb${mass}_SR4_mssm-13TeV.txt
@@ -156,4 +157,5 @@ do
     done
     
 done
+
 

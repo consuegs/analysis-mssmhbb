@@ -29,10 +29,10 @@ int AnalysisWorkspaceSR1_SL()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 48.91, 49.75, 50.26, 51.06, 50.03, 51.49 };	//SR1
-	vector<string> srmasses = { "125", "130", "140", "160", "180", "200" };	//SR1
+	vector<double> lumiscalefactors = { 48.91, 49.75, 50.26, 51.06, 50.03, 51.49, 50.87};	//SR1
+	vector<string> srmasses = { "125", "130", "140", "160", "180", "200", "250" };	//SR1
 
-	TString Tsrmasses[6] = { "125", "130", "140", "160", "180", "200" };	//SR1
+	TString Tsrmasses[7] = { "125", "130", "140", "160", "180", "200" ,"250" };	//SR1
 
 	if (!(lumiscalefactors.size() == srmasses.size()))
 	{
@@ -59,7 +59,7 @@ int AnalysisWorkspaceSR1_SL()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir + "/forSandra/Feb2022_v6/SL/SL_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/Sep2022_v6/SL/Central/SL_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -149,7 +149,7 @@ int AnalysisWorkspaceSR1_SL()
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		//Output file
-		TFile *fOut = new TFile("input_2017_SL/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2017_SL/signal_workspace_" + Tsrmasses[mass] + "_SR1.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -162,7 +162,7 @@ int AnalysisWorkspaceSR1_SL()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR1.root" << endl;
 		fOut->Close();
 	}
 	return 0;

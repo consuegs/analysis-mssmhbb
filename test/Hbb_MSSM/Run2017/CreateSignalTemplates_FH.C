@@ -7,17 +7,17 @@ using namespace RooFit;
 // SR4 : 500-2000
 
 map<int, double> lumi_sf = {
-    {300,52.87},
-    {350,54.38},
-    {400,55.07},
-    {450,54.27},
-    {500,54.80},
-    {600,59.76},
-    {700,59.70},
+    {300,52.76},
+    {350,53.97},
+    {400,53.94},
+    {450,54.09},
+    {500,54.46},
+    {600,55.39},
+    {700,59.57},
     {800,57.45},
     {900,58.18},
-    {1000,58.04},
-    {1200,56.04},
+    {1000,56.52},
+    {1200,54.51},
     {1400,54.45},
     {1600,53.08},
     {1800,49.24},
@@ -26,11 +26,11 @@ map<int, double> lumi_sf = {
 map<int, int> mass_region = {
     {300,1}, 
     {350,1},  
-    {400,2},
+    {400,1},
     {450,2},
     {500,2},
     {600,2},
-    {700,3},
+    {700,2},
     {800,3},
     {900,3},
     {1000,3},
@@ -71,7 +71,7 @@ map<int, double> mbb_high = {
     {4,2000.},
 };
 
-TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/April2022_v6/FH/");
+TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/forSandra/Sep2022_v6/FH/Central");
 
 map<TString, TString> histName_suffix = {
 		{
@@ -157,13 +157,13 @@ void CreateSignalPDF(int mass,
 		outtext << std::endl;
 
 		TH1D *hist = Hists[histName];
-		if (mass < 700)
+		if (mass < 800)
 		{
-			hist->Rebin(50);
+			hist->Rebin(5);
 		}
 		else
 		{
-			hist->Rebin(100);
+			hist->Rebin(10);
 		}
 
 		// Bin width
@@ -244,7 +244,7 @@ void CreateSignalPDF(int mass,
 		};
 		//// Legend	////
 		float xpad1Leg;
-		if (mass == 600 || mass == 1000 || mass == 1600 || mass == 1800)
+		if (mass == 600 || mass == 1600 || mass == 1800)
 		{
 			xpad1Leg = 0.42;
 		}
@@ -254,17 +254,17 @@ void CreateSignalPDF(int mass,
 		}
 
 		int fitRangeMin, fitRangeMax;
-		if (mass < 400)
+		if (mass < 450)
 		{
 			fitRangeMin = 220;
 			fitRangeMax = 520;
 		}
-		else if (mass >= 400 &mass < 700)
+		else if (mass >= 450 & mass < 800)
 		{
 			fitRangeMin = 260;
 			fitRangeMax = 780;
 		}
-		else if (mass >= 700 &mass < 1200)
+		else if (mass >= 800 & mass < 1200)
 		{
 			fitRangeMin = 390;
 			fitRangeMax = 1270;
@@ -280,6 +280,7 @@ void CreateSignalPDF(int mass,
 		double ndof = nBins - nParameters;
 		double p_value = TMath::Prob(chi *ndof, ndof);
 		cout << "M_{12} = " + Mass + " GeV: " << endl;
+		cout << "Bin width: " << binWidth << endl;
 		cout << "Number of parameters of double sided crystal ball = " << nParameters << endl;
 		cout << "chi^2 / ndof = " << Form("%.2f", chi *ndof) << " / " << nBins - nParameters << " = " << chi << endl;
 		cout << "p-value = " << Form("%.2f", p_value) << endl;
@@ -367,8 +368,8 @@ void CreateSignalPDF(int mass,
 		frame2->SetMaximum(+5.);
 		frame2->Draw();
 
-		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
-		c1->Print("Figs/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
+		c1->Print("Figs/FH/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.png");
+		c1->Print("Figs/FH/Mass" + Mass + "_SR" + Region + "_" + histName + "_doubleCB.pdf");
 		delete c1;
 
 		mapMean[histName] = meanx.getVal();
@@ -436,7 +437,7 @@ void CreateSignalPDF(int mass,
 		TString xbinStr(xbinCh);
 		mbb.setVal(xbin);
 		double pdf = signal_dcb.getVal();
-		outtext << xbinStr << " : " << pdf << endl;
+		//outtext << xbinStr << " : " << pdf << endl;
 	}
 
 	outtext << endl;
@@ -449,6 +450,13 @@ void CreateSignalPDF(int mass,
 
 void CreateSignalTemplates_FH()
 {
+	gROOT->SetBatch();
+	// Silence INFO messages
+	RooMsgService::instance().setGlobalKillBelow(RooFit::FATAL);
+	// Silence additional MINUIT output 
+	RooMsgService::instance().setSilentMode(true);
+	// Silence Info in TCanvas::Print: messages
+	gErrorIgnoreLevel = kWarning;
 
 	vector<TString> histNames = { "nominal" };
 

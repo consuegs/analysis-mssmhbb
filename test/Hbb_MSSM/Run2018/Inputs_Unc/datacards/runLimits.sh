@@ -32,7 +32,7 @@ do
 done
 
 
-for i in 450 500 600 700
+for i in 400 450 500 600 700
 do
 
     subrange=SR2
@@ -55,7 +55,7 @@ do
 done
 
 
-for i in 800 900 1000 
+for i in 700 800 900 1000 
 do
 
     subrange=SR3
@@ -78,7 +78,7 @@ do
 done
 
 
-for i in 1200 1400 1600 1800
+for i in 1000 1200 1400 1600 1800
 do
 
     subrange=SR4

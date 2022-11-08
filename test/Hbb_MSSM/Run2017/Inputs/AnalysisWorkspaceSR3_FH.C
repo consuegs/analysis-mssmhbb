@@ -45,7 +45,7 @@ int AnalysisWorkspaceSR3_FH()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 390, 1270);	//SR 3: 700/800/900/1000
+	RooRealVar mbb("mbb", "m_{12}", 390, 1270);	//SR 3: 700/800/900/
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -58,7 +58,7 @@ int AnalysisWorkspaceSR3_FH()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir + "/forSandra/April2022_v6/FH/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -149,7 +149,7 @@ int AnalysisWorkspaceSR3_FH()
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
 		//Output file
-		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2017_FH/signal_workspace_" + Tsrmasses[mass]  + "_SR3.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -162,7 +162,7 @@ int AnalysisWorkspaceSR3_FH()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR3.root" << endl;
 		fOut->Close();
 	}
 	return 0;

@@ -6,9 +6,7 @@ echo "  "
 mass=mass
 massf=massf
 
-mass=mass
-
-for i in {300,350}
+for i in 300 350 400
 
 do
 
@@ -27,7 +25,7 @@ do
 done
 
 
-for i in {400,450,500,600}
+for i in 400 450 500 600 700
 
 do
 
@@ -46,7 +44,7 @@ do
 done
 
 
-for i in {700,800,900,1000}
+for i in 700 800 900 1000
 
 do
 
@@ -65,7 +63,7 @@ do
 done
 
 
-for i in {1200,1400,1600,1800}
+for i in 1000 1200 1400 1600 1800
 
 do
 
