@@ -1,7 +1,0 @@
-/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/higgsCombineHbb_SR2.AsymptoticLimits.mH300.root
-/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/higgsCombineHbb_SR2.AsymptoticLimits.mH350.root
-/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/higgsCombineHbb_SR3.AsymptoticLimits.mH400.root
-/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/higgsCombineHbb_SR3.AsymptoticLimits.mH450.root
-/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/higgsCombineHbb_SR3.AsymptoticLimits.mH500.root
-/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/higgsCombineHbb_SR4.AsymptoticLimits.mH600.root
-/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/Inputs/datacards_SL/higgsCombineHbb_SR4.AsymptoticLimits.mH700.root
