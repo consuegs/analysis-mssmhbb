@@ -1,7 +1,7 @@
 Combination of Run2017_FH=hbb_mbb700_SR3_mssm-13TeV_2017_FH.txt  Run2018_FH=hbb_mbb700_SR3_mssm-13TeV_2018_FH.txt
 imax 4 number of bins
 jmax 2 number of processes minus 1
-kmax 8 number of nuisance parameters
+kmax 2 number of nuisance parameters
 ----------------------------------------------------------------------------------------------------------------------------------
 shapes QCD_CR         Run2017_FH_CR  ../input_2017_FH/signal_workspace_700_SR3.root wspace:background
 shapes data_obs       Run2017_FH_CR  ../input_2017_FH/signal_workspace_700_SR3.root wspace:RDHCR
@@ -24,9 +24,3 @@ rate                                   1              1              1          
 ----------------------------------------------------------------------------------------------------------------------------------
 CMS_lumi_13TeV_2017     lnN            1.023          -              -              -              -              -            
 CMS_lumi_13TeV_2018     lnN            -              -              -              1.025          -              -            
-CMS_JER_2018  param  0.0 1.0
-CMS_JKTE_2017  param  0.0 1.0
-CMS_JKTE_2018  param  0.0 1.0
-CMS_JER_2017  param  0.0 1.0
-CMS_JES_2018  param  0.0 1.0
-CMS_JES_2017  param  0.0 1.0
