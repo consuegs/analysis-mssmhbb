@@ -20,7 +20,8 @@ using namespace RooFit;
 
 int AnalysisWorkspaceSR4_FH()
 {
-
+	
+	std::ofstream textout("figs/AnalysisWorkspaceSR4_FH.txt");
 	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/");
 
 	int rebin = 10;
@@ -28,7 +29,7 @@ int AnalysisWorkspaceSR4_FH()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 58.04, 56.04, 54.45, 53.08, 49.24 };	//SR4
+	vector<double> lumiscalefactors = { 56.52, 54.51, 54.45, 53.08, 49.24 };	//SR4
 	vector<string> srmasses = { "1000", "1200", "1400", "1600", "1800" };	//SR4
 
 	TString Tsrmasses[5] = { "1000", "1200", "1400", "1600", "1800" };	//SR4

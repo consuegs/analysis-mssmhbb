@@ -29,7 +29,7 @@ int AnalysisWorkspaceSR4()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 35.77, 35.54, 34.05, 34.77, 32.86 };	//SR4
+	vector<double> lumiscalefactors = { 35.77, 35.24, 34.05, 34.77, 31.45 };	//SR4
 	vector<string> srmasses = {  "1000", "1200", "1400", "1600", "1800" };	//SR4
 
 	TString Tsrmasses[5] = { "1000", "1200", "1400", "1600", "1800" };	//SR4
@@ -72,7 +72,7 @@ int AnalysisWorkspaceSR4()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 
-		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR_threhold_130-130.root", "READ");	//CR, 3j, full 2018
+		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR_threshold_130-130.root", "READ");	//CR, 3j, full 2018
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);

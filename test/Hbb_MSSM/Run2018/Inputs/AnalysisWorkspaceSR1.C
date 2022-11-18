@@ -72,7 +72,7 @@ int AnalysisWorkspaceSR1()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 
-		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR_threhold_130-130.root", "READ");	//CR, 3j, full 2018
+		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR_threshold_130-130.root", "READ");	//CR, 3j, full 2018
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);

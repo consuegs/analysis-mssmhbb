@@ -22,6 +22,7 @@ using namespace RooFit;
 int AnalysisWorkspaceSR1_SL()
 {
 
+        std::ofstream textout("figs/AnalysisWorkspaceSR1_SL.txt");
 	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/");
 
 	int rebin = 10;

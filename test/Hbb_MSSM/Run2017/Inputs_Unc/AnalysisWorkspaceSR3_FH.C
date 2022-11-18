@@ -29,7 +29,7 @@ int AnalysisWorkspaceSR3_FH()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 59.7, 57.45, 58.18, 58.04 };	//SR3
+	vector<double> lumiscalefactors = { 59.57, 57.45, 58.18, 56.52 };	//SR3
 	vector<string> srmasses = { "700", "800", "900", "1000" };	//SR3
 
 	TString Tsrmasses[4] = { "700", "800", "900", "1000" };	//SR3
@@ -59,7 +59,7 @@ int AnalysisWorkspaceSR3_FH()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir +  "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;

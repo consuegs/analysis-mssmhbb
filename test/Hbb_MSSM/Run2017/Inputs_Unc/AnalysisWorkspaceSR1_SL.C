@@ -187,7 +187,7 @@ int AnalysisWorkspaceSR1_SL()
 		//double d_Sigma_JKTE = sigma_JKTE_Up->getVal() - Sigma_JKTE;
 		
 		//double Sigma = 0.5 *(Sigma_JER + Sigma_JKTE);
-		double Sigma = 0.5 *(Sigma_JER);
+		double Sigma = Sigma_JER;
 
 		RooRealVar shift_JES_mean("shift_JES_mean", "shift_JES_mean", d_Mean, d_Mean - 1.0, d_Mean + 1.0);
 		RooRealVar shift_JER_Sigma("shift_JER_Sigma", "shift_JER_Sigma", d_Sigma_JER, d_Sigma_JER - 1.0, d_Sigma_JER + 1.0);

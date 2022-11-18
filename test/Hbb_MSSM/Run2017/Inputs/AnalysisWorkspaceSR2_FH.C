@@ -20,7 +20,8 @@ using namespace RooFit;
 
 int AnalysisWorkspaceSR2_FH()
 {
-
+	
+	std::ofstream textout("figs/AnalysisWorkspaceSR2_FH.txt");
 	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/");
 
 	int rebin = 10;
@@ -28,7 +29,7 @@ int AnalysisWorkspaceSR2_FH()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 75.24, 75.45, 64.51, 77.85, 59.7 };	//SR2
+	vector<double> lumiscalefactors = { 53.94, 54.09, 54.46, 55.39, 59.57 };	//SR2
 	vector<string> srmasses = { "400", "450", "500", "600", "700" };	//SR2
 
 	TString Tsrmasses[5] = { "400", "450", "500", "600", "700" };	//SR2
@@ -139,10 +140,10 @@ int AnalysisWorkspaceSR2_FH()
 		/// DEFINE TRANSFER FACTOR PDF
 		///		   
 
-		RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.75, 0.0, 5);	//p0	//alpha
-		RooRealVar offsetTF("offsetTF", "offset of TF in y direction", 400, 100, 750);	//p1	//x0	// lin: 0.15,0.1,0.5	// eml 400,100,750
-		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.0085, 0.0001, 0.1);	//p2	//k
-		RooRealVar slopelinTF("slopelinTF", "Slope of linear part of TF", 3.5e-4, -5e-5, 8e-4);	//p3	//lin: -1.55e-5,-4e-5,2e-5	// eml 2.58e-4,-2e-5,4e-4
+		RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.75, 0.0, 5);	
+		RooRealVar offsetTF("offsetTF", "offset of TF in y direction", 400, 100, 750);	
+		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.0085, 0.0001, 0.1);	
+		RooRealVar slopelinTF("slopelinTF", "Slope of linear part of TF", 3.5e-4, -5e-5, 8e-4);	
 		RooArgList varsTF(mbb, alphaTF, offsetTF, steepnessTF, slopelinTF);
 		RooGenericPdf TF("TF", "TF", "(1+alphaTF*TMath::Exp(-steepnessTF*(mbb-offsetTF)))/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF)))*(1-slopelinTF*mbb)", varsTF);
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);

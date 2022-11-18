@@ -46,7 +46,7 @@ int AnalysisWorkspaceSR1_FH()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 260, 520);	//SR 1: 260/520
+	RooRealVar mbb("mbb", "m_{12}", 220, 520);	//SR 1: 220/520
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -59,7 +59,7 @@ int AnalysisWorkspaceSR1_FH()
 		/// GET SIG NORMALIZATION 
 		///
 
-		TFile *f_signal_in = new TFile(dir +  "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile(dir + "/forSandra/Sep2022_v6/FH/Central/FH_SUSYGluGluToBBHToBB_M-" + Tsrmasses[mass] + "_2017-v6.root", "READ");	//SR (always), 3j (for now: inclusive)
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;

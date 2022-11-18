@@ -20,7 +20,8 @@ using namespace RooFit;
 
 int AnalysisWorkspaceSR3_FH()
 {
-
+	
+	std::ofstream textout("figs/AnalysisWorkspaceSR3_FH.txt");
 	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017/");
 
 	int rebin = 10;
@@ -28,7 +29,7 @@ int AnalysisWorkspaceSR3_FH()
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 59.7, 57.45, 58.18, 58.04 };	//SR3
+	vector<double> lumiscalefactors = { 59.57, 57.45, 58.18, 56.52 };	//SR3
 	vector<string> srmasses = { "700", "800", "900", "1000" };	//SR3
 
 	TString Tsrmasses[4] = { "700", "800", "900", "1000" };	//SR3
@@ -45,7 +46,7 @@ int AnalysisWorkspaceSR3_FH()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 390, 1270);	//SR 3: 700/800/900/
+	RooRealVar mbb("mbb", "m_{12}", 390, 1270);	//SR 3: 700/800/900/1000
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -139,10 +140,10 @@ int AnalysisWorkspaceSR3_FH()
 		/// DEFINE TRANSFER FACTOR PDF
 		///		    
 
-		RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.67, 0.0, 5);	//p0	//alpha
-		RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 350, 200, 750);	//p1	//x0	// lin: 0.15,0.1,0.5
-		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.015, 0.0001, 0.1);	//p2
-		RooRealVar slopelinTF("slopelinTF", "Slope of linear part of TF", 1.64e-4, -2e-4, 4e-4);	//p3	//lin: 1.55e-5,-2e-5,4e-5
+		RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.67, 0.0, 5);	
+		RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 350, 200, 750);	
+		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.015, 0.0001, 0.1);	
+		RooRealVar slopelinTF("slopelinTF", "Slope of linear part of TF", 1.64e-4, -2e-4, 4e-4);	
 		RooArgList varsTF(mbb, alphaTF, steepnessTF, offsetTF, slopelinTF);
 		RooGenericPdf TF("TF", "TF", "(1+alphaTF*TMath::Exp(-steepnessTF*(mbb-offsetTF)))/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF)))*(1-slopelinTF*mbb)", varsTF);
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
