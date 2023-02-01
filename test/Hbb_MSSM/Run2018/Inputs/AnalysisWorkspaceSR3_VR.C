@@ -18,10 +18,11 @@
 using namespace std;
 using namespace RooFit;
 
-int AnalysisWorkspaceSR3_2017TF()
+int AnalysisWorkspaceSR3_VR()
 {
 
-	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
+	std::ofstream textout("figs/AnalysisWorkspaceSR3.txt");
+	TString dir("/afs/desy.de/user/l/leyvaped/public/for_sandra/rootfiles_2018FH_Feb2023/");
 
 	int rebin = 10;
 
@@ -45,7 +46,7 @@ int AnalysisWorkspaceSR3_2017TF()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 390, 1270);	//SR 3: 700/800/900/1000
+	RooRealVar mbb("mbb", "m_{12}", 380, 2000);	//SR 3: 700/800/900/1000
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -58,7 +59,7 @@ int AnalysisWorkspaceSR3_2017TF()
 		/// GET SIG NORMALIZATION 
 		/// 
 
-		TFile *f_signal_in = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");	//SR (always), 3j (for now: inclusive)
+		TFile *f_signal_in = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");	
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -71,7 +72,7 @@ int AnalysisWorkspaceSR3_2017TF()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 
-		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR.root", "READ");	//CR, 3j, full 2018
+		TFile *f_cr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_cr.root", "READ");
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);
@@ -79,19 +80,23 @@ int AnalysisWorkspaceSR3_2017TF()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
-		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
+		TFile *f_sr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_sr.root", "READ");
+		TFile *f_vr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_vr.root", "READ");
+		TH1F *SRHist = (TH1F*) f_vr_in->Get("mbb");	//data_obs VR -> now using the data in VR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
 		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
 		int normSR = SRHist_norm->GetEntries();
+		//int normSR = SRHist->GetEntries();
+		cout << "normSR: " << normSR << endl;
+		//SRHist->Scale(normSR/SRHist->GetEntries());
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
 		/// GET BG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/UL_2018_background_FR3_390to1270_extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
+		TFile *f_bgfit = new TFile(dir + "/workspaces_bkg_CR/4FRs/FR3/390to1270/extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0, 1000000);
@@ -100,7 +105,7 @@ int AnalysisWorkspaceSR3_2017TF()
 		/// GET SIG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_signal_in_unbinned = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR3.root", "READ");
+		TFile *f_signal_in_unbinned = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR3.root", "READ");
 		RooWorkspace *w_signalfit = (RooWorkspace*) f_signal_in_unbinned->Get("w");
 		RooAbsPdf *signal = w_signalfit->pdf("signal_dcb");
 		signal->SetName("signal");
@@ -137,18 +142,29 @@ int AnalysisWorkspaceSR3_2017TF()
 
 		///
 		/// DEFINE TRANSFER FACTOR PDF
-		///		
-   
-		RooRealVar alphaTF("alphaTF", "for extended logistic: upwards or downwards", 0.67, 0.0, 5);	//p0	//alpha
-		RooRealVar offsetTF("offsetTF", "offset of TF in x direction", 350, 200, 750);	//p1	//x0	// lin: 0.15,0.1,0.5
-		RooRealVar steepnessTF("steepnessTF", "Steepness of rise in TF", 0.015, 0.0001, 0.1);	//p2
-		RooRealVar slopelinTF("slopelinTF", "Slope of linear part of TF", 1.64e-4, -2e-4, 4e-4);	//p3	//lin: 1.55e-5,-2e-5,4e-5
-		RooArgList varsTF(mbb, alphaTF, steepnessTF, offsetTF, slopelinTF);
-		RooGenericPdf TF("TF", "TF", "(1+alphaTF*TMath::Exp(-steepnessTF*(mbb-offsetTF)))/(1+TMath::Exp(-steepnessTF*(mbb-offsetTF)))*(1-slopelinTF*mbb)", varsTF);
+		///			
+
+		double x0_centralValue = 4.25705e+04;
+		double k_centralValue = 3.87089e-07;
+		double norm_centralValue = -7.91822e+00;
+
+		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
+		RooArgList varsTF(mbb, x0, k, norm);
+		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))", varsTF);	// std gaus erf
+		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
 
+		x0.setConstant(true);
+		k.setConstant(true);
+		norm.setConstant(true);
+		cout << "x0       = " << x0.getVal() << endl;
+		cout << "k     = " << k.getVal() << endl;
+		cout << "norm     = " << norm.getVal() << endl;
+
 		//Output file
-		TFile *fOut = new TFile("input_2018_2017TF_FH/signal_workspace_" + Tsrmasses[mass] + ".root", "RECREATE");
+		TFile *fOut = new TFile("input_2018_FH_VR/signal_workspace_" + Tsrmasses[mass] + "_SR3.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);
@@ -161,7 +177,7 @@ int AnalysisWorkspaceSR3_2017TF()
 		wspace.factory("PROD::signalregion(background,TF)");
 		wspace.import(signalregion_norm);
 		wspace.Write();
-		cout << "File created: signal_workspace_" + Tsrmasses[mass] + ".root" << endl;
+		cout << "File created: signal_workspace_" + Tsrmasses[mass] + "_SR3.root" << endl;
 		fOut->Close();
 	}
 	return 0;
