@@ -46,7 +46,7 @@ int AnalysisWorkspaceSR3_VR()
 	}
 
 	// A search in a mbb tail, define mbb as our variable
-	RooRealVar mbb("mbb", "m_{12}", 380, 2000);	//SR 3: 700/800/900/1000
+	RooRealVar mbb("mbb", "m_{12}", 390, 1270);	//SR 3: 700/800/900/1000
 	RooArgList vars(mbb);
 
 	for (unsigned int mass = 0; mass < srmasses.size(); mass++)
@@ -72,7 +72,7 @@ int AnalysisWorkspaceSR3_VR()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 
-		TFile *f_cr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_cr.root", "READ");
+                TFile *f_cr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_cr.root", "READ");
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);
