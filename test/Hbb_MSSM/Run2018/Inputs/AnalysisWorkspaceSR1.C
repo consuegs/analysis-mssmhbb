@@ -81,13 +81,12 @@ int AnalysisWorkspaceSR1()
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
 		TFile *f_sr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_sr.root", "READ");
-		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	
+		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
 		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
 		int normSR = SRHist_norm->GetEntries();
 		cout << "normSR: " << normSR << endl;
-		SRHist->Scale(normSR/SRHist->GetEntries());
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
