@@ -105,7 +105,7 @@ int AnalysisWorkspaceSR4_VR()
 		/// GET SIG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_signal_in_unbinned = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR4.root", "READ");
+		TFile *f_signal_in_unbinned = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR4.root", "READ");
 		RooWorkspace *w_signalfit = (RooWorkspace*) f_signal_in_unbinned->Get("w");
 		RooAbsPdf *signal = w_signalfit->pdf("signal_dcb");
 		signal->SetName("signal");

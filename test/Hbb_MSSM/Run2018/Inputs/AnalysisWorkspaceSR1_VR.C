@@ -81,7 +81,7 @@ int AnalysisWorkspaceSR1_VR()
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
 		TFile *f_sr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_sr.root", "READ");
-		TFile *f_vr_in = new TFile(dir + "/ssmHbb_2018_FH_Run2018ABCD_vr.root", "READ");
+		TFile *f_vr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_vr.root", "READ");
 		TH1F *SRHist = (TH1F*) f_vr_in->Get("mbb");	//data_obs VR -> now using the data in VR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);

@@ -79,7 +79,7 @@ int AnalysisWorkspaceSR2_FH()
 		int normCR = h_cr_in->GetEntries();
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
-
+/*
 		TFile *f_sr_in = new TFile(dir + "/forSandra/April2022_v6/FH/FullhadSR_BTagCSV_UL2017-v6.root", "READ");
 		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
@@ -87,6 +87,12 @@ int AnalysisWorkspaceSR2_FH()
 		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
 		int normSR = SRHist_norm->GetEntries();
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
+*/		
+		TFile *f_sr_in = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2017_ReReco/DataRootFiles/rereco-CDEF-deep-SR-3j.root", "READ");
+        TH1F *SRHist = (TH1F*) f_sr_in->Get("m12_SR1_1GeV");	//data_obs SR
+        SRHist->SetName("SRHist");
+        int normSR = SRHist->GetEntries();
+        RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
 		/// GET BG PARAMETRIZATION FROM ROOFIT
