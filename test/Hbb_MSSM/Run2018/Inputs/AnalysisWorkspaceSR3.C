@@ -59,7 +59,7 @@ int AnalysisWorkspaceSR3()
 		/// GET SIG NORMALIZATION 
 		/// 
 
-		TFile *f_signal_in = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");	
+		TFile *f_signal_in = new TFile(dir + "/signal_2018FH_nominal/mssmHbb_2018_FH_" + Tsrmasses[mass] + "_sr.root", "READ");		
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -101,7 +101,7 @@ int AnalysisWorkspaceSR3()
 		/// GET SIG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_signal_in_unbinned = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR3.root", "READ");
+		TFile *f_signal_in_unbinned = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/input_doubleCB_Feb23/signal_m" + Tsrmasses[mass] + "_SR3.root", "READ");
 		RooWorkspace *w_signalfit = (RooWorkspace*) f_signal_in_unbinned->Get("w");
 		RooAbsPdf *signal = w_signalfit->pdf("signal_dcb");
 		signal->SetName("signal");
