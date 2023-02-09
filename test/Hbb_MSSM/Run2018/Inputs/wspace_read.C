@@ -43,5 +43,12 @@ void wspace_read()
 		cout << endl;
 		TF->Print("t");
 		cout << endl;
+		RooRealVar *background_norm = w->var("background_norm");
+		cout << "background_norm:" << background_norm->getValV() << endl;
+		RooRealVar *signal_norm = w->var("signal_norm");
+		cout << "signal_norm:" << signal_norm->getValV() << endl;
+		RooRealVar *signalregion_norm = w->var("signalregion_norm");
+		cout << "signalregion_norm:" << signalregion_norm->getValV() << endl;
+		
 	}
 }
