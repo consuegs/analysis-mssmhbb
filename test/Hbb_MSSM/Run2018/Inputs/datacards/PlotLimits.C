@@ -92,12 +92,12 @@ void PlotLimits(bool blindData = true, char *fileList = "limits.txt")
 		plus1[i] = plus1R[i];
 		plus2[i] = plus2R[i];
 
-		if (i == 3)
-			obs[i] = 1.5 *obsR[i];
-		if (i == 4)
-			obs[i] = 1.3 *obsR[i];
-		if (i == 5)
-			obs[i] = 1.3 *obsR[i];
+		//if (i == 3)
+		//	obs[i] = 1.5 *obsR[i];
+		//if (i == 4)
+		//	obs[i] = 1.3 *obsR[i];
+		//if (i == 5)
+		//	obs[i] = 1.3 *obsR[i];
 
 		char strOut[200];
 		sprintf(strOut, "%3i  %5.3f  %5.3f  %5.3f  %5.3f  %5.3f  %5.3f",

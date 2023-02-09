@@ -18,18 +18,18 @@
 using namespace std;
 using namespace RooFit;
 
-int AnalysisWorkspaceSR2()
+int AnalysisWorkspaceSR2_OldMatchS()
 {
 
-	std::ofstream textout("figs/AnalysisWorkspaceSR2.txt");
-	TString dir("/afs/desy.de/user/l/leyvaped/public/for_sandra/rootfiles_2018FH_Feb2023/");
+	std::ofstream textout("figs/AnalysisWorkspaceSR2_OldMatchS.txt");
+	TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
 
 	int rebin = 1;
 
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 28.75, 23.26, 29.35, 36.57, 36.43 };	//SR2
+	vector<double> lumiscalefactors = { 29.64, 23.26, 29.35, 36.57, 36.43 };	//SR2
 	vector<string> srmasses = { "400", "450", "500", "600", "700" };	//SR2
 
 	TString Tsrmasses[5] = { "400", "450", "500", "600", "700" };	//SR2
@@ -59,7 +59,7 @@ int AnalysisWorkspaceSR2()
 		/// GET SIG NORMALIZATION 
 		/// 
 
-		TFile *f_signal_in = new TFile(dir + "/signal_2018FH_nominal/mssmHbb_2018_FH_" + Tsrmasses[mass] + "_sr.root", "READ");		
+		TFile *f_signal_in = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Tsrmasses[mass] + ".root", "READ");		
 		TH1F *h_signal_in = (TH1F*) f_signal_in->Get("mbb");
 		double lumisf = assignedlumisf[srmasses[mass]];
 		cout << "  lumi sf = " << lumisf;
@@ -72,7 +72,7 @@ int AnalysisWorkspaceSR2()
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
 		
-		TFile *f_cr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_cr.root", "READ");
+		TFile *f_cr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_CR_threshold_130-130.root", "READ");
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);
@@ -80,7 +80,7 @@ int AnalysisWorkspaceSR2()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 		
-		TFile *f_sr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_sr.root", "READ");
+		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
 		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
 		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs CR -> now using the data in CR with normalization from SR
 		SRHist->SetName("SRHist");
@@ -93,7 +93,7 @@ int AnalysisWorkspaceSR2()
 		/// GET BG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_bgfit = new TFile(dir + "/workspaces_bkg_CR/4FRs/FR2/320to800/extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
+		TFile *f_bgfit = new TFile(dir + "/workspaces_mssmhbb_UL2018/UL_2018_background_FR2_320to800_extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0.9 *normCR, 1.1 *normCR);
@@ -118,7 +118,7 @@ int AnalysisWorkspaceSR2()
 		/// GET SIG PARAMETRIZATION FROM ROOFIT
 		///
 
-		TFile *f_signal_in_unbinned = new TFile("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/input_doubleCB_Feb23/signal_m" + Tsrmasses[mass] + "_SR2.root", "READ");
+		TFile *f_signal_in_unbinned = new TFile(dir + "/input_doubleCB/signal_m" + Tsrmasses[mass] + "_SR2.root", "READ");
 		RooWorkspace *w_signalfit = (RooWorkspace*) f_signal_in_unbinned->Get("w");
 		RooAbsPdf *signal = w_signalfit->pdf("signal_dcb");
 		signal->SetName("signal");
@@ -149,28 +149,33 @@ int AnalysisWorkspaceSR2()
 		TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 		xframe->Draw();
 		c1->Update();
-		c1->Print("figs/sig_SR2_" + Tsrmasses[mass] + ".png");
-		c1->Print("figs/sig_SR2_" + Tsrmasses[mass] + ".pdf");
+		c1->Print("figs_OldMatchS/sig_SR2_" + Tsrmasses[mass] + ".png");
+		c1->Print("figs_OldMatchS/sig_SR2_" + Tsrmasses[mass] + ".pdf");
 		delete c1;
 
 		///
 		/// DEFINE TRANSFER FACTOR PDF
 		///		
 		
-		double a_centralValue = 0.000316957;
-		double b_centralValue = 0.0596331;
-		
-		RooRealVar a("a", "a", a_centralValue, -1, 5);
-		RooRealVar b("b", "b", b_centralValue, -1, 5);
-		RooArgList varsTF(mbb, a, b);
-		RooGenericPdf TF("TF", "TF", "a*mbb+b", varsTF);	// 
+		double x0_centralValue = -1.43012e+04;
+		double k_centralValue = -2.40384e-04;
+		double norm_centralValue = -1.45644e-01;
+
+		RooRealVar x0("x0", "x0", x0_centralValue, 100 *x0_centralValue, 0.01 *x0_centralValue);
+		RooRealVar k("k", "k", k_centralValue, 100 *k_centralValue, 0.01 *k_centralValue);
+		RooRealVar norm("norm", "norm", norm_centralValue, 100 *norm_centralValue, 0.01 *norm_centralValue);
+		RooArgList varsTF(mbb, x0, k, norm);
+		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))", varsTF);	
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
-		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);	
-		cout << "a       = " << a.getVal() << endl;
-		cout << "b     = " << b.getVal() << endl;
+		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
+
+		norm.setConstant(true);
+		cout << "x0       = " << x0.getVal() << endl;
+		cout << "k     = " << k.getVal() << endl;
+		cout << "norm     = " << norm.getVal() << endl;
 
 		//Output file
-		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + "_SR2.root", "RECREATE");
+		TFile *fOut = new TFile("input_2018_FH_OldMatchS/signal_workspace_" + Tsrmasses[mass] + "_SR2.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);

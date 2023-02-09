@@ -24,12 +24,12 @@ int AnalysisWorkspaceSR4_VR()
 	std::ofstream textout("figs/AnalysisWorkspaceSR4.txt");
 	TString dir("/afs/desy.de/user/l/leyvaped/public/for_sandra/rootfiles_2018FH_Feb2023/");
 
-	int rebin = 10;
+	int rebin = 1;
 
 	// As usual, load the combine library to get access to the RooParametricHist
 	gSystem->Load("libHiggsAnalysisCombinedLimit.so");
 
-	vector<double> lumiscalefactors = { 35.77, 35.24, 34.05, 34.77, 31.45 };	//SR4
+	vector<double> lumiscalefactors = { 35.77, 34.61, 34.05, 33.24, 31.45 };	//SR4
 	vector<string> srmasses = { "1000", "1200", "1400", "1600", "1800" };	//SR4
 
 	TString Tsrmasses[5] = { "1000", "1200", "1400", "1600", "1800" };	//SR4
@@ -71,8 +71,8 @@ int AnalysisWorkspaceSR4_VR()
 		///
 		/// GET DATA_OBS HISTS FOR CR/SR 
 		///
-
-                TFile *f_cr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_cr.root", "READ");
+		
+		TFile *f_cr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_cr.root", "READ");
 		TH1F *h_cr_in = (TH1F*) f_cr_in->Get("mbb");
 		h_cr_in->SetName("h_cr_in");
 		h_cr_in->Rebin(rebin);
@@ -80,16 +80,12 @@ int AnalysisWorkspaceSR4_VR()
 		cout << "normCR: " << normCR << endl;
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
-		TFile *f_sr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_sr.root", "READ");
 		TFile *f_vr_in = new TFile(dir + "/mssmHbb_2018_FH_Run2018ABCD_vr.root", "READ");
-		TH1F *SRHist = (TH1F*) f_vr_in->Get("mbb");	//data_obs VR -> now using the data in VR with normalization from SR
+		TH1F *SRHist = (TH1F*) f_vr_in->Get("mbb");	//data_obs VR -> now using the data in VR with normalization from VR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
-		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
-		int normSR = SRHist_norm->GetEntries();
-		//int normSR = SRHist->GetEntries();
+		int normSR = SRHist->GetEntries();
 		cout << "normSR: " << normSR << endl;
-		//SRHist->Scale(normSR/SRHist->GetEntries());
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
@@ -99,8 +95,24 @@ int AnalysisWorkspaceSR4_VR()
 		TFile *f_bgfit = new TFile(dir + "/workspaces_bkg_CR/4FRs/FR4/500to2000/extnovosibirsk/workspace/FitContainer_workspace.root", "READ");
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
-		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0, 1000000);
-
+		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0.9 *normCR, 1.1 *normCR);
+		
+		RooRealVar * par4 = (RooRealVar*)w_bgfit->var("par4");
+		RooRealVar * peak = (RooRealVar*)w_bgfit->var("peak");
+		RooRealVar * tail = (RooRealVar*)w_bgfit->var("tail");
+		RooRealVar * weight = (RooRealVar*)w_bgfit->var("weight");
+		RooRealVar * width = (RooRealVar*)w_bgfit->var("width");
+		par4->setConstant(true);
+		peak->setConstant(true);
+		tail->setConstant(true);
+		weight->setConstant(true);
+		width->setConstant(true);
+		cout << "par4   = " << par4->getVal() << endl;
+		cout << "peak   = " << peak->getVal() << endl;
+		cout << "tail   = " << tail->getVal() << endl;
+		cout << "weight = " << weight->getVal() << endl;
+		cout << "width  = " << width->getVal() << endl;
+		
 		///
 		/// GET SIG PARAMETRIZATION FROM ROOFIT
 		///
@@ -142,27 +154,20 @@ int AnalysisWorkspaceSR4_VR()
 
 		///
 		/// DEFINE TRANSFER FACTOR PDF
-		///			
-
-		double x0_centralValue = 4.25705e+04;
-		double k_centralValue = 3.87089e-07;
-		double norm_centralValue = -7.91822e+00;
-
-		RooRealVar x0("x0", "x0", x0_centralValue, 0.5 *x0_centralValue, 2 *x0_centralValue);
-		RooRealVar k("k", "k", k_centralValue, 0.5 *k_centralValue, 2 *k_centralValue);
-		RooRealVar norm("norm", "norm", norm_centralValue, 0.5 *norm_centralValue, 2 *norm_centralValue);
-		RooArgList varsTF(mbb, x0, k, norm);
-		RooGenericPdf TF("TF", "TF", "norm*erf(k*(mbb-x0))", varsTF);	// std gaus erf
+		///
+		
+		double a_centralValue = 0.000299457;
+		double b_centralValue = 0.0700571;
+		
+		RooRealVar a("a", "a", a_centralValue, -1, 5);
+		RooRealVar b("b", "b", b_centralValue, -1, 5);
+		RooArgList varsTF(mbb, a, b);
+		RooGenericPdf TF("TF", "TF", "a*mbb+b", varsTF);	// 
 		cout << "RDHSR sum entries: " << RDHSR.sumEntries() << endl;
 		RooRealVar signalregion_norm("signalregion_norm", "Signal normalization", normSR, 0.9 *normSR, 1.1 *normSR);
-
-		x0.setConstant(true);
-		k.setConstant(true);
-		norm.setConstant(true);
-		cout << "x0       = " << x0.getVal() << endl;
-		cout << "k     = " << k.getVal() << endl;
-		cout << "norm     = " << norm.getVal() << endl;
-
+		cout << "a       = " << a.getVal() << endl;
+		cout << "b     = " << b.getVal() << endl;
+ 
 		//Output file
 		TFile *fOut = new TFile("input_2018_FH_VR/signal_workspace_" + Tsrmasses[mass] + "_SR4.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");

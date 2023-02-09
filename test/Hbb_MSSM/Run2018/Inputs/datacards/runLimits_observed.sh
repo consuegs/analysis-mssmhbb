@@ -23,8 +23,8 @@ do
     echo "Starting combine ${subrange} ${i}"
 
     echo "Expected/Observed Limits"	
-    #combine -M AsymptoticLimits --run blind -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
-    combine -M AsymptoticLimits -t -1 -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
+ 
+    combine -M AsymptoticLimits hbb_mbb${i}_${subrange}_mssm-13TeV.root -n Hbb_${subrange} -m ${i} -v2
 
     root_name=`readlink -f "higgsCombineHbb_${subrange}.AsymptoticLimits.mH${i}.root"`
 	echo "$root_name" >> "$limit_file"	
@@ -47,8 +47,8 @@ do
 	echo "Starting combine ${subrange} ${i}"
 
     echo "Expected/Observed Limits"	
-    #combine -M AsymptoticLimits --run blind -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
-    combine -M AsymptoticLimits -t -1 -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
+
+    combine -M AsymptoticLimits hbb_mbb${i}_${subrange}_mssm-13TeV.root -n Hbb_${subrange} -m ${i} -v2 
 
     root_name=`readlink -f "higgsCombineHbb_${subrange}.AsymptoticLimits.mH${i}.root"`
 	echo "$root_name" >> "$limit_file"	
@@ -71,8 +71,8 @@ do
 	echo "Starting combine ${subrange} ${i}"
 
 	echo "Expected/Observed Limits"	
-    #combine -M AsymptoticLimits --run blind -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
-    combine -M AsymptoticLimits -t -1 -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
+
+    combine -M AsymptoticLimits hbb_mbb${i}_${subrange}_mssm-13TeV.root -n Hbb_${subrange} -m ${i} -v2 
 
 	root_name=`readlink -f "higgsCombineHbb_${subrange}.AsymptoticLimits.mH${i}.root"`
 	echo "$root_name" >> "$limit_file"	
@@ -95,8 +95,8 @@ do
 	echo "Starting combine ${subrange} ${i}"
 
 	echo "Expected/Observed Limits"	
-    #combine -M AsymptoticLimits --run blind -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
-    combine -M AsymptoticLimits -t -1 -d hbb_mbb${i}_${subrange}_mssm-13TeV.root  -n Hbb_${subrange} -m ${i} -v2
+
+    combine -M AsymptoticLimits hbb_mbb${i}_${subrange}_mssm-13TeV.root -n Hbb_${subrange} -m ${i} -v2 
 
 	root_name=`readlink -f "higgsCombineHbb_${subrange}.AsymptoticLimits.mH${i}.root"`
 	echo "$root_name" >> "$limit_file"	

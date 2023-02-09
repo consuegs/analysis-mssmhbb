@@ -1,25 +1,25 @@
 #include "CMS_lumi.C"
 using namespace RooFit;
 
-// SR1 : 260-550
+// SR1 : 270-560
 // SR2 : 320-800
-// SR3 : 380-2000
+// SR3 : 390-1270
 // SR4 : 500-2000
 
 map<int, double> lumi_sf = {
-    {300,29.89},
+    {300,29.41},
     {350,29.82},
-    {400,29.64},
+    {400,28.75},
     {450,23.26},
     {500,29.35},
     {600,36.57},
     {700,36.43},
     {800,35.68},
-    {900,36.00},
+    {900,35.98},
     {1000,35.77},
-    {1200,35.24},
+    {1200,34.61},
     {1400,34.05},
-    {1600,34.77},
+    {1600,33.24},
     {1800,31.45},
 };
 
@@ -58,20 +58,20 @@ map<int, int> mass_binning = {
 };
 
 map<int, double> mbb_low = {
-    {1,260.},
+    {1,270.},
     {2,320.},
-    {3,380.},
+    {3,390.},
     {4,500.},
 };
 
 map<int, double> mbb_high = {
-    {1,550.},
+    {1,560.},
     {2,800.},
-    {3,2000.},
+    {3,1270.},
     {4,2000.},
 };
 
-TString dir("/nfs/dust/cms/user/consuegs/Analyses/Hbb_MSSM/analysis-mssmhbb/test/Hbb_MSSM/Run2018/");
+TString dir("/afs/desy.de/user/l/leyvaped/public/for_sandra/rootfiles_2018FH_Feb2023/signal_2018FH_nominal/");
 
 map<TString, TString> histName_suffix = {
 		{
@@ -159,11 +159,11 @@ void CreateSignalPDF(int mass,
 		TH1D *hist = Hists[histName];
 		if (mass < 700)
 		{
-			hist->Rebin(50);
+			hist->Rebin(5);
 		}
 		else
 		{
-			hist->Rebin(100);
+			hist->Rebin(10);
 		}
 
 		// Bin width
@@ -257,8 +257,8 @@ void CreateSignalPDF(int mass,
 		int fitRangeMin, fitRangeMax;
 		if (mass < 450)
 		{
-			fitRangeMin = 260;
-			fitRangeMax = 550;
+			fitRangeMin = 270;
+			fitRangeMax = 560;
 		}
 		else if (mass >= 450 & mass < 800)
 		{
@@ -267,8 +267,8 @@ void CreateSignalPDF(int mass,
 		}
 		else if (mass >= 800 & mass < 1200)
 		{
-			fitRangeMin = 380;
-			fitRangeMax = 2000;
+			fitRangeMin = 390;
+			fitRangeMax = 1270;
 		}
 		else
 		{
@@ -477,12 +477,12 @@ void CreateSignalTemplates_FH()
 		double mbb_max = mbb_high[region];
 		for (auto histName: histNames)
 		{
-			TFile *file = new TFile(dir + "/mssmHbb_FH_2018_MC_signal_MP_" + Mass + ".root", "READ");
+			TFile *file = new TFile(dir + "/mssmHbb_2018_FH_" + Mass + "_sr.root", "READ");
 			TH1D *hist = (TH1D*) file->Get("mbb");
 			Hists[histName] = hist;				
 		}
 		CreateSignalPDF(mass, region, histNames, Hists, w, mbb_min, mbb_max);
-		TFile *fileOutput = new TFile("input_doubleCB/signal_m" + Mass + "_SR" + Region + ".root", "recreate");
+		TFile *fileOutput = new TFile("input_doubleCB_Feb23/signal_m" + Mass + "_SR" + Region + ".root", "recreate");
 		fileOutput->cd("");
 		w->Write("w");
 		fileOutput->Write();
