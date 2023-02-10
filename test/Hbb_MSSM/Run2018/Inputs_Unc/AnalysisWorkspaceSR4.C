@@ -86,6 +86,7 @@ int AnalysisWorkspaceSR4()
 		SRHist->Rebin(rebin);
 		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
 		int normSR = SRHist_norm->GetEntries();
+		SRHist->Scale(normSR/SRHist->GetEntries());
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///

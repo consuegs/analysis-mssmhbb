@@ -18,7 +18,7 @@
 using namespace std;
 using namespace RooFit;
 
-int AnalysisWorkspaceSR1()
+int AnalysisWorkspaceSR1_VR()
 {
 
 	std::ofstream textout("figs/AnalysisWorkspaceSR1.txt");
@@ -81,12 +81,16 @@ int AnalysisWorkspaceSR1()
 		RooDataHist RDHCR("RDHCR", "CR", vars, h_cr_in);
 
 		TFile *f_sr_in = new TFile(dir + "/mssmhbb_FH_2018_DataABCD_SR.root", "READ");
-		TH1F *SRHist = (TH1F*) f_cr_in->Get("mbb");	//data_obs SR -> now using the data in CR with normalization from SR
+		//TFile *f_vr_in = new TFile("/afs/desy.de/user/l/leyvaped/Analyses/MSSM/Run2018/From_082022/develop_VR/CMSSW_10_6_20/src/Analysis/MssmHbb/test/run2_ul/Combine/VR/Run2018/rootfiles/mssmhbb_FH_2018_DataABCD_VR.root", "READ");
+		TFile *f_vr_in = new TFile("/afs/desy.de/user/l/leyvaped/Analyses/MSSM/Run2018/CMSSW_10_6_20/src/Analysis/MssmHbb/test/z_data_VR/mssmhbb_FH_2018_DataABCD_VR_threshold_130-130.root", "READ");
+		TH1F *SRHist = (TH1F*) f_vr_in->Get("mbb");	//data_obs VR -> now using the data in VR with normalization from SR
 		SRHist->SetName("SRHist");
 		SRHist->Rebin(rebin);
-		TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
-		int normSR = SRHist_norm->GetEntries();
-		SRHist->Scale(normSR/SRHist->GetEntries());
+		//TH1F *SRHist_norm = (TH1F*) f_sr_in->Get("mbb");
+		//int normSR = SRHist_norm->GetEntries();
+		int normSR = SRHist->GetEntries();
+		cout << "normSR: " << normSR << endl;
+		//SRHist->Scale(normSR/SRHist->GetEntries());
 		RooDataHist RDHSR("RDHSR", "SR", vars, SRHist);
 
 		///
@@ -313,7 +317,7 @@ int AnalysisWorkspaceSR1()
 		cout << "ext     = " << ext.getVal() << endl;
 
 		//Output file
-		TFile *fOut = new TFile("input_2018_FH/signal_workspace_" + Tsrmasses[mass] + "_SR1.root", "RECREATE");
+		TFile *fOut = new TFile("input_2018_FH_VR/signal_workspace_" + Tsrmasses[mass] + "_SR1.root", "RECREATE");
 		RooWorkspace wspace("wspace", "wspace");
 
 		wspace.import(RDHCR);

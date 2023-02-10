@@ -96,22 +96,6 @@ int AnalysisWorkspaceSR1_VR()
 		RooWorkspace *w_bgfit = (RooWorkspace*) f_bgfit->Get("workspace");
 		RooAbsPdf *background = w_bgfit->pdf("background");
 		RooRealVar background_norm("background_norm", "Number of background events", normCR, 0.9 *normCR, 1.1 *normCR);
-		
-		RooRealVar * par4 = (RooRealVar*)w_bgfit->var("par4");
-		RooRealVar * peak = (RooRealVar*)w_bgfit->var("peak");
-		RooRealVar * tail = (RooRealVar*)w_bgfit->var("tail");
-		RooRealVar * weight = (RooRealVar*)w_bgfit->var("weight");
-		RooRealVar * width = (RooRealVar*)w_bgfit->var("width");
-		par4->setConstant(true);
-		peak->setConstant(true);
-		tail->setConstant(true);
-		weight->setConstant(true);
-		width->setConstant(true);		
-		cout << "par4   = " << par4->getVal() << endl;
-		cout << "peak   = " << peak->getVal() << endl;
-		cout << "tail   = " << tail->getVal() << endl;
-		cout << "weight = " << weight->getVal() << endl;
-		cout << "width  = " << width->getVal() << endl;
 
 		///
 		/// GET SIG PARAMETRIZATION FROM ROOFIT
