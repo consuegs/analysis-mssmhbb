@@ -1,8 +1,9 @@
-Instructions for combination with 2016:
+## Instructions for combination with 2016:
 
-1. Proper CMSSW environment:
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+## 1. Proper CMSSW environment:
+
+```bash
 
 export CMSSW_GIT_REFERENCE=/nfs/dust/cms/user/${USER}/.cmsgit-cache
 source /cvmfs/cms.cern.ch/cmsset_default.sh
@@ -26,21 +27,23 @@ scram b -j 16 USER_CXXFLAGS="-Wno-misleading-indentation"
 
 cd ../../
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+```
 
 
-2. Clone 2016 analysis repository to get corresponding datacards and workspaces
+## 2. Clone 2016 analysis repository to get corresponding datacards and workspaces
 
 
+```bash
 git clone https://gitlab.cern.ch/cms-hcg/cadi/hig-16-018.git
+```
 
 
-3. Code for the combination
+## 3. Code for the combination
 
-CopyAll.sh -> copy and organize the datacards including year subindex (year = 2016, 2017, and 2018) to facilitate combination
+`CopyAll.sh` - copy and organize the datacards including year subindex (year = 2016, 2017, and 2018) to facilitate combination
 
-runLimits.sh -> as the name suggest macro to run the limit computation
+`runLimits.sh` - as the name suggest macro to run the limit computation
 
-limits.txt -> filelist for limit computation files
+`limits.txt` - filelist for limit computation files
 
-PlotLimits.C -> plotting macro 
+`PlotLimits.C` - plotting macro 
